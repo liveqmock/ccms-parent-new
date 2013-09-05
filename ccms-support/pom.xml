@@ -1,0 +1,79 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  	<modelVersion>4.0.0</modelVersion>
+  	<artifactId>ccms-support</artifactId>
+
+	<parent>
+  		<groupId>com.yunat.ccms</groupId>
+  		<artifactId>ccms-parent</artifactId>
+    	<version>4.4.0-SNAPSHOT</version>
+  	</parent>
+
+	<properties>
+        <spring-security.version>3.0.5.RELEASE</spring-security.version>
+    </properties>
+
+    <dependencies>
+    	<!-- dependency ccms other pom -->
+    	<dependency>
+    		<groupId>com.yunat.ccms</groupId>
+    		<artifactId>ccms-jooq</artifactId>
+    		<version>${project.version}</version>
+    	</dependency>
+
+      	<!-- Spring security config -->
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-acl</artifactId>
+			<version>${spring-security.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-aspects</artifactId>
+			<version>${spring-security.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-cas-client</artifactId>
+			<version>${spring-security.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-config</artifactId>
+			<version>${spring-security.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-core</artifactId>
+			<version>${spring-security.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-ldap</artifactId>
+			<version>${spring-security.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-openid</artifactId>
+			<version>${spring-security.version}</version>
+		</dependency>
+
+		<!-- jcaptcha dependencies -->
+        <dependency>
+			<groupId>com.octo.captcha</groupId>
+			<artifactId>jcaptcha</artifactId>
+			<version>1.0</version>
+		</dependency>
+
+		<dependency>
+			<groupId>CharsetDetector</groupId>
+			<artifactId>CharsetDetector</artifactId>
+			<version>1.0</version>
+		</dependency>
+
+		<dependency>
+			<groupId>ant</groupId>
+			<artifactId>ant</artifactId>
+			<version>1.7.0</version>
+		</dependency>
+	</dependencies>
+</project>
