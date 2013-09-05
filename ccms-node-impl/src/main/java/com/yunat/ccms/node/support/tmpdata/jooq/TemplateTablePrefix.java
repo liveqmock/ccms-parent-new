@@ -1,0 +1,17 @@
+package com.yunat.ccms.node.support.tmpdata.jooq;
+
+public enum TemplateTablePrefix {
+	TMP_LOG_NODE,
+	TWF_IMPORT_USER_DEFAULT,
+	TMP_SMS_SEND,
+	TMP_SMS_SEND_MAPING,
+	TMP_EDM_SEND,
+	TMP_WAP_SEND,
+	TMP_WAP_SEND_MAPING,
+	TMP_UMP_SEND,
+	TMP_COUPON_SEND,
+	TMP_COUPON_RETURN,
+	TMP_EC_OTHER_MEMBER,
+	TMP_MMS_SEND,
+	TMP_UMP_OTHER_MEMBER
+}
