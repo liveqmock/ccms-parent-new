@@ -1,0 +1,154 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  	<modelVersion>4.0.0</modelVersion>
+
+ 	<artifactId>ccms-jooq</artifactId>
+  	<packaging>jar</packaging>
+
+	<parent>
+		<groupId>com.yunat.ccms</groupId>
+		<artifactId>ccms-parent</artifactId>
+		<version>4.4.0-SNAPSHOT</version>
+	</parent>
+
+	<properties>
+	  	<jooq.version>2.6.3</jooq.version>
+  	</properties>
+
+	<dependencies>
+		<!-- jooq dependency Satrt -->
+		<dependency>
+			<groupId>org.jooq</groupId>
+			<artifactId>jooq</artifactId>
+			<version>${jooq.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.jooq</groupId>
+			<artifactId>jooq-meta</artifactId>
+			<version>${jooq.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.jooq</groupId>
+			<artifactId>jooq-codegen</artifactId>
+			<version>${jooq.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.jooq</groupId>
+			<artifactId>jooq-console</artifactId>
+			<version>${jooq.version}</version>
+		</dependency>
+		<!-- jooq dependency End -->
+	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+			  	<!-- Specify the maven code generator plugin -->
+			  	<groupId>com.yunat.maven</groupId>
+			  	<artifactId>jooq-codegen-maven</artifactId>
+			  	<version>2.6.3</version>
+
+			  	<!-- The plugin should hook into the generate goal -->
+			  	<executions>
+					<execution>
+						<phase>test</phase>
+						<goals>
+							<goal>generate</goal>
+						</goals>
+					</execution>
+			  	</executions>
+
+			  	<!-- Manage the plugin's dependency. In this example, we'll use a MySQL database -->
+			  	<dependencies>
+				    <dependency>
+						<groupId>mysql</groupId>
+						<artifactId>mysql-connector-java</artifactId>
+						<version>5.1.20</version>
+						<scope>runtime</scope>
+				    </dependency>
+			  	</dependencies>
+
+			  	<!-- Specify the plugin configuration -->
+			  	<configuration>
+			  		<!-- set execution jooq codegen skip -->
+			  		<skip>true</skip>
+				    <!-- JDBC connection parameters -->
+				    <jdbc>
+				      	<driver>com.mysql.jdbc.Driver</driver>
+				      	<url>
+				      	<![CDATA[
+	    			jdbc:mysql://10.200.190.11/ccms?useUnicode=true&characterEncoding=utf8&autoReconnect=true&allowMultiQueries=true
+	    				]]>
+				      	</url>
+				      	<user>ccms</user>
+				      	<password>ccms</password>
+				    </jdbc>
+
+				    <!-- Generator parameters -->
+				    <generator>
+				      	<name>org.jooq.util.DefaultGenerator</name>
+				      	<database>
+				        	<name>org.jooq.util.mysql.MySQLDatabase</name>
+				        	<includes>plt_.*,
+				        	                  tb_.*,
+				        	                  ti_.*,
+				        	                  tc_.*,
+				        	                  tds_.*,
+				        	                  tdu_.*,
+				        	                  tm_.*,
+				        	                  tmp_log_node,
+				        	                  twb_.*,
+				        	                  twf_.*,
+				        	                  twf_import_user_default,
+				        	                  tw_.*,
+				        	                  uni_.*,
+				        	                  vw_.*,
+				        	                  vm_.*,
+				        	                  func_.*,
+				        	                  proc_.*
+				        	</includes>
+				        	<excludes>.*_qrtz_.*,
+				        	                  extaobao_check_.*,
+				        	                  external_import_taobao_.*,
+				        	                  order_shopp_.*,
+				        	                  orderitem_product_.*,
+				        	                  tmp_log_node_.*,
+				        	                  tmp_customer_vipinfo_.*,
+				        	                  tmp_etlfld_142_.*,
+				        	                  tmp_order_target_group_.*,
+				        	                  tmp_orderitem_.*,
+				        	                  tmp_split_sortflds_.*,
+				        	                  tmp_splitnode_uid_sort_.*,
+				        	                  tmpdownload_customer.*,
+				        	                  twb_customize_idx_.*,
+                                              twf_etl_customer_.*,
+				        	                  twf_import_user_default_.*,
+				        	                  twf_node_maping_buffering_.*,
+				        	                  twf_node_order_analysis_[0-9]*,
+				        	                  twf_node_order_item_analysis_[0-9]*,
+				        	                  vm_taobao_shop_[0-9]*,
+				        	                  vm_taobao_shop_email_[0-9]*,
+				        	                  vm_taobao_shop_prop_[0-9]*,
+				        	                  vm_taobao_shop_user_label_[0-9]*,
+				        	                  twf_log_node_temp_table[0-9]*
+				        	</excludes>
+				        	<inputSchema>ccms</inputSchema>
+				        	<outputSchema>ccms</outputSchema>
+				      	</database>
+				      	<generate>
+				        	<relations>true</relations>
+				        	<deprecated>false</deprecated>
+				        	<records>false</records>
+				      	</generate>
+				      	<target>
+				        	<packageName>com.yunat.ccms.jooq</packageName>
+				        	<directory>src/main/java</directory>
+				      	</target>
+				    </generator>
+			  	</configuration>
+			</plugin>
+		</plugins>
+	</build>
+</project>
