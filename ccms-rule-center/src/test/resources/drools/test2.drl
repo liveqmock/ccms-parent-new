@@ -1,0 +1,18 @@
+    //created on: 2012-7-5
+    package com.yunat.ccms.rule.center
+
+    //list any import classes here.
+    import com.yunat.ccms.rule.center.runtime.fact.Order;
+    import com.yunat.ccms.rule.center.runtime.fact.Customer;
+    import com.yunat.ccms.rule.center.drl.convert.DateConverter;
+    import com.yunat.ccms.rule.center.drl.convert.LocationConverter;
+
+    //declare any global variables here
+
+    rule "r001"
+    salience 2
+    when
+    	$order:Order(customer.customerType != null && customer.customerType == '1' && LocationConverter.matches(receiverLocation, '吉林'));
+    then
+    	System.out.println("执行后：订单id " + $order.getTid() + ",客户id ");
+    end

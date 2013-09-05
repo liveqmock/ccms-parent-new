@@ -1,0 +1,15 @@
+    //created on: 2012-7-5
+    package com.yunat.ccms.rule.center
+     
+    //list any import classes here.
+    import com.yunat.ccms.rule.center.runtime.fact.Order;
+     
+    //declare any global variables here
+    
+    rule "r001"
+    salience 2
+    when
+    	$order:Order(hasProducts contains '123' || hasProducts contains '234');
+    then
+    	System.out.println("执行后：订单id " + $order.getTid());
+    end
