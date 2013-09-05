@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    <typeAliases>
+
+        <typeAlias type="com.yunat.ccms.biz.domain.Program" alias="Program"  />
+        <typeAlias type="com.yunat.ccms.biz.domain.ProgramCategory" alias="ProgramCategory"  />
+
+        <typeAlias type="com.yunat.ccms.biz.domain.Campaign" alias="Campaign"  />
+        <typeAlias type="com.yunat.ccms.biz.domain.CampaignCategory" alias="CampaignCategory"  />
+        <typeAlias type="com.yunat.ccms.biz.domain.CampaignStatus" alias="CampaignStatus"  />
+
+        <typeAlias type="com.yunat.ccms.workflow.domain.WorkFlow" alias="Workflow"  />
+        <typeAlias type="com.yunat.ccms.workflow.domain.Node"  alias="Node"  />
+        <typeAlias type="com.yunat.ccms.workflow.domain.Connect" alias="Connect"  />
+
+        <typeAlias type="com.yunat.ccms.node.biz.wait.NodeWait" alias="NodeWait"  />
+        <typeAlias type="com.yunat.ccms.node.biz.time.NodeTime" alias="NodeTime"  />
+        <typeAlias type="com.yunat.ccms.node.biz.evaluate.NodeEvaluate" alias="NodeEvaluate"  />
+
+        <typeAlias type="com.yunat.ccms.schedule.domain.LogJob"  alias="LogJob"  />
+        <typeAlias type="com.yunat.ccms.schedule.domain.LogSubjob"  alias="LogSubjob"  />
+        <typeAlias type="com.yunat.ccms.schedule.domain.LogJobData" alias="LogJobData"  />
+
+        <typeAlias type="java.util.HashSet" alias="HashSet"  />
+    </typeAliases>
+</configuration>

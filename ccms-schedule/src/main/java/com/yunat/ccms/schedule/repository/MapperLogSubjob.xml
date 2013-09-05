@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yunat.ccms.schedule.repository.LogSubjobDao">
+
+	<select id="get" parameterType="Long" resultMap="logSubjobResult">
+       select subjob_id as "subjobId",  job_id as "jobId",  camp_id as "campId",   node_id as "nodeId" ,  status as "status",  starttime as "starttime" ,   endtime as "endtime",
+       memo as "memo" ,  output_msg as "outputMsg",  is_test as "isTest",   plantime as "plantime"   
+       from twf_log_subjob where subjob_id = #{subjobId}
+    </select>
+    
+    <select id="getSubjobByJobid" parameterType="Long" resultMap="logSubjobResult">
+       select subjob_id as "subjobId",  job_id as "jobId",  camp_id as "campId",   node_id as "nodeId" ,  status as "status",  starttime as "starttime" ,   endtime as "endtime",
+       memo as "memo" ,  output_msg as "outputMsg",  is_test as "isTest",    plantime as "plantime"   
+       from twf_log_subjob where job_id = #{jobId} 
+    </select>
+    
+	<select id="getSubjobByJobidAndNodeId" parameterType="map" resultMap="logSubjobResult">
+       select subjob_id as "subjobId",  job_id as "jobId",  camp_id as "campId",   node_id as "nodeId" ,  status as "status",  starttime as "starttime" ,   endtime as "endtime",
+       memo as "memo" ,  output_msg as "outputMsg",  is_test as "isTest",   plantime as "plantime"   
+       from twf_log_subjob where job_id = #{jobId} and node_id = #{nodeId}
+    </select>
+    
+    <select id="getPreSubjobByJobidAndNodeId" parameterType="map" resultMap="logSubjobResult">
+       select subjob_id as "subjobId",  job_id as "jobId",  camp_id as "campId",   node_id as "nodeId" ,  status as "status",  starttime as "starttime" ,   endtime as "endtime",
+       memo as "memo" ,  output_msg as "outputMsg",  is_test as "isTest",   plantime as "plantime"   
+       from twf_log_subjob where job_id = #{jobId} and  node_id in (select source from twf_connect where target = #{nodeId} ) 
+    </select>
+    
+    
+	<select id="getSubjobByJobidAndNodeIds" parameterType="map" resultMap="logSubjobResult">
+       select subjob_id as "subjobId",  job_id as "jobId",  camp_id as "campId",   node_id as "nodeId" ,  status as "status",  starttime as "starttime" ,   endtime as "endtime",
+       memo as "memo" ,  output_msg as "outputMsg",  is_test as "isTest",  plantime as "plantime" from twf_log_subjob 
+       where job_id = #{jobId} and node_id in 
+       <foreach collection="nodeIds" index="index" item="item" open="(" separator="," close=")">
+	        #{item}
+	   </foreach>
+    </select>
+
+	<insert id="save" parameterType="LogSubjob" useGeneratedKeys="true" keyProperty="subjobId">
+	 <![CDATA[ insert into twf_log_subjob( job_id , camp_id , node_id , status , is_test )
+		values (#{jobId}, #{campId}, #{node.id}, #{status}, #{isTest})  ]]>
+	</insert>
+	
+	<insert id="creatSubjob" parameterType="map" useGeneratedKeys="true" keyProperty="subjobId">
+	 <![CDATA[ insert into twf_log_subjob( camp_id ,job_id , node_id , is_test, status  )
+	 select campId , job_id , #{nodeId} ,10,is_test from twf_log_job where job_id=#{jobId}
+	  ]]>
+	</insert>
+	
+	<delete id="delete" parameterType="Long">
+	 delete from twf_log_subjob where subjob_id = #{subjobId}
+	</delete>
+	
+	<delete id="deleteSubjobByJobAndNodeIds"  parameterType="map">
+	 delete from twf_log_subjob where job_id = #{jobId} and node_id in
+       <foreach collection="nodeIds" index="index" item="item" open="(" separator="," close=")">
+	        #{item}
+	   </foreach>
+	</delete>
+	
+	
+	<update id="update" parameterType="LogSubjob">
+	  <![CDATA[   update twf_log_subjob  ]]>
+	   <set>
+	    	<if test="jobId != null">
+	            job_id = #{jobId},
+	        </if>
+	        <if test="campId != null">
+	            camp_id = #{campId},
+	        </if>
+	        <if test=" node != null  and  node.id != null">
+	            node_id = #{node.id},
+	        </if>
+	        <if test="status != null">
+	            status = #{status},
+	        </if>
+	        <if test="starttime != null">
+	            starttime = #{starttime},
+	        </if>
+	        <if test="endtime != null">
+	            endtime = #{endtime},
+	        </if>
+	        <if test="memo != null">
+	            memo = #{memo},
+	        </if>
+	        <if test="outputMsg != null">
+	            output_msg = #{outputMsg},
+	        </if>
+	        <if test="isTest != null">
+	            is_test = #{isTest},
+	        </if>
+	         <if test="plantime != null">
+	            plantime = #{plantime},
+	        </if>
+	    </set>
+		<where>
+			subjob_id = #{subjobId}
+		</where>
+	</update>  
+
+    <resultMap id="logSubjobResult" type="LogSubjob">
+		<result property="jobId" column="jobId" />
+		<result property="campId" column="campId" />
+		<result property="isTest"  column="isTest" />
+		<result property="subjobId"  column="subjobId" />
+		<result property="status"  column="status" />
+		<result property="starttime"  column="starttime" />
+		<result property="endtime"  column="endtime" />
+		<result property="plantime"  column="plantime" />
+		<result property="memo"  column="memo" />
+		<result property="node.id"  column="nodeId" />
+		<result property="outputMsg"  column="outputMsg" />
+		<association property="node" column="nodeId" javaType="Node" 
+		select="com.yunat.ccms.schedule.repository.WorkflowDao.getNode" />
+	</resultMap>
+
+
+
+</mapper>

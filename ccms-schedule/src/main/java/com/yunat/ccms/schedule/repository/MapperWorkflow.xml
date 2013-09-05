@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yunat.ccms.schedule.repository.WorkflowDao">
+
+
+   <select id="getWorkflow" parameterType="Long" resultMap="workflowResult">
+     select workflow_id as "workflowId",create_time as "createTime",update_time as "updateTime"
+     from twf_workflow where workflow_id=#{workflowId}
+   </select>
+   
+    <select id="getNode" parameterType="long" resultType="Node">
+       select node_id as "id" ,  value as "value" , style as "style" , vertex as "vertex" ,workflow_id as "workflowId",  x as "x" , y as "y" , width as "width" ,
+       height as "height" , as_t as "asT" , type as "type" , description as "description"
+        from twf_node where  node_id = #{nodeId}
+    </select>
+    
+	<select id="getConnects" parameterType="long" resultMap="connectResult">
+ 		select connect_id as "id" , edge as "edge" , workflow_id as "workflowId" , source as "source" , target as "target" , relative as "relative" , as_t as "asT"
+ 		from twf_connect where workflow_id = #{workflowId}
+	</select>
+	
+	 <select id="getNextNodeIds" parameterType="long" resultType="long">
+       select  target as "target" from twf_connect where source = #{nodeId}
+    </select>
+	
+	<select id="getNodes" parameterType="long" resultType="Node">
+	    select node_id as "id" ,  value as "value" , style as "style" , vertex as "vertex" , workflow_id as "workflowId" , x as "x" , y as "y" , width as "width" ,
+	    height as "height" , as_t as "asT" , type as "type" , description as "description"
+	    from twf_node where workflow_id = #{workflowId}
+	</select>
+
+
+	<select id="getSource" parameterType="long" resultType="Node">
+ 		select node_id as "id" ,  value as "value" , style as "style" , vertex as "vertex" ,workflow_id as "workflowId",  x as "x" , y as "y" , width as "width" ,
+ 		height as "height" , as_t as "asT" , type as "type" , description as "description"
+ 		from twf_node where  node_id = #{source}
+	</select>
+
+	<select id="getTarget" parameterType="long" resultType="Node">
+ 		select node_id as "id" ,  value as "value" , style as "style" , vertex as "vertex" ,workflow_id as "workflowId",  x as "x" , y as "y" , width as "width" ,
+ 		height as "height" , as_t as "asT" , type as "type" , description as "description"
+ 		from twf_node where node_id = #{target}
+	</select>
+	
+	
+	<select id="getNodeByWorkflowIdAndType" parameterType="map" resultType="Node">
+	    select node_id as "id" ,  value as "value" , style as "style" , vertex as "vertex" , workflow_id as "workflowId" , x as "x" , y as "y" , width as "width" ,
+	    height as "height" , as_t as "asT" , type as "type" , description as "description"
+	    from twf_node where workflow_id = #{workflowId} and type = #{type} order by node_id asc
+	</select>
+	
+	<select id="getWorkflowByCampId" parameterType="Long" resultMap="workflowResult">
+     select workflow_id as "workflowId",create_time as "createTime",update_time as "updateTime"
+     from twf_workflow where workflow_id=(select workflow_id from tb_campaign where camp_id = #{campId} )
+   </select>
+	
+	<select id="getNodeByCampIdAndType" parameterType="map" resultType="Node">
+	    select node_id as "id" ,  value as "value" , style as "style" , vertex as "vertex" , workflow_id as "workflowId" , x as "x" , y as "y" , width as "width" ,
+	    height as "height" , as_t as "asT" , type as "type" , description as "description"
+	    from twf_node where workflow_id = (select workflow_id from tb_campaign where camp_id = #{campId} )  
+	    and type = #{type} order by node_id asc
+	</select>
+	
+	<select id="getWaitNodeByID" parameterType="long" resultType="NodeWait">
+		select node_id as "id", isdate as "isDate", wait_date as "waitdate", wait_day as "waitday", wait_time as "waittime", node_name as "name", wait_hour as "waithour", wait_minute as "waitminute" 
+		from twf_node_wait where node_id = #{nodeId}
+	</select>
+	
+	<select id="getTimeNodeByID" parameterType="long" resultType="NodeTime">
+      select node_id as "id", iscycle as "iscycle", isrealtime as "isrealtime", realtime_begin_date as "realtimebeginDate", realtime_begin_time as "realtimebeginTime",
+      cycle_begin_date as "cyclebeginDate", cycle_end_date as "cycleendDate", cycle_begin_time as "cyclebeginTime", cycle_type as "cycleType", cycle_value as "cycleValue" 
+      from twf_node_time where node_id = #{nodeId}
+	</select>
+	
+	<select id="getEvaluateNodeByID" parameterType="long" resultType="NodeEvaluate">
+      select node_id as "nodeId",node_name as "nodeName",evaluate_cycle as "evaluateCycle",shop_id as "shopId",created  as "created"
+	  from twf_node_evaluate where node_id = #{nodeId}
+	</select>
+	
+	
+	
+	
+	<resultMap id="workflowResult" type="Workflow">
+		<id property="workflowId" column="workflowId" />
+		<result property="createTime" column="createTime" />
+		<result property="updateTime"  column="updateTime" />
+		<collection property="allNodes" column="workflowId" javaType="HashSet" ofType="Node" select="getNodes" />
+		<collection property="allConnects" column="workflowId" javaType="HashSet" ofType="Connect" select="getConnects" />
+	</resultMap>
+
+
+   <resultMap id="connectResult" type="Connect" >
+        <id property="id" column="id" />
+        <result property="edge" column="edge" />
+        <result property="workflowId" column="workflowId" />
+        <result property="source" column="source" />
+        <result property="target" column="target" />
+        <result property="relative" column="relative" />
+        <result property="asT" column="asT" />
+        <association property="sourceNode" column="source" javaType="Node" select="getNode" />
+        <association property="targetNode" column="target" javaType="Node" select="getNode" />
+    </resultMap>
+
+
+</mapper>

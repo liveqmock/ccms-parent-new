@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yunat.ccms.schedule.repository.CampaignDao">
+
+	<select id="get" parameterType="long" resultMap="campaignResult">
+       select camp_id as "campId" , camp_name as "campName" , workflow_type as "workflowType",plat_code as "platCode",
+       created_time as "createdTime" , start_time as "startTime" , end_time as "endTime" , 
+       camp_desc as "campDesc" , comments as "comments" , disabled as "disabled" ,
+       camp_status as "statusId",  
+       prog_id as "progId",
+       camp_type as "campCategory"   from tb_campaign 
+       where camp_id = #{campId}
+   </select>
+   
+   
+   <select id="getCampStatusId" parameterType="long" resultType="String">
+   	select camp_status as "statusId" from tb_campaign   where camp_id = #{campId}
+   </select>
+
+
+   <select id="getCampaignsByStatus" parameterType="String" resultMap="campaignResult">
+       select camp_id as "campId" , camp_name as "campName" , workflow_type as "workflowType",plat_code as "platCode",
+       created_time as "createdTime" , start_time as "startTime" , end_time as "endTime" , 
+       camp_desc as "campDesc" , comments as "comments" , disabled as "disabled" ,
+       camp_status as "statusId",  
+       prog_id as "progId",
+       camp_type as "campCategory"   from tb_campaign 
+       where camp_status = #{campStatus}
+   </select>
+
+
+	<select id="getCampaignStatus" parameterType="String" resultType="CampaignStatus">
+      select status_id as "statusId" , status_value as "statusValue" , orderid as "orderId" from tds_campaign_status 
+      where status_id = #{campStatus.statusId}
+   	</select>
+
+
+   
+   	<update id="update" parameterType="Campaign">
+	  <![CDATA[   update tb_campaign  ]]>
+	   <set>
+	    	<if test=" prog != null and prog.progId != null ">
+	            prog_id = #{prog.progId},
+	        </if>
+	        <if test="campName != null">
+	            camp_name = #{campName},
+	        </if>
+	        <if test=" campStatus != null and campStatus.statusId != null ">
+	            camp_status = #{campStatus.statusId},
+	        </if>
+
+	        <if test=" workflowType != null ">
+	            workflow_type = #{workflowType},
+	        </if>
+	        <if test="createdTime != null">
+	            created_time = #{createdTime},
+	        </if>
+	        <if test="startTime != null">
+	            start_time = #{startTime},
+	        </if>
+            <if test="endTime != null">
+	            end_time = #{endTime},
+	        </if>
+	        <if test="campDesc != null">
+	            camp_desc = #{campDesc},
+	        </if>
+	        <if test="comments != null">
+	            comments = #{comments},
+	        </if>
+	        <if test="disabled != null">
+	            disabled = #{disabled},
+	        </if>
+	    </set>
+		<where>
+			camp_id = #{campId}
+		</where>
+	</update>
+
+
+
+    <resultMap id="campaignResult" type="Campaign" >
+        <id property="campId" column="campId" />
+        <result property="campName" column="campName" />
+        <result property="createdTime" column="createdTime" />
+        <result property="startTime" column="startTime" />
+        <result property="endTime" column="endTime" />
+        <result property="workflowType" column="workflowType" />
+        <result property="disabled" column="disabled" />
+        <result property="campDesc" column="campDesc" />
+        <result property="comments" column="comments" />
+       
+        <result property="campStatus.statusId" column="statusId" />
+
+        <association property="campStatus" column="statusId" javaType="CampaignStatus" select="getCampaignStatus" />
+      
+        <association property="workflow" column="workflowId" javaType="Workflow" 
+        	select="com.yunat.ccms.schedule.dao.WorkflowDao.getWorkflow" />
+    </resultMap>
+	
+	
+
+</mapper>

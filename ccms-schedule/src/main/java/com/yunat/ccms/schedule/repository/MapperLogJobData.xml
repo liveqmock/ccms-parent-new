@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yunat.ccms.schedule.repository.LogJobDataDao">
+
+	
+	<select id="getJobDataByJobAndTarget" parameterType="map" resultType="LogJobData">
+	select camp_id as "campId",job_id as "jobId",  subjob_id as "subjobId", source as "source", target as "target", 
+	data_type as "dataType",data_code as "dataCode" from twf_log_job_data 
+    where job_id = #{jobId} and target= #{target}
+	</select>
+	
+	<insert id="save" parameterType="LogJobData" >
+	 <![CDATA[insert into twf_log_job_data(camp_id,job_id,subjob_id,source,target,data_type,data_code)
+		values (#{campId}, #{jobId}, #{subjobId},#{source}, #{target}, #{dataType}, #{dataCode})  ]]>
+	</insert>
+	
+	
+	<delete id="clearJobData" parameterType="map">
+	 delete from twf_log_job_data where job_id = #{jobId} and source=#{source} 
+	</delete>
+
+
+</mapper>

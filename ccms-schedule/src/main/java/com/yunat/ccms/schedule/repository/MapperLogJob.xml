@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yunat.ccms.schedule.repository.LogJobDao">
+
+
+	<select id="get" parameterType="long" resultType="LogJob">
+	select job_id as "jobId", camp_id as "campId", status as "status", starttime as "starttime", endtime as "endtime", 
+    is_test as "isTest", plantime as "plantime", last_job as "lastJob" from twf_log_job where job_id = #{jobId}
+	</select>
+	
+	
+	<select id="getJobsByCampId" parameterType="long" resultType="LogJob">
+	select job_id as "jobId", camp_id as "campId", status as "status", starttime as "starttime", endtime as "endtime", 
+    is_test as "isTest", plantime as "plantime", last_job as "lastJob"from twf_log_job where camp_id = #{campId}
+	</select>
+	
+	<select id="getJobsByCampIdAndIsTest" parameterType="map" resultType="LogJob">
+	select job_id as "jobId", camp_id as "campId", status as "status", starttime as "starttime", endtime as "endtime", 
+    is_test as "isTest", plantime as "plantime", last_job as "lastJob" from twf_log_job 
+    where camp_id = #{campId} and is_Test= #{isTest} order by starttime desc
+	</select>
+	
+	<select id="getJobsInStatesByCampId" parameterType="map" resultType="LogJob">
+	select job_id as "jobId", camp_id as "campId", status as "status", starttime as "starttime", endtime as "endtime", 
+    is_test as "isTest", plantime as "plantime", last_job as "lastJob" from twf_log_job
+     where status in
+       <foreach collection="status" index="index" item="item" open="(" separator="," close=")">
+	        #{item}
+	   </foreach>
+	   and  camp_id = #{campId} and is_test = #{isTest} 
+	</select>
+
+	<insert id="save" parameterType="LogJob" useGeneratedKeys="true" keyProperty="jobId">
+	 <![CDATA[insert into twf_log_job(camp_id,is_test,plantime,starttime,last_job, status)
+		values (#{campId}, #{isTest}, #{plantime},#{starttime}, #{lastJob}, #{status})  ]]>
+	</insert>
+	
+	 <update id="update" parameterType="LogJob">
+	    <![CDATA[     update twf_log_job   ]]>
+	    <set>
+	    	<if test="campId != null">
+	            camp_id = #{campId},
+	        </if>
+	        <if test="status != null">
+	            status = #{status},
+	        </if>
+	        <if test="starttime != null">
+	            starttime = #{starttime},
+	        </if>
+	        <if test="endtime != null">
+	            endtime = #{endtime},
+	        </if>
+	        <if test="isTest != null">
+	            is_test = #{isTest},
+	        </if>
+	        <if test="plantime != null">
+	            plantime = #{plantime},
+	        </if>
+	        <if test="lastJob != null">
+	            last_job = #{lastJob},
+	        </if>
+	    </set>
+		<where>
+			job_id = #{jobId}
+		</where>
+	</update>
+
+
+</mapper>
