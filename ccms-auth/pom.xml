@@ -1,0 +1,58 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<artifactId>ccms-auth</artifactId>
+
+	<parent>
+		<groupId>com.yunat.ccms</groupId>
+		<artifactId>ccms-parent</artifactId>
+		<version>4.4.0-SNAPSHOT</version>
+	</parent>
+
+	<dependencies>
+		<dependency>
+			<!-- dependency ccms other pom -->
+			<groupId>com.yunat.ccms</groupId>
+			<artifactId>ccms-support</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.yunat.ccms</groupId>
+			<artifactId>ccms-configuration</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.yunat.ccms</groupId>
+			<artifactId>ccms-module</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.yunat.ccms</groupId>
+			<artifactId>ccms-audit</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>joda-time</groupId>
+			<artifactId>joda-time</artifactId>
+			<version>2.1</version>
+		</dependency>
+		<!-- 3.x使用1.0.11,不知道是否要升级 -->
+		<dependency>
+			<groupId>com.taobao.top</groupId>
+			<artifactId>taobao-sdk-java-dev</artifactId>
+			<version>1.0.11</version>
+		</dependency>
+		<dependency>
+			<groupId>com.yunat.ccms</groupId>
+			<artifactId>ccms-subscriber-support</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.yunat.utility</groupId>
+			<artifactId>utility</artifactId>
+			<version>1.0.11</version>
+		</dependency>
+	</dependencies>
+
+</project>
