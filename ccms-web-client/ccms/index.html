@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html ng-app ng-controller="ccmsCtrl">
+<head>
+	<meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
+	<link rel="stylesheet" href="styles/homepage.css" type="text/css">
+	<script type="text/javascript" src="scripts/jquery-1.7.1.min.js"></script>
+	<script type="text/javascript" src="scripts/angular/angular-1.0.3.min.js"></script>
+	<script type="text/javascript" src="scripts/angular/controller.js"></script>
+	<script type="text/javascript" src="scripts/main.js"></script>
+	<!--[if !IE]><!--><title>数据赢家{{pageTitle}}</title><!--<![endif]-->
+	<!--[if IE]>
+	<title>数据赢家</title>
+	<script type="text/javascript">
+		(function(){if(!/*@cc_on!@*/0)return;var e = "abbr,article,aside,audio,canvas,datalist,details,dialog,eventsource,figure,footer,header,hgroup,mark,menu,meter,nav,output,progress,section,time,video".split(','),i=e.length;while(i--){document.createElement(e[i])}})();
+		document.createElement("header");
+		document.createElement("nav");
+		document.createElement("article");
+		document.createElement("section");
+		document.createElement("canvas");
+		document.createElement("footer");
+	</script>
+	<![endif]-->
+</head>
+<body>
+	<div class="header clearfix">
+		<h1 class="fl"><a class="logo" href="#">数据赢家</a></h1>
+		<div class="platform fl">
+			<span>淘宝平台</span>
+			<ul style="display:none;"><li>淘宝平台</li><li>京东平台</li><li>当当平台</li><li>ebay平台</li></ul>
+		</div>
+
+		<nav class="fl">
+			<ul class="nav fl">
+				<li ng-repeat="nav in user.nav"><a href="{{nav.url}}" ng-class="navClass(nav.url);">{{nav.name}}</a></li>
+			</ul>
+			<div class="more fl comboboxParent" style="display:none;">
+				<a href="#">更多</a>
+				<ul class="combobox" style="display:none;">
+					<li ng-repeat="nav in user.nav"><a href="{{nav.url}}">{{nav.name}}</a></li>
+            	</ul>
+			</div>
+			
+		</nav>
+		<div class="headerAside fr">
+			<span class="hello fr comboboxParent">			
+				<a href="javascript:void(0)">{{user.name}}</a>
+				<ul class="combobox" style="display:none;">
+					<li><a href="#">账号管理</a></li>
+					<li><a href="#">退&nbsp;&nbsp;出</a></li>
+            	</ul>
+			</span>
+			<span class="outdesk">			
+				<a href="javascript:void(0)" title="添加到桌面"></a>
+			</span>
+			<span class="mail">			
+				<a href="javascript:void(0)" title="消息"></a>
+				<i ng-show="user.noticeCount > 0" class="reddot"></i>
+			</span>
+			<span class="contactus comboboxParent">
+				<a href="javascript:void(0)" title="联系我们"></a>
+				<ul class="combobox" style="display:none;">
+					<li><a href="#">QQ客服</a></li>
+					<li><a href="#">旺旺客服</a></li>
+            	</ul>
+			</span>
+			<span class="help">
+				<a href="javascript:void(0)" title="帮助"></a>
+			</span>
+			<div class="newmail" ng-show="user.noticeCount">
+				<div class="newmailTips">
+					{{user.noticeCount}}条新消息，<a href="###">立即查看</a>
+				</div>
+				<a href="javascript:void(0);" class="newmailX"><i class="newmailClose"></i></a>
+			</div>
+		</div>
+	</div>
+	<div class="sidebar" style="display:none;" ng-show="showSideBar">
+		<ul class="sideNav">			
+			<li ng-repeat="subNav in subNavs">
+				<a onclick="subFn(this);" ng-class="navSub(subNav.threeNav);" href="{{subNav.url}}">{{subNav.name}}<i ng-show="subNav.threeNav.length>0" class="sideNavArrow"></i></a>
+				<dl style="display:none;">
+					<dd ng-repeat="tn in subNav.threeNav">
+						<a class="sbSmall" href="{{tn.url}}">{{tn.name}}</a>
+					</dd>
+				</ul>
+			</li>
+		</ul>
+		<div class="sidebarFt">Copyright © Shuyun All Rights Reserved.</div>
+	</div>
+	
+	<div ng-include src="pageUrl" onload="afterLoadCont();"><div>
+</body>
+</html>

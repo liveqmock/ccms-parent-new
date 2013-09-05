@@ -1,0 +1,9 @@
+
+<div>
+	<h2 class="heading">{{main.title}}</h2>
+	<div class="listHeader">
+		<ul class="listTab clearfix">
+			<li ng-repeat="t in main.threeNav"><a href="{{t.url}}" ng-class="currThree(t.url)">{{t.name}}</a><span></span></li>
+		</ul>
+	</div>
+</div>

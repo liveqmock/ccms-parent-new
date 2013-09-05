@@ -1,0 +1,177 @@
+<script type="text/javascript">
+function indexCtrl($scope,$http){
+	var thisTime = new Date().getTime();
+	
+	/*
+	$http.jsonp('http://10.200.187.135:9080/ccms-module-manager/dashboard/configuration/manage/module/all?callback=JSON_CALLBACK').success(function(data){
+		console.log(data);
+		
+	});
+	*/
+	
+	//活动监控选项卡
+	$scope.activity = {
+		"ids":{},
+		"title":[{"title":"执行出错活动","tabid":"error_at"},{"title":"待执行活动","tabid":"execute_at"},{"title":"待审批活动","tabid":"approve_at"}],
+		"show":function(id){
+			var el = this;
+			if(!el.ids[id]){
+				$http.jsonp(this.getUrl(id)).success(function(data){
+					$scope["JK01"].data = el.ids[id] = data;
+				});
+			}else{
+				$scope["JK01"].data = el.ids[id];
+			}
+		},
+		getUrl:function(id){
+			if(id == 'execute_at'){
+				return 'http://10.200.187.135:9080/ccms-module-manager/dashboard/compaign/monitor?compaignStatus=A3&callback=JSON_CALLBACK';
+			}
+			if(id == 'approve_at'){
+				return 'http://10.200.187.135:9080/ccms-module-manager/dashboard/compaign/monitor?compaignStatus=A2&callback=JSON_CALLBACK';
+			}
+		}
+	}
+	
+	//首次加载显示的模块
+	$http.jsonp('http://10.200.187.135:9080/ccms-module-manager/dashboard/configuration/manage/module/all?callback=JSON_CALLBACK').success(function(data){
+		angular.forEach(data,function(v){
+			if(v.url){
+				$http.jsonp('http://10.200.187.135:9080/ccms-module-manager'+v.url+'&callback=JSON_CALLBACK').success(function(data){
+					v.data = data;
+					$scope[v.key] = v;
+					//显示活动监控第一个tab
+					if(v.key == 'JK01'){
+						$scope.activity.ids["error_at"] = $scope.JK01.data;
+					}
+				});
+			}
+		});
+	});
+	
+	//添加模块
+	$scope.hideModule = {
+		getList:function(){//首次加载数据
+			if(!$scope.hideModuleList){
+				$http.get('data/index/index1.json?_='+thisTime).success(function(data){
+					$scope.hideModuleList = data;
+				});
+			}
+		},nav:function(name){//判断对应的class
+			switch(name){
+				case '系统负载监控':
+					return 'sysyemMonitore';
+				case '活动状态统计':
+					return 'campStatus';
+				case '活动监控':
+					return 'campMonitore';
+				case '渠道发送情况':
+					return 'channelSendInfo';
+				case '通道余额':
+					return 'passagewayMoney';
+				case '活动趋势图':
+					return 'campChart';
+			}
+		},add:function(url,name,key){//添加单个模块
+			$http.get(url+'?_='+thisTime).success(function(data){
+				$scope[key] = {
+					data:data,
+					name:name
+				};
+			});
+		}
+	}
+	
+	$scope.showCont = true;
+}
+</script>
+<div class="nowrap" ng-controller="indexCtrl" style="display:none;" ng-show="showCont">
+	<div class="fl homepage">
+		<div class="main">
+			
+			<!--活动监控-->
+			<div class="module campMonitor" ng-show="JK01">
+				<div class="clearfix moduleHeader">
+					<h3 class="fl">{{JK01.name}}</h3>
+					<ul class="fl campMontTab">
+						<li ng-repeat="a in activity.title" ng-class="a.tabid=='error_at' && 'bold'" ng-click="activity.show(a.tabid);">{{a.title}}</li>
+					</ul>
+					<a href="javascript:void(0);" class="close fr">X</a>
+				</div>
+				<table>
+					<thead><tr><th class="al">活动ID</th><th class="al">活动名称1</th><th>活动状态</th><th>出错时间</th></tr></thead>
+					<tbody>
+						<tr ng-class-odd="'even'" ng-repeat="d in JK01.data">
+							<td>{{d.camp_id}}</td>
+							<td class="darkblue">{{d.camp_name}}</td>
+							<td>{{d.camp_status}}</td>
+							<td class="ac">{{d.created_time}}</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			
+			<!--渠道发送情况-->
+			<div class="module" ng-show="QD01">
+				<div class="clearfix moduleHeader"><h3 class="fl">{{QD01.name}}</h3><a href="javascript:void(0);" class="close fr">X</a></div>
+				<table>
+					<thead><tr><th class="al">活动ID</th><th class="al">活动名称</th><th>活动状态</th><th>预计发送时间</th><th class="ar">发送人数</th></tr></thead>
+					<tbody>
+						<tr ng-class-odd="'even'" ng-repeat="d in QD01.data">
+							<td>{{d.campId}}</td>
+							<td class="darkblue">{{d.campName}}</td>
+							<td>{{d.nodeId}}</td>
+							<td>{{d.planTime}}</td>
+							<td class="ar">{{d.sendNum}}</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			
+			<!--系统监控-->
+			<div class="module" ng-show="FZ0X">
+				<div class="clearfix moduleHeader"><h3 class="fl">{{FZ0X.name}}</h3><a href="javascript:void(0);" class="close fr">X</a></div>
+				<table>
+					<thead><tr><th class="al">系统活动ID</th><th class="al">系统名称</th><th>活动状态</th><th class="ar">发送人数</th></tr></thead>
+					<tbody>
+						<tr ng-class-odd="'even'" ng-repeat="d in FZ0X.data">
+							<td>{{d.camp_id}}</td>
+							<td class="darkblue">{{d.camp_name}}</td>
+							<td>{{d.camp_status}}</td>
+							<td class="ar">{{d.send_count}}</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			
+			
+			<div class="addBlock">
+				<div class="addBlockHeader"><a class="fl" href="javascript:void(0);" ng-click="hideModule.getList();">添加模块</a></div>
+				<!--
+				<ul class="addBlockMain">
+					<li class="sysyemMonitore"><a href="###"><span></span>系统监控</a></li>
+					<li class="campStatus"><a href="###"><span></span>活动状态统计</a></li>
+					<li class="campMonitore"><a href="###"><span></span>活动监控</a></li>
+					<li class="channelSendInfo"><a href="###"><span></span>渠道发送情况</a></li>
+					<li class="passagewayMoney"><a href="###"><span></span>通道余额</a></li>
+					<li class="campChart"><a href="###"><span></span>活动趋势图</a></li>
+				</ul>
+				-->
+				<ul class="addBlockMain">
+					<li ng-class="hideModule.nav(m.name);" ng-repeat="m in hideModuleList"><a href="javascript:void(0);" ng-click="hideModule.add(m.url,m.name,m.key);"><span></span>{{m.name}}</a></li>
+				</ul>
+			</div>
+		</div>
+	</div>
+	<div class="aside fr">
+		<div class="shopInfo asideDiv" ng-show="XX01">
+			<h3>{{XX01.name}}</h3>
+			<p>{{XX01.data.msg}}</p>
+		</div>
+		<div class="contactUs asideDiv">
+			<p>在线旺旺&nbsp;:&nbsp;&nbsp;<a target="_blank" href="http://amos.im.alisoft.com/msg.aw?v=2&uid=%E6%95%B0%E6%8D%AE%E8%B5%A2%E5%AE%B6&site=cntaobao&s=1&charset=utf-8" ><img border="0" src="http://amos.im.alisoft.com/online.aw?v=2&uid=%E6%95%B0%E6%8D%AE%E8%B5%A2%E5%AE%B6&site=cntaobao&s=1&charset=utf-8" alt="点击这里给我发消息" /></a></p>
+			<p>客服电话&nbsp;:&nbsp;&nbsp;<span class="phoneNum">400-711-1060</span></p>
+		</div>
+	</div>
+</div>
+<script type="text/javascript" src="scripts/index.js"></script>

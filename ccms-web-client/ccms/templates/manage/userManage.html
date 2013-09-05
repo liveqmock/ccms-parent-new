@@ -1,0 +1,73 @@
+<script type="text/javascript">
+function mainCtrl($scope,$location){
+	//console.log($('#threeNavId').attr('src'));//根据src地址来发起不同的请求
+
+	$scope.main={
+		"title":"用户管理",
+		"threeNav":[
+			{"name":"用户管理","url":""},
+			{"name":"旺旺子号","url":""},
+			{"name":"角色管理","url":""},
+			{"name":"维表管理","url":""},
+			{"name":"自定义邮件地址上传","url":""}
+		]
+	}
+	$scope.currThree = function(url){
+		return{
+			listSelected:url.indexOf($location.path()) > 0
+		}
+	}
+}
+</script>
+<div class="maincontainerB">
+	<div class="maincontainer" ng-controller="mainCtrl">
+		<!--三级导航模版-->
+		<!--
+		<div id="threeNavId" ng-include src="'templates/threeNav.html?url=manager'"></div>
+		<div class="listContainer">
+			<div></div>
+		</div>
+		-->
+		
+		<h2 class="heading">{{main.title}}</h2>
+		<div id="userGrid"></div>
+	</div>
+</div>
+<link type="text/css" rel="stylesheet" href="3rd/flexigrid/css/flexigrid.css">
+<script type="text/javascript" src="3rd/flexigrid/js/flexigrid.js"></script>
+<script type="text/javascript">
+$('#userGrid').flexigrid({
+	url: 'userManager.json',
+	dataType: 'json',
+	colModel : [
+		{display: '用户名',name:'userName', width : 2, sortable : true ,dataindex:'displayName'},
+		{display: '姓名', name:'name', width : 2, sortable : true,align:'center' ,dataindex:'name'},
+		{display: '手机号', name:'mobile', width : 2, sortable : true,align:'center' ,dataindex:'mobile'},
+		{display: 'Email', name:'mobile', width : 2, sortable : true,align:'center' ,dataindex:'email'},
+		{display: '状态', name:'disabled', width : 2, sortable : true,align:'center' ,dataindex:'disabled',renderer:function(v){
+			if(v=='false'){
+				return '已启用';
+			}
+			if(v=='true'){
+				return '已禁用';
+			}
+		}},
+		
+		],
+	buttons : [
+		{name: '单品优惠 ', bclass: 'add_btn'},
+		{name: '搭配优惠', bclass: 'add_btn'},
+		{name: '包邮卡', bclass: 'add_btn'},
+		{name: '修改',id:'ump_modify', bclass: 'modify_btn'},
+		{name: '删除',id:'ump_delete', bclass: 'delete_btn'},
+		{separator: true},
+		{text:'测试',style:'color:red;margin-left:50px;line-height:27px;'},
+		{text:'<a href="http://help.fenxibao.com/ccms/q21-%E5%8D%95%E5%93%81%E4%BC%98%E6%83%A0%E3%80%81%E6%90%AD%E9%85%8D%E4%BC%98%E6%83%A0%E3%80%81%E5%8C%85%E9%82%AE%E5%8D%A1%E8%AF%B4%E6%98%8E" target="_blank">各类型商品优惠说明</a>',style:'margin-left:50px;line-height:27px;'},
+		],
+	usepager: true,
+	useRp: true,
+	rp: 10,
+	showTableToggleBtn: true,
+	colAutoWidth:true,
+});
+</script>
