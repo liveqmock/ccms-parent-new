@@ -1,0 +1,89 @@
+<?xml version="1.0"?>
+<application>
+	<!--
+	<function id="DL01" name="登录页——base" availability="L3,L4,L5" url="" />
+	<function id="DL02" name="登陆页——系统登陆" availability="L3,L4,L5"  url="" />
+	<function id="DL03" name="登录页——淘宝" availability="L2,L3,L4,L5" url="" />
+	<function id="DL04" name="登录页——系统+淘宝" availability="L3,L4,L5" url="" />
+	<function id="TB01" name="工具栏——免费版" availability="L2" url="" />
+	<function id="TB02" name="工具栏——标准版" availability="L3,L4,L5" url="" />
+	-->
+	<function id="SY01" name="首页" availability="L3,L4,L5" url="" leaf= "false" >
+		<function id="XX01" name="信息摘要" availability="L3,L4,L5" url="" leaf="true"  >
+		    <!--
+		        <function id="DR01" name="外部客户信息导入" availability="L5" />
+			    <function id="PC01" name="导入批次列表" availability="L5" />
+
+			<property availability="L3,L4,L5" url="" leaf="true"/>
+			<property availability="L1,L2" url="" leaf="true"/>
+			-->
+		</function>
+		<function id="FZ01" name="系统负载监控" availability="L3,L4,L5"  url="dashboard/system/monitor"  leaf="true" />
+		<function id="TJ01" name="活动状态统计" availability="L3,L4,L5"  url="dashboard/campaign/states" leaf="true" />
+		<function id="JK01" name="活动监控" availability="L3,L4,L5"  url="dashboard/campaign/monitor?campaignStatus=A6" leaf="true" />
+		<function id="QD01" name="今日渠道执行情况" availability="L3,L4,L5"   url="dashboard/channel/passageway/send?channelType=all" leaf="true" />
+		<function id="TD01" name="通道余额" availability="L3,L4,L5"   url="dashboard/channel/passageway/account" leaf="true" />
+		<function id="QS01" name="活动数量趋势图" availability="L3,L4,L5"  url="dashboard/campaign/trend/chartdata" leaf="true"  />
+	</function>
+	<function id="ZD01" name="店铺诊断" availability="L2,L3,L4,L5" url="" >
+		<function id="CR01" name="CRM诊断" availability="L2,L3,L4,L5" />
+	</function>
+	<function id="JK02" name="店铺监控" availability="L2,L3,L4,L5" url="" >
+		<function id="DD01" name="订单监控" availability="L2,L3,L4,L5">
+			<function id="CF01" name="智能催付" availability="L2,L3,L4,L5">
+				<function id="SS01" name="实时催付" availability="L2,L3,L4,L5" />
+				<function id="DS01" name="定时催付" availability="L2,L3,L4,L5" />
+			</function>
+			<function id="WL02" name="物流通知" availability="L2,L3,L4,L5">
+				<function id="FH01" name="发货通知" availability="L2,L3,L4,L5" />
+				<function id="TC01" name="同城通知" availability="L2,L3,L4,L5" />
+				<function id="QS02" name="签收通知" availability="L2,L3,L4,L5" />
+			</function>
+		</function>
+		<function id="WL01" name="异常物流监控" availability="L2,L3,L4,L5" />
+	</function>
+	<function id="YX01" name="营销活动" availability="L3,L4,L5" url="#/marketing/campaign.list" >
+		<function id="YX02" name="活动列表" availability="L3,L4,L5" />
+		<function id="XJ01" name="新建活动" availability="L3,L4,L5" />
+		<function id="SJ01" name="活动设计——基础版" availability="L3,L4" />
+		<function id="SJ02" name="活动设计——标准版" availability="L5">
+			<function id="CX01" name="查询节点" availability="L5">
+				<function id="YH01" name="优惠券" availability="L3,L4,L5" />
+				<function id="DX01" name="商品定向优惠活动" availability="L5" />
+			</function>
+			<function id="QT01" name="其他" availability="L5" />
+		</function>
+		<function id="XM01" name="营销项目" availability="L5" />
+		<function id="MB01" name="活动模版" availability="L3,L4,L5" />
+		<function id="GL01" name="营销概览" availability="L5" />
+		<function id="FX01" name="营销分析" availability="L5" />
+	</function>
+	<function id="HY01" name="会员管理" availability="" url="" >
+		<function id="DJ01" name="会员等级设置" availability="" />
+		<function id="DG01" name="单个会员等级设置" availability="" />
+		<function id="ZK01" name="等级折扣设置" availability="" />
+		<function id="MD01" name="黑名单管理" availability="" />
+	</function>
+	<function id="KH01" name="客户管理" availability="L3,L4,L5" url="#/customer/blacklist" >
+		<function id="XX02" name="客户信息管理" availability="L3,L4,L5">
+			<function id="KH02" name="客户列表" availability="L3,L4,L5" />
+			<function id="XX03" name="客户基本信息" availability="L3,L4,L5" />
+		</function>
+		<function id="RF01" name="RFM指标" availability="L5">
+			<function id="ZB01" name="指标管理" availability="L5" />
+			<function id="LC01" name="指标构造流程" availability="L5" />
+		</function>
+		<function id="BL01" name="黑名单管理" availability="L3,L4,L5">
+			<function id="SJ03" name="手机黑名单" availability="L3,L4,L5" />
+			<function id="YJ01" name="邮件黑名单" availability="L3,L4,L5" />
+		</function>
+		<function id="RL01" name="红名单管理" availability="L3,L4,L5">
+			<function id="SJ04" name="手机红名单" availability="L3,L4,L5" />
+			<function id="YJ02" name="邮件红名单" availability="L3,L4,L5" />
+		</function>
+		<function id="HY02" name="客户会员等级" availability="L3,L4,L5" />
+	</function>
+	<function id="XT01" name="系统管理" availability="L3,L4,L5"  url="" >
+		<function id="YH02" name="用户管理" availability="L3,L4,L5" />
+	</function>
+</application>
