@@ -1,0 +1,39 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	  <modelVersion>4.0.0</modelVersion>
+	  <artifactId>ccms-trade-center</artifactId>
+  <parent>
+    <artifactId>ccms-parent</artifactId>
+    <groupId>com.yunat.ccms</groupId>
+    <version>4.4.0-SNAPSHOT</version>
+  </parent>
+
+  <name>ccms-trade-center</name>
+  <description>ccms-trade-center</description>
+
+  <dependencies>
+		<!-- dependency ccms other pom -->
+		<dependency>
+			<groupId>com.yunat.ccms</groupId>
+			<artifactId>ccms-auth</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.yunat.ccms</groupId>
+			<artifactId>ccms-workflow</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.yunat.ccms</groupId>
+			<artifactId>ccms-channel-support</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.yunat.ccms</groupId>
+			<artifactId>ccms-event-bus</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+  </dependencies>
+</project>
