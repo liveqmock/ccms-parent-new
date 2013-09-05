@@ -1,0 +1,33 @@
+{
+  "status": 0,
+  "errCode": "",
+  "message": "",
+  "data": [
+    {
+       "fullName": ".....",
+       "nick":"张三",
+       "isOnline":1
+    },
+    {
+       "fullName":".....",
+       "nick": "李四",
+       "isOnline":1
+    },
+    {
+       "fullName":".....",
+       "nick": "雪梨",
+       "isOnline":1
+    },
+    {
+       "fullName": ".....",
+       "nick":"王麻子",
+       "isOnline":1
+    },
+    {
+       "fullName": ".....",
+       "nick":"李四四四",
+       "isOnline":1
+    }
+  ],
+  "visit": "2013-08-15 10:46:17"
+}

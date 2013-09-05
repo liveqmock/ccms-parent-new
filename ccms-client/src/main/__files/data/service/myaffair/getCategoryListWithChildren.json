@@ -1,0 +1,73 @@
+{
+  "status": 0,
+  "errCode": "",
+  "message": "",
+  "data": [
+    {
+      "id": 1,
+      "name": "询单",
+      "value": "询单",
+      "parentCategoryVO": "",
+      "subList": [
+        {
+          "id": 7,
+          "name": "产品",
+          "value": "产品",
+          "parentCategoryVO": "",
+          "subList": ""
+        },
+        {
+          "id": 8,
+          "name": "接单",
+          "value": "接单",
+          "parentCategoryVO": "",
+          "subList": ""
+        },
+        {
+          "id": 9,
+          "name": "售后",
+          "value": "售后",
+          "parentCategoryVO": "",
+          "subList": ""
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "name": "催付",
+      "value": "催付",
+      "parentCategoryVO": "",
+      "subList": []
+    },
+    {
+      "id": 2,
+      "name": "未付款",
+      "value": "未付款",
+      "parentCategoryVO": "",
+      "subList": [
+        {
+          "id": 10,
+          "name": "下单跟进",
+          "value": "下单跟进",
+          "parentCategoryVO": "",
+          "subList": ""
+        },
+        {
+          "id": 11,
+          "name": "催款",
+          "value": "催款",
+          "parentCategoryVO": "",
+          "subList": ""
+        },
+        {
+          "id": 12,
+          "name": "关怀",
+          "value": "关怀",
+          "parentCategoryVO": "",
+          "subList": ""
+        }
+      ]
+    }
+  ],
+  "visit": "2013-08-15 10:46:17"
+}

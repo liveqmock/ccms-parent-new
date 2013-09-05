@@ -1,0 +1,29 @@
+{
+  "status": "0",
+  "errCode": "",
+  "message": "",
+  "data": [
+    {
+      "id": 1,
+      "name": "产品",
+      "value": "产品",
+      "description":"询单过程中，遭遇的与产品相关的问题 ",
+      "parentCategoryVO": ""
+    },
+    {
+      "id": 2,
+      "name": "接单",
+      "value": "接单",
+      "description":"询单过程中，遭遇的与接单售前相关的问题 ",
+      "parentCategoryVO": ""
+    },
+    {
+      "id": 3,
+      "name": "售后",
+      "value": "售后",
+      "description":"询单过程中，遭遇的与售后相关的问题 ",
+      "parentCategoryVO": ""
+    }
+  ],
+  "visit": "2013-08-15 10:46:17"
+}

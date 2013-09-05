@@ -1,0 +1,7 @@
+﻿{
+"shopId":"456", 
+"shopName":"ypt",  
+"coupons":
+    [{"couponId":678, "couponName":"双11满100减10" },
+    {"couponId":678, "couponName":"双11满100减10" }]
+}

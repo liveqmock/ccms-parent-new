@@ -1,0 +1,496 @@
+<link get-root type="text/css" rel="stylesheet" _href="styles/personalizedPackage/personalized.css" />
+<nscript get-root type="text/javascript" _src="scripts/personalizedPackage/personalized.js"></nscript>
+<nscript get-root type="text/javascript" _src="scripts/personalizedPackage/cookies.js"></nscript>
+<div class="maincontainerB" ng-controller="deployCtr">
+	<div class="maincontainer">
+    	<div class="clearfix">
+            <h2 class="heading fl">方案部署</h2>
+			<div class="shopinfo" id="shopinfo">
+                <b>店铺选择 :</b><span class="" dpId="{{nowShopId}}">{{shopModuleVal}}<i></i></span>
+                <dl style="display: none;">
+                    <dd ng-repeat="shop in shops" shop_id="{{shop.shopId}}"><a ng-click="init(shop.shopId,shop.shopName);" href="javascript:void(0)">{{shop.shopName}}</a></dd>
+                </dl>
+                <div class="clear"></div>
+            </div>
+       	</div>
+		<div class="">
+          <!--main-->
+          <div class="fl deploymentmain">
+            <div id="mobileSolution">
+            </div>
+            <div class="clear gray_66 padtop47">
+              <form>
+                默认备注签名：<p class="fillinnotes inline-block"><input style="display:none;" class="gray_66" type="text" ng-model="firstSign" /><span class="markView" title={{firstSign}}>{{firstSign}}</span><i class="icon_editgray middle markEleI"></i></p><span class="bluenote" title="1. 个性化包裹系统所打的备注会接在原备注的后面  2. 系统会自动为签名加上【】。请点击“预览”查看效果"></span><div class="relative inline-block marlef20" id="showPreview"><input type="button" class="buttonpreviewgray gray_99 marginrig5" value="预览" /><p class="poptipAbg absolute" style="display:none;"><span class="poptipA inline-block font14 gray_53"></span></p></div>
+                <!--灰色不可用按钮-->
+                <!--input type="button" class="buttonrehearsalgray" disabled="disabled" value="方案预演" /-->
+         		<input type="button" class="buttonrehearsalblue" ng-click="planPreview()" value="方案预演" />
+              </form>
+            </div>
+            
+            
+            <!--请选择预演方案-->
+            <div class="popupbg W610 clear" id="selectRehearsal" style="display:none;">
+              <!--content-->
+              <div class="padtb15_lr10">
+                <div>
+                  <!--开启-->
+                  <div class="smallsolution relative fl marginrig20">
+                    <ul class="pad15">
+                        <li class="gray_7e font14 borderbottoma padbottom5">个性化礼品包裹备注</li>
+                        <li class="gray_9d font11 padtop10"><p>最后配置时间：<br/>2013-5-10  02:20:33</p></li>
+                    </ul>
+                    <p class="absolute smallsolutiontitle padlef10 font12">
+                        <span class="fl w70">方案1</span>
+                        <span class="successgreen fl"></span>
+                        <span class="fr font12 blue_pc padrig20">已开启</span>
+                    </p>
+                  </div>
+                  <!--开启-->
+                  <div class="smallsolution relative fl marginrig20 currenetsolution">
+                    <ul class="pad15">
+                        <li class="gray_7e font14 borderbottoma padbottom5">个性化礼品包裹备注</li>
+                        <li class="gray_9d font11 padtop10"><p>最后配置时间：<br/>2013-5-10  02:20:33</p></li>
+                    </ul>
+                    <p class="absolute smallsolutiontitle padlef10 font12">
+                        <span class="fl w70">方案2</span>
+                        <span class="successgreen fl" style="display:block;"></span>
+                        <span class="fr font12 blue_pc padrig20">已开启</span>
+                    </p>
+                  </div>
+                  <!--未开启-->
+                  <div class="smallsolution relative fl marginrig15">
+                    <ul class="pad15">
+                        <li class="gray_7e font14 borderbottoma padbottom5">个性化礼品包裹备注</li>
+                        <li class="gray_9d font11 padtop10"><p>最后配置时间：<br/>2013-5-10  02:20:33</p></li>
+                    </ul>
+                    <p class="absolute smallsolutiontitle padlef10 font12">
+                        <span class="fl w70">方案3</span>
+                        <span class="successgreen fl"></span>
+                        <span class="fr font12 gray_c8 padrig20">未开启</span>
+                    </p>
+                  </div>
+                </div>
+                <div class="padtop30 inline-block"><input type="submit" class="buttoncommblue marginrig10" value="确定" ng-click="startrehearsal()" /><input type="reset" class="buttoncommgray" ng-click="cancelPreview()" value="取消" /></div>
+              </div>
+            </div>
+            
+            <!--方案预演-->
+            <div class="popupbg inline-block W640 relative" id="startRehearsal" style="display:none;">
+              <!--content-->
+              <div>
+                <!--订单数-->
+                <ul class="bgbluea block padtop15 padbottom20 h40">
+                  <li class="ordersum gray_6e font12"><i class="ordericon fl"></i><p class="fl padlef10">预演订单总数<br/><span class="font18 gray_57 tahoma">10,000</span> 笔</p></li>
+                  <li class="ordersingle gray_6e font12">已处理订单数<br/><span class="font18 blue_pd tahoma">5,021</span> 笔</li>
+                  <li class="ordersingle gray_6e font12">已备注订单数<br/><span class="font18 orange_a tahoma">8,000</span> 笔</li>
+                  <li class="ordersingle gray_6e font12">备注订单占比<br/><span class="font18 gray_57 tahoma">80%</span></li>
+                </ul>
+                <!--水平线-->
+                <hr class="hrA" />
+                <!--方案列表-->
+                <div class="inline-block" id="solutionlist">
+                  <div class="fl marginrig10 relative">
+                    <div class="solutionp">
+                      <p class="gray_6e lineheight14">方案1<br/>个性化礼品包裹备注</p>
+                      <p class="font12 gray_6e padtop5"><span class="orange_a font16">3982</span> 笔 / <span class="font14 gray_9d">5000</span><span class="gray_9d">笔</span></p>
+                    </div>
+                    <p class="clear trangle20"></p>
+                  </div>
+                  <div class="fl marginrig10 relative">
+                    <div class="solutionp currenetsolution">
+                      <p class="gray_6e lineheight14">方案2<br/>个性化礼品包裹备注</p>
+                      <p class="font12 gray_6e padtop5"><span class="orange_a font16">398</span> 笔 / <span class="font14 gray_9d">5000</span><span class="gray_9d">笔</span></p>
+                    </div>
+                    <p class="clear trangle20" style="display:block;"></p>
+                  </div>
+                </div>
+                
+                <!--方案对应表格数据-->
+                <table class="tablecommA">
+                  <thead>
+                    <tr>
+                      <th width="65">优先级</th>
+                      <th width="150"><span>规则名称</span></th>
+                      <th width="120"><span>订单备注内容</span></th>
+                      <th width="240"><span>占订单比例</span></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>1</td>
+                      <td>尊贵VIP或高级VIP</td>
+                      <td>发顺丰</td>
+                      <td>
+                        <span class="fl w30 right">20%</span>
+                        <div class="loadingA inline-block marginlef12"><span class="loadingpercentA inline-block"></span></div>
+                      </td>
+                    </tr>
+                    <tr class="evenA">
+                      <td>2</td>
+                      <td>尊贵VIP或高级VIP</td>
+                      <td>发顺丰</td>
+                      <td>
+                        <span class="fl w30 right">25%</span>
+                        <div class="loadingA inline-block marginlef12"><span class="loadingpercentA inline-block" style="width:25%;"></span></div>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>3</td>
+                      <td>尊贵VIP或高级VIP</td>
+                      <td>发顺丰</td>
+                      <td>
+                        <span class="fl w30 right">8%</span>
+                        <div class="loadingA inline-block marginlef12"><span style="width:8%;" class="loadingpercentA inline-block"></span></div>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <div class="solutionloading">
+                <div class="loadingB inline-block">
+                  <div style="width:33.3%;" class="loadingpercentB inline-block"></div>
+                </div>
+                <div class="loadingpercentfont">333/10000</div>
+              </div>
+            </div>
+            
+          </div>
+          <!--right-->
+          <div class="fr deploymenttip">
+              <h3 class="font13 gray_3d">使用提示</h3>
+              <p class="lineheight20 gray_78 padtop5">1.个性化包裹（V1.0）可支持三个方案并行，您也可以选择只开启1或2个方案。<br/>2.每个方案根据内部规则优先级，只产生一条订单备注内容。<br/>3.多个方案产生多条备注。排在前面的方案备注在前，后面的方案备注在后，中间用中文“；”隔开，组合后形成完整的个性化备注。<br/>4.备注签名加在所有备注的最后面，有方案开启后，仍可以修改签名。
+              </p>
+          </div>
+		</div>
+	</div>
+</div>
+
+<script type="text/javascript">
+//controller
+function deployCtr($scope,$http,$location){
+	//时间插件
+//function plugTimeMethod() {
+	var timePlugObj={
+		"T":"",
+		"D":"已执行：<b>{0}</b>天<b>{1}</b>小时<b>{2}</b>分<b>{3}</b>秒", //可以使用其他的显示字符串或Htm
+		"H":function(k,j){return k.replace(/{(\d)}/g, function (l, m) { return j[m] })},
+		"B":function(j){return j < 10 ? "0" + j : j},
+		"F":function(s){	
+			if (s > 0) {
+			/* 1分=60秒 1天=1440分 1天=86400秒 */
+			var _s = s % 60;
+			var _m = (s - _s) / 60;
+			var _h = parseInt(_m / 60);
+			var _d = parseInt(_h / 24);
+			_h = _h % 24;
+			_m = _m % 60;
+			return timePlugObj.H(timePlugObj.D, [_d, timePlugObj.B(_h), timePlugObj.B(_m), timePlugObj.B(_s)]);
+			}
+			return s;
+		},
+		"dj_time":function(id,starttime,localtime){
+		//alert(1);
+			this.ID = id;
+			this.starttime = starttime;
+			this.ServerTime = null;
+			this.Diff = null;
+			this.IsAjax = false; //是否开启ajax
+			this.onClock = function () {
+			if (this.IsAjax) { /* 可以使用ajax获取远程的时间 */return; }
+			if (this.ServerTime == null || isNaN(this.ServerTime)) {
+			// 获取服务器时间可以通过Ajax
+			this.IsAjax = true;
+			//this.ServerTime = new Date().getTime();
+			this.ServerTime = new Date(localtime.replace(/-/g, "/")).getTime();
+			this.IsAjax = false;
+			}
+			if (isNaN(this.Diff) || this.Diff == undefined || this.Diff == null) {
+			var start = new Date(this.starttime.replace(/-/g, "/")).getTime(); /* 适用于2010-08-23 6000是服务器时间差*/
+			if (isNaN(start)) { start = new Date(this.starttime.replace(/^(\d{4})(\d{2})(\d{2})$/, "$1/$2/$3")).getTime(); } /* 适用于20100823 */
+			this.Diff = parseInt((this.ServerTime-start) / 1000);
+			}
+			if (isNaN(this.Diff) || this.Diff < 0) { if(document.getElementById(this.ID)){document.getElementById(this.ID).innerHTML = "未执行"; return 0;} }
+			this.Diff += 1;
+			if(document.getElementById(this.ID)){document.getElementById(this.ID).innerHTML = timePlugObj.F(this.Diff)};
+			};
+			return this;
+		},
+		"runMethod":function(){
+			var arr = [];
+			/* 循环获取需要进行倒计时的dom */
+			$(".time").each(function (i) {arr[i] = new timePlugObj.dj_time($(this).attr("id"), $(this).attr("starttime"),$(this).attr("localtime"));});
+			var K = function () { for (var i in arr) arr[i].onClock();timePlugObj.T = setTimeout(function () { K();}, 1000);};
+			clearTimeout(timePlugObj.T);
+			timePlugObj.T = setTimeout(function () { K();}, 1000);
+		}
+	};
+	//监听清楚setTimeout
+	$scope.$watch(function(){return $location.path();},function(path){
+		clearTimeout(timePlugObj.T);
+	})
+//timeplug end
+	var objPublicMethod={
+		"removePop":function(ele){
+			ele.hide();
+			$(".yunat_maskLayer").remove();
+		},
+		"initDiv":function(n){
+			var divStr="";
+			switch(n){
+				case 0:divStr='<div class="clear center padtop10"><input class="arrowleftblueb arrowleftgray" type="button" /><input type="button" class="arrowrightblueb" /></div>';
+				break;
+				case 1:divStr='<div class="clear center padtop10"><input class="arrowleftblueb" type="button" /><input type="button" class="arrowrightblueb" /></div>';
+				break;
+				case 2:divStr='<div class="clear center padtop10"><input class="arrowleftblueb" type="button" /><input type="button" class="arrowrightblueb arrowrightgray" /></div>';
+			};
+			return divStr;
+		},
+		"strTrim":function(str){
+			return str=(str.replace(/^(&nbsp;\s*)+/,"")).replace(/(&nbsp;\s*)+$/,"");
+		},
+		"sortPosition":function(){
+			$("#mobileSolution .plan").each(function(index){
+				$(this).attr("position",(index+1));
+			})
+		},
+		"postPlans":function(planId,savaData,t){
+			$.ajax({
+				"url":root+"rulecenter/plan/"+planId+"?_="+new Date().getTime(),
+				"type":"PUT",
+				"dataType":"JSON",
+				"contentType": "application/json; charset=utf-8",
+				"data":JSON.stringify(savaData),
+				"success":function(d){
+					var $clock=$("#mobileSolution .plan:eq("+t+")").find(".solution_off .time"),
+						$startTimeEle=$("#mobileSolution .plan:eq("+t+")").find(".solution_off .lasttime"),
+						$clockBgDiv=$("#mobileSolution .plan:eq("+t+")").find(".de_solutiontitle");
+						$clockBtn=$("#mobileSolution .plan:eq("+t+")").find(".de_solutiontitle a");
+					if(d.status!=-1){
+						if(savaData.active=="true"){
+							$clock.attr("starttime",d.data.startTime);
+							$startTimeEle.html("最后开启时间："+d.data.startTime);
+						}else{
+							$clock.attr("starttime","");
+							$startTimeEle.html("");
+						}
+						$("#mobileSolution .plan .solution_off .time").attr("localtime",d.visit);
+						timePlugObj.runMethod();
+					}else{
+						$(this).Alert({"title":"提示","str":d.message,"mark":true,"width":"160px"},function(){
+							if(savaData.active!="true"){
+								$clockBtn.attr({"class":"buttonon","active":"true"});
+								$clockBgDiv.removeClass("de_title");
+							}else{$clockBtn.attr({"class":"buttonoff","active":"false"});$clockBgDiv.addClass("de_title");}
+						});
+
+					}
+				},
+				"error":function(){
+					console.log("post错误");
+				}
+			});
+		}
+	};
+//初始化数据
+	function getPlansInit(shopId){
+		$("#mobileSolution").empty();
+		$http.get(root+"rulecenter/planGroup/"+shopId+"?_="+new Date().getTime()).success(function(d){
+			var planViewEle;
+			var plans=d.data.plans;
+			var plansLen=d.data.plans.length;
+			var appendStr=[];
+			//$scope.firstSign=d.data.sign?d.data.sign:"【数云】";
+			$scope.firstSign=d.data.sign;
+			$.each(plans,function(key,val){
+				var timeViewVal;
+				if(val.rules.length!=0){
+					var activeClass="",moveStartTime="";
+					if(val.active){
+						activeClass="buttonon";
+						moveStartTime=val.startTime;
+						localTime=d.visit;
+						timeViewVal="最后开启时间："+val.startTime;
+					}else{
+						activeClass="buttonoff";
+						moveStartTime="";
+						localTime="";
+						timeViewVal="";
+					};	
+					planViewEle='<div id="'+val.id+'" position="'+val.position+'" class="fl marginrig24 plan"><div class="solution_off relative"><ul class="solutiondetail pad15"><li class="blue_pa font14"><a id="skipWeb" href="javascript:void(0)">'+val.name+'</a></li><li class="gray_66 font12"><p>最后配置时间：'+val.lastConfigTime+'<br/>规则数：<em class="ruleLen">'+val.rules.length+'</em></p></li><li class="font12 blue_pb"><span starttime="'+moveStartTime+'" localtime="'+localTime+'" class="time" id="time'+val.id+'"><b>0</b>天<b>13</b>小时<b>52</b>分<b>59</b>秒</span></li></ul><p class="absolute de_solutiontitle padlef10 font14">方案'+(key+1)+'<a class="'+activeClass+'" href="javascript:" active="'+val.active+'"></a></p><p class="absolute lasttime gray_66 font11 right">'+timeViewVal+'</p></div></div>';
+				}else{
+					planViewEle=' <div class="fl marginrig24 plan" position="'+(key+1)+'"><div class="solution_off relative"><a id="skipWeb" href="javascript:void(0)" class="deploymentlist"><i class="add_deploy"></i><br/><span class="font14 blue_pb">配置方案</span></a><p class="absolute de_title padlef10 font14">方案'+(key+1)+'</p></div></div>';	
+				}
+				$("#mobileSolution").append(planViewEle);
+			});	
+			timePlugObj.runMethod();
+			$(".buttonoff").parent().addClass("de_title");//2013-6-18将已关闭按钮的父元素变为灰度条
+		});
+	}	
+
+//当前店铺
+	var selectShopId,viewShopName;
+	$http.get(root+"shop/taobao/list?_="+new Date().getTime()).success(function(d){
+		$scope.shops=d.data.shops;
+		viewShopName=d.data.shops[0].shopName;
+		selectShopId=$scope.nowShopId=d.data.shops[0].shopId;
+		cookiesObj.setcookiesMeth(viewShopName,selectShopId,false);
+		$scope.shopModuleVal=cookiesObj.getcookiesMeth().shopName;
+		selectShopId=cookiesObj.getcookiesMeth().shopId;
+		getPlansInit(selectShopId);//方案数据
+	});
+		
+//店铺切换
+	$scope.init=function(id,name){
+		selectShopId=$scope.nowShopId=id;
+		viewShopName=$scope.shopModuleVal=name;
+		cookiesObj.setcookiesMeth(viewShopName,selectShopId,true);
+		getPlansInit(selectShopId);
+	}
+	
+//排序
+	$("#mobileSolution input").die("click").live("click",function(){
+		initArrow(this);
+		objPublicMethod.sortPosition();
+		var $thisPlan=$(this).closest(".plan");
+		var nowPosition={
+			"position":$thisPlan.attr("position")
+		},planId=$thisPlan.attr("id");
+		objPublicMethod.postPlans(planId,nowPosition);
+		//console.log(nowPosition);
+	})	
+
+//关闭$开启
+ 	$(".de_solutiontitle a").die("click").live("click",function(){
+		var $this=$(this);
+		var on = $this.attr('class');
+		var $thisPlan=$this.closest(".plan");
+		var indexPlan=$thisPlan.index("#mobileSolution .plan");
+		var ruleLen=$this.closest(".solution_off").find(".ruleLen").html();
+		if( on=="buttonon" ){
+			$this.Confirm({"title":"关闭提示","str":"确认关闭该方案？","mark":true},function(){
+				$this.attr({"class":"buttonoff","active":false});
+				$this.parent(".de_solutiontitle").addClass("de_title");//2013-6-18将关闭的方案背景条灰度
+				var nowActive={
+					"active":$this.attr("active")
+				},planId=$thisPlan.attr("id");
+				objPublicMethod.postPlans(planId,nowActive,indexPlan);
+			})
+		}else if( on=="buttonoff" ){
+			if("0"==ruleLen){
+				$(this).Alert({"title":"提示","str":"当前方案没有配置规则，请先配置规则！","mark":true,"width":"160px"});
+				return false;
+			}else{
+				$this.Confirm({"title":"开启提示","str":"启用后方案将立即生效，确认启用？","mark":true},function(){
+					$this.attr({"class":"buttonon","active":true});
+					$this.parent(".de_solutiontitle").removeClass("de_title");//2013-6-18将关闭的方案背景条灰度
+					var nowActive={
+						"active":$this.attr("active")
+					},planId=$thisPlan.attr("id");
+					objPublicMethod.postPlans(planId,nowActive,indexPlan);
+				})
+			}
+
+		}
+	});
+	
+//跳转
+	$("a#skipWeb").die("click").live("click",function(){
+		var planIndex=$(this).closest(".plan").index("#mobileSolution .plan");
+		location.href = root+"#/personalizedPackage/deploy?index="+planIndex;
+	})
+//备注
+	$(".fillinnotes  .markEleI").die("click").live("click",function(){
+		var markVal=$(this).siblings("span").hide();
+		$(this).siblings("input").show().focus();
+		$(this).parent().css("border","2px solid #aacbe1")//2013-6-18当INPUT获取焦点时父元素框为蓝边框
+	})	
+	
+	$(".fillinnotes  .gray_66").die("blur").live("blur",function(){
+		var popMaxLength=$(".yunat_maskLayer").length;
+		var $this=$(this);
+		var inputVal=$.trim($this.val());
+		if(!inputVal || (inputVal.length>20)){
+			if( popMaxLength<1){
+				$(this).Alert({"title":"提示","str":"默认备注签名不能为空，最大长度为20！","mark":true,"width":"160px"},function(){
+					$this.focus().val("");
+				});
+			}
+			return false;
+		};
+
+		var regTest=/^[a-z0-9\u4e00-\u9fa5\s]+$/gi.test(inputVal);
+		if(!regTest){
+			if( popMaxLength<1){//失去焦点bug
+				$(this).Alert({"title":"提示","str":"默认备注签不能包含特殊符号！","mark":true,"width":"160px"},function(){
+					$this.focus().val("");
+				});
+			};
+			return false;
+		}
+		$this.hide();
+		$this.siblings("span").css("display","inline-block");
+		var signObj={
+			"sign":inputVal
+		};
+		$(this).parent().css("border","1px solid #d9d9d9")//2013-6-18当INPUT失去焦点时父元素仍为灰边框
+		$.ajax({
+			"url":root+"rulecenter/planGroup/"+selectShopId,
+			"type":"PUT",
+			"dataType":"JSON",
+			"contentType": "application/json; charset=utf-8",
+			"data":JSON.stringify(signObj),
+			"success":function(){
+			},
+			"error":function(){
+				console.log("post错误");
+			}
+		});
+	})	
+
+//预览
+	$("#showPreview").click(function(){
+		var thisp = $("#showPreview").find("p");
+		var sign=$(".fillinnotes .markView").html();
+		//console.log(argObj)
+		if( thisp.css("display")=="none" ){
+			$.ajax({
+			"url":root+"rulecenter/planGroup/"+selectShopId+"/signContent?sign="+sign+"&_="+new Date().getTime(),
+			"type":"GET",
+			"dataType":"JSON",
+			"contentType": "application/json; charset=utf-8",
+			"success":function(d){
+				thisp.find("span").html(d.data.content);
+				thisp.css("display","block");
+				thisp.prev(".buttonpreviewgray").addClass("buttoncurpreview").css("color","#0083ba");//2013-6-18给按钮增加一个点击样式
+			},
+			"error":function(){
+				console.log("post错误");
+			}
+		});
+		}else if( thisp.css("display")=="block" ){
+			thisp.css("display","none");
+			thisp.prev(".buttoncurpreview").removeClass("buttoncurpreview").css("color","#999");//2013-6-18给按钮增加一个点击样式
+		}
+	})
+//预演
+	
+	$scope.planPreview=function(){
+		$("#selectRehearsal").addInteractivePop({magTitle:"请选择预演方案",mark:true,drag:true,position:"fixed"});
+	};
+	
+	$scope.startrehearsal=function(){
+		objPublicMethod.removePop($("#selectRehearsal"));
+		$("#startRehearsal").addInteractivePop({magTitle:"方案预演",mark:true,drag:true,position:"fixed"});
+	};
+	
+	$scope.cancelPreview=function(){
+		objPublicMethod.removePop($("#selectRehearsal"));
+	}
+	
+				
+	
+
+}
+
+
+</script>

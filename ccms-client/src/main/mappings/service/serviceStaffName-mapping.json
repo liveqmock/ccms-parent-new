@@ -1,0 +1,14 @@
+{
+    "request": {
+        "method": "POST",
+        "urlPattern": "/customerCenter/orders/orderReceptionWw"
+    },
+    "response": {
+        "status": 200,
+        "bodyFileName": "/data/service/serviceStaffName.json",
+        "headers": {
+            "Content-Type": "application/json",
+            "Cache-Control": "max-age=86400"
+        }
+    }
+}

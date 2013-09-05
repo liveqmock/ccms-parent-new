@@ -1,0 +1,178 @@
+{
+"code":0,
+"status":"ok",
+"data":{
+"shopId":"10293829",
+"sign":"【数22112云】",
+"plans":[
+    {
+        "id":1,
+        "name":"方案1：物流选择",
+        "position":1,
+        "active":false,
+        "startTime":"2013-02-11 13:47:12",
+        "lastConfigTime":"2013-02-11 13:47:12",
+        "rules":[
+            {
+                "id":11,
+                "name":"方案1：购物满100送优惠券",
+                "position":1,
+				"remarkContent":"送小样A",
+                "conditions":[
+                    {
+                        "id":111,
+                        "name":"购物满100",
+                        "position":1,
+						"useDefaultName":true,
+						"conditionOpName":"EQ",
+						"type":"ORDER_BASED",
+						"propertyId":42,
+						"referenceValue":"cdddd",
+						"hasProvideValues":false
+                    },
+					{
+                        "id":222,
+                        "name":"购物满100",
+                        "position":1
+                    },
+					{
+                        "id":333,
+                        "name":"购物满100",
+                        "position":1
+                    }
+                ]
+            },
+			 {
+                "id":22,
+                "name":"购物满100送优惠券",
+                "position":2,
+				"remarkContent":"送小样B",
+                "conditions":[
+                    {
+                        "id":111,
+                        "name":"购物满100",
+                        "position":1
+                    },
+					{
+                        "id":222,
+                        "name":"购物满100",
+                        "position":1
+                    },
+					{
+                        "id":333,
+                        "name":"购物满100",
+                        "position":1
+                    }
+                ]
+            },
+			 {
+                "id":33,
+                "name":"购物满100送优惠券",
+                "position":3,
+				"remarkContent":"送小样c",
+                "conditions":[
+                    {
+                        "id":111,
+                        "name":"购物满100",
+                        "position":1
+                    },
+					{
+                        "id":222,
+                        "name":"购物满100",
+                        "position":1
+                    }
+                ]
+            }
+        ]
+    },
+	{
+        "id":2,
+        "name":"方案2：物流选择",
+        "position":1,
+        "active":true,
+        "startTime":"2013-03-21 09:12:23",
+        "lastConfigTime":"2013-02-11 13:47:12",
+        "rules":[
+            {
+                "id":11,
+                "name":"方案2：购物满100送优惠券",
+                "position":1,
+                "conditions":[
+                    {
+                        "id":111,
+                        "name":"购物满100",
+                        "position":1
+                    },
+					{
+                        "id":222,
+                        "name":"购物满100",
+                        "position":1
+                    },
+					{
+                        "id":333,
+                        "name":"购物满100",
+                        "position":1
+                    }
+                ]
+            },
+			 {
+                "id":22,
+                "name":"购物满100送优惠券",
+                "position":1,
+                "conditions":[
+                    {
+                        "id":111,
+                        "name":"购物满100",
+                        "position":1
+                    },
+					{
+                        "id":222,
+                        "name":"购物满100",
+                        "position":1
+                    },
+					{
+                        "id":333,
+                        "name":"购物满100",
+                        "position":1
+                    }
+                ]
+            },
+			 {
+                "id":33,
+                "name":"购物满100送优惠券",
+                "position":1,
+                "conditions":[
+                    {
+                        "id":111,
+                        "name":"购物满100",
+                        "position":1
+                    },
+					{
+                        "id":222,
+                        "name":"购物满100",
+                        "position":1
+                    },
+					{
+                        "id":333,
+                        "name":"购物满100",
+                        "position":1
+                    }
+                ]
+            }
+        ]
+    },
+	{
+        "id":3,
+        "name":"方案3：物流选择",
+        "position":1,
+        "active":false,
+        "startTime":"2013-03-21 09:12:23",
+        "lastConfigTime":"2013-02-11 13:47:12",
+        "rules":[
+           
+
+        ]
+    }
+]
+}
+}

@@ -1,0 +1,46 @@
+
+<link get-root type="text/css" rel="stylesheet" _href="3rd/ztree/css/zTreeStyle/zTree.css" />
+<nscript get-root type="text/javascript" _src="3rd/ztree/js/jquery.ztree.core-3.4.min.js"></nscript>
+<nscript get-root type="text/javascript" _src="scripts/marketing/campaign.js"></nscript>
+<div class="maincontainerB">
+	<div class="maincontainer" ng-controller="Market">
+		<div class="clearfix fl">
+			<h2 class="heading fl">营销活动</h2>
+
+			<div class="smalldarkerblueBtn newbuildBtn smalldarkerblueBtn_fix360" ng-click="addMarket()"><a href="javascript:void(0)">新建活动</a></div>
+		</div>
+		<div id="addHdModel"  ng-include src='addMarketTpl'></div>
+
+		<div class="list">
+			<div class="listHeader">
+                <div class="slide_box clearfix">
+                     <ul class="listTab clearfix">
+                        <li ng-repeat="hd in campHdAry" ng-class="navCampList(hd.href);">
+                            <a href="{{hd.href}}" title="{{hd.name}}">{{hd.name}}</a><span ng-hide="hd.name == '活动列表'" ng-click="delCampHd($index,hd.href);"></span>
+                        </li>
+                    </ul>
+                </div>
+                <div class="posi_sildeBtn_box">
+                     <div class="slide_left_btn"></div>
+                      <div class="slide_right_btn"></div>
+                </div>
+                
+			</div>
+			<div class="listContainer" ng-include src='nodeTpl'></div>
+		</div>
+	</div>
+</div>
+<!--模板窗口star-->
+	 <div id="selectCampType">
+        <div class="campTypeList">
+	           <ul>
+	                 <li class="noteTpl"><a href="javascript:void(0);"></a><p>短信营销模板</p></li>
+	                 <li class="mailTpl"><a href="javascript:void(0);"></a><p>邮件营销模板</p></li>
+	                 <li class="couponTpl"><a href="javascript:void(0);"></a><p>优惠券营销模板</p></li>
+	           </ul>
+        </div>
+        <div class="cc_btn">
+			<button class="btn btnBlue popSure">确定</button><button class="btn popCancel">取消</button>
+        </div>
+    </div>
+<!--模板窗口end-->

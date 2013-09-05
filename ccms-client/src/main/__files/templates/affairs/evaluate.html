@@ -1,0 +1,204 @@
+
+<nscript get-root type="text/javascript" _src="scripts/service/serviceComm.js"></nscript>
+<nscript get-root type="text/javascript" _src="scripts/service/evaluate.js"></nscript>
+<div class="maincontainerB kf_wrap" ng-controller="serviceCtrl">
+    <div class="maincontainer kf_wrap_cont" ng-controller="evaluateCtr">
+			<div ng-show="!showUrPay" class="loading"><i></i>努力加载中...</div>
+			<div class="clearfix">
+				<h2 class="heading fl kf_head">评价跟进</h2>
+				<div class="shopinfo fl mt5 ml10" id="shopinfo">
+					<b>店铺选择 :</b><span class="" id="{{shopId}}">{{shopName}}<i></i></span>
+					<dl style="display: none;">
+						<dd ng-click="init(s);" ng-repeat="s in shops" shop_id="{{s.shopId}}"><a href="javascript:void(0)">{{s.shopName}}</a></dd>
+					</dl>
+				</div>
+
+			</div>
+			<div class="pr kfzx_searchbox clearfix" id="kfzx_searchbox">
+				<form>
+					<table class="searchbox_condition">
+						<tr>
+							<th>评价内容:</th><td>
+                                <input class="w170 borderHighlight" type="text" value="" ng-model="evlContent"/>
+                            </td>
+							<th>会员等级:</th><td>
+                                 <select class="w100 borderHighlight" ng-model="memberLevel">
+                                     <option value="-1">-- 不限 --</option>
+                                     <option value="0">新客户</option>
+                                     <option value="1">普通会员</option>
+                                     <option value="2">高级会员</option>
+                                     <option value="3">VIP</option>
+                                     <option value="4">至尊VIP</option>
+                                     <option value="99">未分级</option>
+                                 </select>
+                            </td>
+							<th>是否关怀:</th><td>
+                                <select class="w120 borderHighlight" ng-model="regard">
+                                     <option value="">-- 不限 --</option>
+                                     <option value="false">未关怀</option>
+                                     <option value="true">已关怀</option>
+                                </select>
+                            </td>
+                            <th>是否解释:</th><td>
+                                <select class="w120 borderHighlight" ng-model="explain">
+                                     <option value="">-- 不限 --</option>
+                                     <option value="false">未解释</option>
+                                     <option value="true">已解释</option>
+                                </select>
+                            </td>
+							<th>商品名称:</th><td><input class="w100 borderHighlight" type="text" value="" ng-model="goodsName"/></td>
+						</tr>
+						<tr>
+							<th>评价时间:</th><td><div class="pr"><input value="{{date1}}" type="text" id="createdStart" name="createdStart" readonly="readOnly" class="datetimepicker required borderHighlight" />  <span class="pa timeH">-</span> </div></td>
+							<td colspan="2"><input value="{{date2}}" type="text" name="createdEnd" id="createdEnd" readonly="readOnly" class="datetimepicker required borderHighlight" /></td>
+							<th>评价类型:</th><td>
+                                  <select class="w120 borderHighlight" ng-model="result">
+                                       <option value="">所有评价</option>
+                                       <option value="good">好评</option>
+                                       <option value="neutral">中评</option>
+                                       <option value="bad">差评</option>
+                                  </select>
+                            </td>
+							<th>客户昵称:</th><td><input class="w100 borderHighlight" type="text" value="" ng-model="nick"/></td>
+							
+						</tr>
+						<tr><th></th><td colspan="9">
+                             <button ng-click="searchEvaluateList(1)" class="btn btnBlue SBox" type="submit">筛选</button>
+                             <input class="searchbox_reset ml10" type="reset" value="重置" ng-click="reset()"/>
+                             <a href="javascript:void(0);" ng-click="autoReplyComment()" ng-show="shopType=='C'">设置自动回评</a></td>
+                        </tr>
+					</table>
+					<a class="unfold" href="javaScript:;"></a>
+				</form>
+
+			</div>
+			<div class="clearfix search_result" id="result_evaluate">
+                <div class="result_operate" style="margin-top:8px;"><input ng-model="master" class="vm mr5 ml10" type="checkbox" ng-model="master" /> 全选  ｜ <a ng-click="carings()" href="javaScript:;">批量关怀</a> <a ng-click="explainsFn()" href="javaScript:;" ng-show="shopType=='B'">批量解释</a></div>
+				<table class="mt10 result_title">
+					<thead>
+                        <tr>
+                            <th width="5%"></th>
+                            <th width="" >评价内容</th>
+                            <th width="17%">宝贝信息</th>
+                            <th width="10%">客户信息</th>
+                            <th width="10%">操作</th> 
+                            <th width="8%">备注</th> 
+                        </tr>
+					</thead>
+				</table>
+				<table width="100%" style="margin-top:-1px;margin-bottom:40px;">
+					<tbody class="success_order">
+                        <tr ng-repeat="order in ordersList">
+							
+                            <td width="5%" align="center">
+                                <input name="caringChb" class="orderNum vm mr5" type="checkbox" tid="{{order.tid}}" oid="{{order.oid}}"  reply="{{order.reply}}"  ng-checked="master" mobile="{{order.receiver_mobile}}"/>
+                            </td>
+                            <td width="" class="borderL ">
+                                 <div class="evlContent">
+                                       <div class="questionText">{{order.content}}</div>
+                                       <div class="info">
+                                             <span class="fr">{{order.followupStatus}}订单编号：{{order.tid}}</span>
+                                             <span>{{greatTime(order.created)}}</span>
+                                             <span ng-class="setGradeIcon(order.result)" class="result"></span>
+                                       </div>
+                                       <div class="answerText" ng-show="!order.reply==''"><p>解释：{{order.reply}}</p></div>
+                                 </div>
+                            </td>
+                            <td width="17%" class="borderL">
+                                 <div class="pic"><a target="_blank" href="{{order.detail_url}}"><img width="60" height="60" ng-src="{{order.pic_url}}_60x60.jpg"></a></div>
+                                 <div class="p_name"><a target="_blank" href="{{order.detail_url}}" class="baobei_name ng-binding">{{order.title}}</a></div>
+                            </td>
+                            <td width="10%" class="borderL">
+                                 <div class="user">
+                                    <p><a href="http://amos.alicdn.com/msg.aw?v=2&uid={{order.customerno}}&site=cntaobao&s=2&charset=utf-8" target="_blank"><img border="0" alt="点击这里给我发消息" ng-src="http://amos.alicdn.com/online.aw?v=2&uid={{order.customerno}}&site=cntaobao&s=2&charset=utf-8" class="vm"></a><a class="userId" href="">{{order.customerno}}</a></p>
+                                    <p><span class="memberGrade vm ml5 generalMember" ng-class="gradeClass(order.grade)">{{gradeValue(order.grade,order.trade_count)}}</span></p>
+                                 </div>
+                                 
+                            </td>
+							<td width="10%" class="borderL tc">
+								<div class="explain comm_list">
+                                      <div class="pr fl percentage100">
+                                        <p><input type="button" ng-class="cfsuggestClass(order.regardFlag)" value="{{cfsuggestValue(order.regardFlag)}}" class="baobei_dunning" ng-click="careSetting(scope, [{uid: order.customerno ,tel:order.receiver_mobile, tid: order.tid, oid: order.oid}]);"></p>
+                                        <div onmouseout="$('.kf_tip_box',this).hide();" onmouseover="$('.kf_tip_box',this).show();">
+											<i  class="dunning_tip vm pa Suggested" ng-show="order.regardFlag"></i>                                      
+											<div class="kf_tip_box">
+												   <div class="pos_rel1" style="top:15px;"><span class="tip_icon2"><span class="tip_icon3"></span></span></div>
+												   <div class="address_list" style="margin-left:-22px;">
+														<dl class=" ng-scope"  ng-repeat="l in order.sendLogList">
+															<dt ng-style="myStyle" class="ng-binding mb10" style="color: red;">关怀记录如下：</dt>
+															<dd class="ng-binding">关怀客服：{{l.regardPerson}}</dd>
+															<dd class="ng-binding">关怀时间：{{greatTime(l.regardTime)}}</dd>
+															<dd class="ng-binding">关怀方式：{{getRegardType(l.regardType)}}</dd>
+															<dd class="ng-binding">关怀记录：{{l.regardContent}}</dd>
+													   </dl>
+												   </div>
+												   
+											 </div>
+										</div>
+										 <input type="button" ng-click="explainFn(order)" ng-show="isShowReplybtn(order)" value="解释" class="baobei_hide mt5 mb5">
+                                    </div>
+                                 </div>
+							</td>
+							<td width="8%" class="borderL tc">
+								<p class="fl percentage100 h25" ng-repeat="memo in order.memoVo"><input class="remark vm bordernone" ng-title="订单备注信息：<br/>给该用户送个小礼品！<br/>点击图标修改备注" ng-click="addRemark.show(order.tid);" value="0" ng-class="flag(memo.flag)"/> <a ng-class="message(memo.buyerMemo)" class="vm" href="javaScript:;" ng-title="{{memo.buyerMemo}}"></a></p>
+								
+								<p ng-show="order.followupStatus < 1">
+									<input ng-click="addAffair.show({tid: order.tid, sourceId: 6, buyerNick: order.customerno, oid: order.oid, callback: searchEvaluateList, callbackParam: []})" class="baobei_dunning" type="button" value="跟进" />
+								</p>
+								<p ng-show="order.followupStatus >= 1"><a ng-href="#/affairs/myaffair?id={{order.followupId}}">{{statusAry[order.followupStatus-1]}}</a></p>
+							</td>
+                            <!-- <td width="60">
+                                  <input type="button" ng-click=""  value="{{getFollowupVal(order.traderate_followup)}}" class="baobei_hide mt10 mb5" ng-class="getFollowupClass(order.traderate_followup)">  
+                            </td> -->
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="urpay_pager" ng-pager="pagerSetting" id="PageDive" style="position:fixed;bottom:0;"></div>
+				</div>
+                
+                <div id="Explain_position" style="display:none;">
+                    <table class="SMS_Table">
+                        <tr ng-show="fliter_customeInfo"><th valign="top">客户信息：</th><td><p><a href="http://amos.alicdn.com/msg.aw?v=2&uid={{customerno}}&site=cntaobao&s=2&charset=utf-8" target="_blank"><img border="0" alt="点击这里给我发消息" ng-src="http://amos.alicdn.com/online.aw?v=2&uid={{customerno}}&site=cntaobao&s=2&charset=utf-8" class="vm"></a><a class="userId" href="">{{customerno}}</a></p></td></tr>
+                        <tr ng-show="fliter_productInfo"><th valign="top">商品信息：</th><td>
+                              <div class="pic"><a target="_blank" href="{{detailUrl}}"><img width="50" height="50" ng-src="{{pic_url}}" style="vertical-align:top;margin-right:5px;"></a><a target="_blank" href="{{detailUrl}}" class="baobei_name ng-binding">{{pro_title}}</a></div>
+                        </td></tr>
+                        <tr ng-show="fliter_replyOid"><th valign="middle">解释订单：</th><td>
+                              <textarea id="eva_oid" readonly="readonly" maxlength="500">{{reply_oid}}</textarea>
+                        </td></tr>
+                        <tr ng-show="fliter_evaContent"><th valign="middle">评价内容：</th><td>
+                              <textarea id="eva_content" readonly="readonly" maxlength="500">{{eva_content}}</textarea>
+                        </td></tr>
+                        <tr><th valign="middle">评价解释：</th><td>
+                              <textarea id="eva_explain" ng-model="eva_reply" maxlength="500"></textarea>
+                        </td></tr>
+                        <tr><th></th><td><div class="cc_btn">
+                                <button ng-click="replyViewSave()" class="btn btnBlue">确定</button><button ng-click="replyViewCancel()" class="btn">取消</button>
+                        </div></td></tr>
+                    </table>
+                </div>
+                <div id="Comment_position" style="display:none;">
+                     <table class="SMS_Table">
+                        <tr><th valign="top">评论方式：</th><td>
+                              <input type="radio" ng-model="order_type" value="order_success" />订单交易成功后自动给买家好评<input type="radio"  style="margin-left:20px;" ng-model="order_type"  value="order_traderate"/>买家评价后自动给买家好评
+                        </td></tr>
+                        <tr><th valign="top">评价内容：</th><td>
+                              <textarea ng-model="eva_content"  maxlength="500" ng-entry-fontlen >{{eva_content}}</textarea>
+                              <p>已输入<span class="red entryFontLen">0</span>字</p>
+                        </td></tr>
+                        <tr><th valign="middle">自动评价：</th><td>
+                              <select ng-model="isOpen">
+                                 <option value="0">已关闭</option>
+                                 <option value="1">已开启</option>
+                              </select>
+                        </td></tr>
+                        <tr><th></th><td><div class="cc_btn">
+                                <button ng-click="autoCommentSave()" class="btn btnBlue">确定</button><button ng-click="autoCommentCancel()" class="btn">取消</button>
+                        </div></td></tr>
+                    </table>
+                </div>
+		<div ng-include src="'/templates/affairs/serviceComm.html?3'"></div>	
+	</div>
+    
+</div>
+
+

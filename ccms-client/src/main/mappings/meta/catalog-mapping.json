@@ -1,0 +1,14 @@
+{
+    "request": {
+        "method": "GET",
+        "urlPattern": "/meta/catalog"
+    },
+    "response": {
+        "status": 200,
+        "bodyFileName": "/data/findNode/catalog.json",
+        "headers": {
+            "Content-Type": "application/json",
+            "Cache-Control": "max-age=86400"
+        }
+    }
+}

@@ -1,0 +1,15 @@
+{
+	"priority":8,
+    "request": {
+        "method": "GET",
+        "urlPattern": "/campaign/[0-9].*"
+    },
+    "response": {
+        "status": 200,
+        "bodyFileName": "/data/getOneMarketList.json",
+        "headers": {
+            "Content-Type": "application/json",
+            "Cache-Control": "max-age=86400"
+        }
+    }
+}

@@ -1,0 +1,245 @@
+
+<nscript get-root _src="3rd/highcharts/highcharts.js"></nscript>
+<script>
+function orderMonitor($scope,$http,$location){		
+	$http.get(root+"shop/taobao/list").success(function(res){
+		$scope.shops = res.data.shops;
+		$scope.init($scope.shops[0]);
+	});
+	$scope.init = function(shop){
+		if($scope.shopName != shop.shopName){
+			$scope.shopName = shop.shopName;
+			$scope.shopId = shop.shopId;
+		}
+		$scope.shop = shop;
+		var parames = {
+			"dpId" : $scope.shopId
+		};
+		
+		
+		var chart;
+		$http.get(root+'ordermonitor/orders/orderMonitor'+'?dpId='+ shop.shopId).success(function(res){
+			$http.get(root+'ordermonitor/orders/urpayAndCareMonitoring'+'?dpId='+ shop.shopId).success(function(ress){
+				if(ress.status=="0"){
+					$scope.autoUrpayAndCareMonitoringVO = ress.data.autoUrpayAndCareMonitoringVO;
+				}
+			})
+			if(res.status=="0"){
+				var realTimeOrderDataVo = res.data.realTimeOrderDataVo , todayOrderChangeDataVO = res.data.todayOrderChangeDataVO;
+				$scope.payTimeIsTodayOrderNum = realTimeOrderDataVo.payTimeIsTodayOrderNum;
+				$scope.payTimeIsTodayOrderAmount = realTimeOrderDataVo.payTimeIsTodayOrderAmount;
+				$scope.orderAveragePrice = realTimeOrderDataVo.orderAveragePrice;
+				$scope.salePercent = realTimeOrderDataVo.salePercent;
+				$scope.averageGoodsNum = realTimeOrderDataVo.averageGoodsNum;
+				$scope.createdIsTodayOrderNum = realTimeOrderDataVo.createdIsTodayOrderNum;
+				$scope.payedPercent = realTimeOrderDataVo.payedPercent;
+				$scope.notPayedOrderNum = realTimeOrderDataVo.notPayedOrderNum;
+				$scope.urpayPercent = realTimeOrderDataVo.urpayPercent;
+				$scope.createdTodayOrderNum = todayOrderChangeDataVO.createdTodayOrderNum;
+				$scope.payedTodayOrderNum = todayOrderChangeDataVO.payedTodayOrderNum;
+				$scope.consignedTodayOrderNum = todayOrderChangeDataVO.consignedTodayOrderNum;
+				$scope.arrivedTodayOrderNum = todayOrderChangeDataVO.arrivedTodayOrderNum;
+				$scope.deliveryTodayOrderNum = todayOrderChangeDataVO.deliveryTodayOrderNum;
+				$scope.signedTodayOrderNum = todayOrderChangeDataVO.signedTodayOrderNum;
+				$scope.confirmTodayOrderNum = todayOrderChangeDataVO.confirmTodayOrderNum;
+				$scope.refundTodayOrderNum = todayOrderChangeDataVO.refundTodayOrderNum;
+				$scope.traderateTodayOrderNum = todayOrderChangeDataVO.traderateTodayOrderNum;
+			
+				var data1 = [];
+				var data2 = [];
+				var data3 = [];
+				$.each(res.data.hourData, function(k, v){	
+					data1.push(v.orderHour+'点');
+					data2.push(v.orderAmount);
+					data3.push(v.payedOrderAmount);
+				});
+				
+				/*今日订单数据*/
+				chart = new Highcharts.Chart({
+					colors:['#4572A7', '#AA4643'],
+					chart: {
+						renderTo: 'trend_chart',
+						type: 'spline',
+						backgroundColor:'#F9F9F9'
+					},
+					credits: {text: '',href: ''},
+					title: {text: ''},
+					xAxis: {
+						categories: data1,
+						lineWidth: 0
+					},
+					yAxis: {
+						title: {text: '',},	
+						min : 0,
+						gridLineWidth: 1
+					},
+					legend : {
+						borderColor:0,
+						verticalAlign : 'bottom',
+						align: 'center'
+					},
+					series: [{
+						name: '今日每小时拍下金额(元)',
+						marker: {
+							symbol: 'circle'
+						},
+						data: data2,
+					}, {
+						name: '今日每小时付款金额(元)',
+						marker: {
+							symbol: 'circle'
+						},
+						data: data3
+					}],
+				});
+				
+				/*今日订单变更监控*/
+				chart = new Highcharts.Chart({
+					chart: {
+						renderTo: 'trend_chart_a',
+						zoomType: 'xy',
+						backgroundColor:'#F9F9F9'
+					},
+					credits: {text: '',href: ''},
+					title: {text: ''},
+					xAxis: [{
+						categories: ['拍下', '付款', '发货', '同城' , '派件' , '签收', '确认收货', '退款' , '评价']
+					}],
+					yAxis: [{ 
+						title: {text: '',},
+						opposite: true
+					}, {
+						gridLineWidth: 1,
+						title: {
+							text: '',
+							style: {
+								color: '#4572A7',
+								fontWeight:'normal'
+							}
+						},
+						labels: {
+							formatter: function() {
+								return this.value ;
+							},
+							style: {color: '#3e3e3e'}
+						}
+			
+					}],
+					tooltip: {
+						formatter: function() {  
+							return  this.x +': '+ this.y;  
+						}  
+					},  
+					legend: {borderColor:0},
+					series: [{
+						name: '今日订单变更数',
+						type: 'column',
+						data: [$scope.createdTodayOrderNum,$scope.payedTodayOrderNum,$scope.consignedTodayOrderNum,$scope.arrivedTodayOrderNum,$scope.deliveryTodayOrderNum,$scope.signedTodayOrderNum,$scope.confirmTodayOrderNum,$scope.refundTodayOrderNum,$scope.traderateTodayOrderNum]
+			
+					}]
+				});
+			}
+		});
+		//近30天订单监控
+		$http.get(root+'ordermonitor/orders/orderMonitorMonth'+'?dpId='+ shop.shopId ).success(function(res){
+			if(res.status == "0"){
+				$scope.orderFlowMonitoriingData = res.data.orderFlowMonitoriingData
+			}
+		})
+		$scope.isOpen = function(iso){
+			return iso ? '':'isclose';
+		}
+		$scope.hrefLink = function(t){
+			if(t < 6){
+				return "#/order/urpay?type="+t;
+			}else if(t >=6 && t < 14){
+				return "#/order/care?type="+t;
+			}else{
+				return "#/order/alarm?type="+( t - 29);
+			}
+		}
+		
+	}
+	
+}
+</script>
+<div class="maincontainerB order_main_wrap">
+    <div class="maincontainer pr" ng-controller="orderMonitor">
+		<div class="clearfix" style="padding:23px 10px 0px 20px">
+			<h2 class="heading fl">订单监控</h2>
+			<div class="shopinfo fl mt5 ml10" id="shopinfo">
+				<b>店铺选择 :</b><span class="" id="{{shopId}}">{{shopName}}<i></i></span>
+				<dl style="display: none;">
+					<dd ng-click="init(s);" ng-repeat="s in shops" shop_id="{{s.shopId}}"><a href="javascript:void(0)">{{s.shopName}}</a></dd>
+				</dl>
+			</div>
+		</div>
+		<div class="orderMonitorBox clearfix">
+			<div class="orderMonitorBoxL pr">
+				<ul>
+					<li class="tc"><i class="todayMoney_icon"></i>
+						<p class="order_desc ml5 tl"><span class="order_text">今日成交金额<i class="ico_tips" ng-title="今天付款的订单的总金额"></i></span><br/><span class="order_num_orange tl f18">{{payTimeIsTodayOrderAmount}}</span></p>
+					</li>
+					<li>
+						<p class="f_l ml10 w150"><span class="order_text">今日成交订单 <i class="ico_tips" ng-title="今天付款的订单的总订单数"></i></span><br/><span class="order_num_orange f16">{{payTimeIsTodayOrderNum}}</span></p>
+						<p class="f_l w150"><span class="order_text">订单均价<i class="ico_tips" ng-title="今日成交金额/今日成交订单"></i></span><br/><span class="order_num_orange f16">{{orderAveragePrice}}</span></p>
+					</li>
+					<li>
+						<p class="f_l ml10 w150"><span class="order_text">关联订单占比<i class="ico_tips" ng-title="今日成交订单中购买超过1款商品的订单比例"></i></span><br/><span class="order_num_orange f16">{{salePercent}}%</span></p>
+						<p class="f_l w150"><span class="order_text">平均订单件数<i class="ico_tips" ng-title="今日成交商品件数/今日成交订单数"></i></span><br/><span class="order_num_orange f16">{{averageGoodsNum}}</span></p>
+					</li>
+					<li class="backgroundgray">
+						<p class="f_l ml10 w150"><span class="order_text">今日拍下订单<i class="ico_tips" ng-title="今天客户拍下的订单数"></i></span><br/><span class="order_num_blue f16">{{createdIsTodayOrderNum}}</span></p>
+						<p class="f_l w150"><span class="order_text">付款率<i class="ico_tips" ng-title="今天拍下的订单中已经付款的比例"></i></span><br/><span class="order_num_blue f16">{{payedPercent}}%</span></p>
+					</li>
+					<li class="backgroundgray">
+						<p class="f_l ml10 w150"><span class="order_text">未付款订单<i class="ico_tips" ng-title="今天拍下但是还没有付款的订单数"></i></span><br/><span class="order_num_blue f16">{{notPayedOrderNum}}</span></p>
+						<p class="f_l w150"><span class="order_text">已催付比例<i class="ico_tips" ng-title="今天拍下但没有付款的订单中，已经进行过催付的比例"></i></span><br/><span class="order_num_blue f16">{{urpayPercent}}%</span></p>
+					</li>
+				</ul>
+			</div>
+			<div class="orderMonitorBoxR">
+				<div class="orderData">
+					<h3>今日订单数据</h3>
+					<div id="trend_chart" style="height:260px; margin:10px 50px 0px;"></div>
+				</div>
+			</div>
+		</div>
+		<div class="orderMonitorBox clearfix">
+			<div class="flowMonitor">
+				<div class="flowMonitorBox pr">
+					<h3>近30天订单流转监控</h3>
+					<ul class="flowMonitorList">
+						<li ng-repeat="o in orderFlowMonitoriingData">
+							<span>
+								<label><span ng-style="{paddingLeft:$index*10}" style="padding-left:0px;">{{o.statusName}}</span></label>
+								<span class="flowMonitorM">
+									<strong>{{o.orderCount}}</strong>单
+									<i class="ico_tips" ng-title="{{o.statusDesc}}"></i>
+								</span>
+							</span>
+							<span class="flowMonitorRate" ng-style="$index == 0 && {color: '#808080',marginTop: -10}">
+								<span ng-show="$index == 0"><em style="padding-left:40px;margin-right:30px;">流转率<i class="ico_tips" ng-title="漏斗中下一级订单数/上一级订单数，例如：拍下-付款流转率=付款订单数/拍下订单数"></i></em>流转间隔<i class="ico_tips" ng-title="漏斗中上一级订单转为下一级订单的平均时间间隔，例如：拍下-付款流转间隔=已付款订单的平均付款间隔(付款时间-下单时间)"></i></span>
+								<span ng-show="$index != 0"><em ng-style="{paddingLeft:(orderFlowMonitoriingData.length -1 -$index)*10}">{{o.flowRate}}%</em>{{o.flowIntervalTime}}小时</span>
+							</span>
+						</li>
+					</ul>
+				</div>
+			</div>
+			<div class="flowMonitor">
+				<div class="mr30 flowMonitorBox">
+					<h3>今日订单变更监控</h3>
+					<div id="trend_chart_a" style="height:300px; margin:10px 50px 0px;"></div>
+				</div>
+			</div>
+		</div>
+		<a class="pa arrowLeft" onclick="$('.ShortcutsBox').show();$(this).hide();"></a>
+		<div class="pa ShortcutsBox">
+			<a class="f_l arrowRight" onclick="$('.ShortcutsBox').hide();$('.arrowLeft').show();"></a>
+			<dl class="f_l Shortcuts">
+				<dt>快捷操作</dt>
+				<dd ng-repeat="a in autoUrpayAndCareMonitoringVO"><a ng-class="isOpen(a.isOpen)" ng-href="{{hrefLink(a.type)}}">{{a.name}}</a></dd>
+			</dl>
+		</div>
+	</div>
+</div>

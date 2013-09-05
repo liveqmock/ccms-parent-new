@@ -1,0 +1,160 @@
+<div class="marketLayer">
+    <h2 class="heading">新建活动</h2>
+    <form id="createMaketLayer" name="createMaketLayer">
+         <div class="bg">
+                 <div class="mb16">
+                      <label><span class="red">*</span>从模板创建：</label>
+                      <input type="text"  class="borderHighlight" name="templateId" validate="required"  readonly="readonly"  onclick="openFile()"/>
+                      <a href="javascript:void(0);" class="optionModule" onclick="openFile()"/>
+                 </div>
+		         <div class="mb16">
+                      <label><span class="red">*</span>活动名称：</label>
+                      <input type="text" class="borderHighlight" name="campName" validate="required" maxlength="25" onblur="isReapeatForNmae(this,this.value)"/>
+		         </div>
+		         <div class="mb16">
+                      <label>活动备注：</label>
+                      <textarea name="campDesc"  maxlength="500"></textarea>
+		         </div>
+         </div>
+         <div class="mb">
+                 <button class="btn btnBlue" id="marketSure" ng-click="clickSureMarket()" >确定</button><button class="btn" id="marketCancel" ng-click="clickConcelMarket()">取消</button>
+         </div>
+    </form>
+</div>
+
+
+<script type="text/javascript">
+        function isReapeatForNmae(obj,val){
+		     var $this=$(obj);
+		     var name=trim(val);
+			 if(name == ""){
+			     return false;
+			 }else{
+                  $.ajax({
+                      url:"campaign/check?campaignName="+encodeURI(encodeURI(name)),
+                      async: false,
+                      type:"GET",
+					  cache:false,
+                      dataType:'json',
+                      success:function(data){
+					       var $pDiv=$this.parent();
+						   $this.removeClass("isError");
+                           if(data.valid=="0"){
+                                $this.addClass("isError");
+								if($this.siblings(".promptText").length==0){
+									 $('<span class="promptText red">活动名称已存在</span>').appendTo($pDiv);
+								}else{
+								     $this.siblings(".promptText").html("活动名称已存在");
+								}
+                           }else{
+								if($this.siblings(".promptText").length==0){
+									 $('<span class="promptText red"><img src="images/graph/news/state_executed.png" style="position:relative;top:3px;"></span>').appendTo($pDiv);
+								}else{
+								     $this.siblings(".promptText").html('<img src="images/graph/news/state_executed.png" style="position:relative;top:3px;">');
+								}
+						   }
+                      }
+                   });
+			 }
+		}
+        //模板的选择与取消
+        var $listLi=null;
+		var modelVal="";
+
+		function delPop(){
+			$("#selectCampType:last").hide();
+			$(".yunat_maskLayer").detach();
+		};
+
+
+
+		//模板效果切换
+		$("a",$listLi).live("click",function(){
+			$(this).addClass("cur").parent().siblings("li").find("a").removeClass("cur");
+		});
+        function selectCampType(){
+		    if($listLi.find("a.cur").length==0){
+					 $(this).Alert({"title":"提示","str":"请至少选择一个模板","mark":true,"width":"160px"})
+				}else{
+					 $listLi.each(function(index){
+						if($(this).find("a").hasClass("cur")){
+							modelVal=$("p",this).text();
+							modelId=$(this).attr("id");
+							$("input[name=templateId]").val(modelVal).attr("id",modelId);
+							delPop();
+						}
+					});
+				}
+		}
+		function openFile(){
+		     var $selectCampType=$("#selectCampType");
+	         $selectCampType.addInteractivePop({magTitle:"选择模板",mark:true,height:380});
+			 $.ajax({
+			        url:'template/option?platCode=taobao',
+				  // url:"/data/market/loadTpl.json",
+                    async: false,
+                    type:"GET",
+					cache:false,
+					dataType : "json",
+                    success:function(response){
+					    var data=response.data;
+						var len=data.length;
+						var $ul=$("#selectCampType .campTypeList ul");
+						var cls="";
+						$ul.find("li").remove();
+						for(var i=0;i<len;i++){
+						    var templateName=data[i].templateName;
+							if(templateName=="短信营销模板"){
+                                cls="noteTpl";
+							}else if(templateName=="邮件营销模板"){
+							    cls="mailTpl";
+							}else if(templateName=="优惠券营销模板"){
+							    cls="couponTpl";
+							}
+						    var li='<li class="'+cls+'" id="'+data[i].templateId+'" ><a href="javascript:void(0);"></a><p>'+templateName+'</p></li>';
+							$ul.append(li);
+						}
+						$listLi=$("#selectCampType li");
+					}
+			 });
+			 $("#selectCampType .popSure").unbind("click");
+			 $("#selectCampType .popSure").bind("click",function(){
+					selectCampType();
+			});
+	        $listLi.unbind("dblclick").bind("dblclick",function(){
+			      selectCampType();
+		    });
+			$("#selectCampType:last .popCancel").bind("click",function(){
+				delPop();
+			});
+		}
+		function validateCustom(){
+		    var flag1=true;
+		    $(".marketLayer [validate='required']").each(function(i){
+			
+		         var $this=$(this);
+		         if($this.val()==""){
+                    $this.addClass("isError");
+                    var $pDiv=$(this).parent();
+                    if($this.siblings(".promptText").length==0){
+                         $('<span class="promptText red">此选项必填</span>').appendTo($pDiv);
+                    }
+                    flag1=false;
+		         }else if($this.hasClass("isError")){
+				    flag1=false;
+				 }else{
+		            $this.removeClass("isError");
+		            $this.siblings(".promptText").remove();
+		         }
+		         //$(".promptText").eq("0").text();
+		    });
+            $(".marketLayer [validate='required']").bind("focus",function(){
+		        $(this).removeClass("isError");
+		        $(this).siblings(".promptText").remove();
+	        });
+	        return flag1;
+		}
+		//ie8 input maxlength bug
+		$("[name='campDesc']").textarealimit({length:500 });
+</script>
+

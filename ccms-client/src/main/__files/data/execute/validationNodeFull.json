@@ -1,0 +1,18 @@
+﻿{
+"status":0, 
+"data":{
+    "campaignId":123,
+    "workflowId":567,
+    "pass":true,
+    "visit":"2013-04-09 12:00:00",
+    "details":
+        [
+        {"type":"error","message":"流程中存在闭环"},
+        {"type":"error","message":"流程中存在孤立节点"},
+        {"type":"error","nodeId":1,"message":"时间未配置"},
+        {"type":"error","nodeId":2,"message":"渠道发送时间早于当前"},
+        {"type":"error","nodeId":3,"message":"未选择优惠券通道"},
+        {"type":"warn","nodeId":4,"message":"查询条件冲突"}
+        ]
+    }
+}

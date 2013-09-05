@@ -1,0 +1,77 @@
+<div class="upload_msg modifyAffair" id="addAffair">
+	<div class="upload_msg_m">
+		<dl>
+			<dt><span class="red">*</span>事务标题：</dt>
+			<dd>
+				<div class="myaffair_textarea"><textarea maxlength="100" placeholder="最多可以输入100个字" id="addAffairTitle"></textarea></div>
+			</dd>
+			<dt>来源：</dt><dd>{{sourceName}}</dd>
+			<dt><span class="red">*</span>类型：</dt>
+			<dd>
+				<select class="borderHighlight" id="sourceType"><option ng-repeat="s in sourceTypeAry" value="{{s.id}}">{{s.name}}</option></select>
+				<div class="smalldarkerblueBtn newbuildBtn" style="margin-left:8px;"><a add-source="{shopId: commShopId, sourceId: sourceId, sourceName: sourceName, callback: addAffair.getSourceType}" href="javascript:void(0);">新增类型</a></div>
+				<i class="ccms_tips" ng-title="添加自定义的'类型'，并且自动保存到'来源类型设置"></i>
+			</dd>
+			
+			<dt><span class="red">*</span>重要性：</dt>
+			<dd>
+				<select class="borderHighlight" id="important"><option ng-repeat="i in importantAry" value="{{i.value}}">{{i.name}}</option></select>
+			</dd>
+			<dt>创建人：</dt>
+			<dd><span class="mr20">{{subUser}}</span><a href="javascript:void(0);" ng-click="bindSubuser.show(checkedTip);">{{checkedTip}}旺旺子账号</a><i ng-title="事务跟进需要与旺旺子账号相关联，方便系统升级后，直接通过旺旺提醒工作人员处理" class="ccms_tips"></i></dd>
+			<dt><span class="red">*</span>处理人：</dt>
+			<dd>
+				<select class="borderHighlight" id="customerService">
+					<option valign=""></option>
+					<option ng-repeat="c in customerServiceAry" value="{{c.nick}}">{{c.nick}}</option>
+				</select>
+			</dd>
+			<dt><span class="red">*</span>超期时间：</dt>
+			<dd>
+				<input class="borderHighlight" id="expirationTime" readOnly="readOnly" />
+			</dd>
+			<dt>事务备注：</dt>
+			<dd>
+				<div class="myaffair_textarea"><textarea style="height:80px;" maxlength="500" id="addAffairNote"></textarea></div>
+			</dd>
+		</dl>
+		<div class="mt20"><button class="btn btnBlue" style="margin-left:0;" ng-click="addAffair.save();">确定</button><button class="btn" ng-click="addAffair.close();">取消</button></div>
+	</div>
+</div>
+<div class="upload_msg modifyAffair" id="bindSubuser" style="width:400px;">
+	<div class="upload_msg_m">
+		<dl>
+			<dt style="width:128px;">选择您的旺旺子账号：</dt>
+			<dd>
+				<select id="subUsers" class="borderHighlight" style="width:200px;"></select>
+			</dd>
+		</dl>
+		<div class="mt20"><button class="btn btnBlue" style="margin-left:0;" ng-click="bindSubuser.save();">确定</button><button class="btn" ng-click="bindSubuser.close();">取消</button></div>
+	</div>
+</div>
+
+<div id="addRemark" style="display:none;">
+	<table class="SMS_Table">
+		<tr>
+			<th>旗帜标记</th>
+			<td>
+				<input value="1" class="mr5" name="remark" type="radio"/><a class="remark remark1"></a> <input name="remark" value="2" class="ml10 mr5" type="radio"/><a class="remark remark2"></a> <input name="remark" value="3" class="ml10 mr5" type="radio"/><a class="remark remark3"></a> <input name="remark" value="4" class="ml10 mr5" type="radio"/><a class="remark remark4"></a> <input name="remark" value="5" class="ml10 mr5" type="radio"/><a class="remark remark5"></a>
+			</td>
+		</tr>
+		<tr>
+			<th valign="top">备注信息</th>
+			<td class="w400"><textarea class="mh100" id="remarkCont" name="remarkCont" maxlength="500" ng-entry-fontlen ></textarea>
+			<p class="mt5">已输入<strong class="mseLen entryFontLen">0</strong>字</p>
+			</td>
+		</tr>
+		
+		<tr>
+			<th></th>
+			<td>
+				<div class="cc_btn">
+					<button ng-click="addRemark.save()" class="btn btnBlue">确定</button><button ng-click="addRemark.close()" class="btn">取消</button>
+				</div>
+			</td>
+		</tr>
+	</table>
+</div>

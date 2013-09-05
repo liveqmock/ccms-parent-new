@@ -1,0 +1,14 @@
+{
+    "request": {
+        "method": "GET",
+        "urlPattern": "/ordermonitor/orders/orderMonitor.*"
+    },
+    "response": {
+        "status": 200,
+        "bodyFileName": "/data/order/orderMonitor.json",
+        "headers": {
+            "Content-Type": "application/json",
+            "Cache-Control": "max-age=86400"
+        }
+    }
+}

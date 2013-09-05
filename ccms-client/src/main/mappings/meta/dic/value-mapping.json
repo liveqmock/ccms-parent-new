@@ -1,0 +1,14 @@
+{
+    "request": {
+        "method": "GET",
+        "urlPattern": "/meta/dic/[1-9]+/value"
+    },
+    "response": {
+        "status": 200,
+        "bodyFileName": "/data/findNode/attribute/value.json",
+        "headers": {
+            "Content-Type": "application/json",
+            "Cache-Control": "max-age=86400"
+        }
+    }
+}

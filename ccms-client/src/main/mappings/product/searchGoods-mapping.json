@@ -1,0 +1,14 @@
+{
+    "request": {
+        "method": "POST",
+        "urlPattern": "/product/goods"
+    },
+    "response": {
+        "status": 200,
+        "bodyFileName": "3rd/productSelected/goods.json",
+        "headers": {
+            "Content-Type": "application/json",
+            "Cache-Control": "max-age=86400"
+        }
+    }
+}

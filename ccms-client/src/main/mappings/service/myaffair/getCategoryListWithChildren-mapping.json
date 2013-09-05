@@ -1,0 +1,14 @@
+{
+    "request": {
+        "method": "POST",
+        "urlPattern": "/category/getCategoryListWithChildren"
+    },
+    "response": {
+        "status": 200,
+        "bodyFileName": "/data/service/myaffair/getCategoryListWithChildren.json",
+        "headers": {
+            "Content-Type": "application/json",
+            "Cache-Control": "max-age=86400"
+        }
+    }
+}

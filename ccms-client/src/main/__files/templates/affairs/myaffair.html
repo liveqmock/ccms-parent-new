@@ -1,0 +1,264 @@
+
+<nscript get-root type="text/javascript" _src="scripts/service/myaffair.js"></nscript>
+<div class="maincontainerB kf_wrap">
+    <div class="maincontainer kf_wrap_cont" ng-controller="myaffair">
+		<div class="clearfix">
+			<h2 class="heading fl kf_head">事务列表</h2>
+			<div class="shopinfo fl mt5 ml10" id="shopinfo">
+				<b>店铺选择 :</b><span class="" id="{{shopId}}">{{shop.shopName}}<i></i></span>
+				<dl style="display: none;">
+					<dd ng-click="reset();init(s);" ng-repeat="s in shops" shop_id="{{s.shopId}}"><a href="javascript:void(0)">{{s.shopName}}</a></dd>
+				</dl>
+			</div>
+		</div>
+		
+		<div class="myaffairBox clearfix">
+			<div class="myaffairBoxLeft">
+				<div class="boxSearch clearfix">
+					<div class="vm mr5 f_l mt5" id="showFilterBtn">
+						<span class="boxSearch_icon"></span>
+						<div class="affairFilters" id="showFilterWin">
+							<div class="filters_top"><span><strong></strong></span></div>
+							<div class="filters_main">
+								<ul id="affairFilters">
+									<li><a href="javascript:void(0);"><i class="affair_ico1"></i>所有事务</a></li>
+									<li><a href="javascript:void(0);" ng-click="filterTree($event, {'founder': subUserName});"><i class="affair_ico2"></i>我创建的事务</a></li>
+									<li><a href="javascript:void(0);" ng-click="filterTree($event, {'currentHandler': subUserName});"><i class="affair_ico3"></i>待我处理的事务</a></li>
+									<li>
+										<a href="javascript:void(0);"><i class="affair_ico_plus"></i>来源</a>
+										<ul>
+											<li ng-repeat="s in affairSource">
+												<a href="javascript:void(0);" ng-click="filterTree($event, {'sourceId' :s.id});"><i ng-class="curAffairIco(s.subList);"></i>{{s.name}}</a>
+												<ul>
+													<li ng-repeat="ss in s.subList"><a href="javascript:void(0);" ng-click="filterTree($event, {'sourceId': s.id,'sourceTypeId': ss.id});"><i ng-class="curAffairIco(ss.subList);"></i>{{ss.name}}</a></li>
+												</ul>
+											</li>
+										</ul>
+									</li>
+									<li>
+										<a href="javascript:void(0);"><i class="affair_ico_plus"></i>发起人</a>
+										<ul>
+											<li ng-repeat="c in customerService">
+												<a href="javascript:void(0);" ng-click="filterTree($event, {'founder' :c.nick});"><i class="affair_ico"></i>{{c.nick}}</a>
+											</li>
+										</ul>
+									</li>
+									<li>
+										<a href="javascript:void(0);"><i class="affair_ico_plus"></i>处理人</a>
+										<ul>
+											<li ng-repeat="c in customerService">
+												<a href="javascript:void(0);" ng-click="filterTree($event, {'currentHandler' :c.nick});"><i class="affair_ico"></i>{{c.nick}}</a>
+											</li>
+										</ul>
+									</li>
+									<li>
+										<a href="javascript:void(0);"><i class="affair_ico_plus"></i>优先级</a>
+										<ul>
+											<li ng-repeat="i in importantAry">
+												<a href="javascript:void(0)" ng-click="filterTree($event, {'important': i.value})"><i class="affair_ico"></i>{{i.name}}</a>
+											</li>
+										</ul>
+									</li>
+									<li>
+										<a href="javascript:void(0);"><i class="affair_ico_plus"></i>事务状态</a>
+										<ul>
+											<li ng-repeat="s in statusAry">
+												<a href="javascript:void(0)" ng-click="filterTree($event, {'status': s.value})"><i class="affair_ico"></i>{{s.name}}</a>
+											</li>
+										</ul>
+									</li>
+								</ul>
+							</div>
+						</div>
+					</div>
+					<span class="pr f_l boxSearch_input"><input type="text" placeholder="搜索" ng-model="keyword" ng-keydown="affairSearch('keydow', $event);" /><button ng-click="affairSearch();" class="boxSearch_btn pa"></button></span>
+				</div>
+				<dl class="boxSearchResult clearfix">
+					<dt>
+						排序方式：
+						<select class="borderHighlight w150" ng-model="aFilter" ng-change="currentPage = 1;findAffairs(shop)" ng-options="f.showName for f in affairFilter"></select>
+					</dt>
+					<dd>
+						<ul id="myAffairList">
+							<li ng-repeat="a in affairs" ng-class="navAffair(a);">
+								<h3 class="boxSearchResult_tit mb5"><i class="vm" ng-class="txtImportant('ico', a.important);"></i><a ng-href="#/affairs/myaffair?id={{a.affairsId}}">{{a.title}}</a></h3>
+								<p class="boxSearchResult_Remark">
+									<span><i class="remark_user vm"></i>{{a.founder}} </span>
+									<span><i class="remark_follow vm"></i>{{a.handleSize}}条跟进 </span>
+									<span><i class="remark_time vm"></i>{{overTime(a.expirationTime, visitTime);}}</span>
+								</p>
+							</li>
+							<li><a class="load_more_btn" href="javascript:void(0);" ng-click="addAffairs();" ng-show="showLoadmoreBtn">载入更多事务记录</a></li>
+						</ul>
+					</dd>
+				</dl>
+			</div>
+			<div class="myaffairBoxRight" id="myaffairBoxRight">
+				<div ng-show="!loadAffairDetail" class="loading" style="margin:-9px 0 0 45px;"><i></i>努力加载中...</div>
+				<div ng-show="showAffairDetail && loadAffairDetail" class="myaffairRight">
+					<div class="myaffair_main">
+						<h3>{{affairDetail.title}}<a href="javascript:void(0);" class="affair_modify_btn" ng-click="modifyAffair.show();"></a></h3>
+						<div class="myaffair_sub">
+							<p class="myaffair_sub_t">
+								<span><i class="vm important_ico" ng-show="affairDetail.important != '1'" ng-class="txtImportant('ico', affairDetail.important, 'important_');"></i>该事务重要性为：{{txtImportant('text', affairDetail.important);}}</span>
+								<span>状态为：{{getStatusName(affairDetail.status);}}</span>
+								<span>来源：{{affairDetail.source}}</span>
+								<span>类型：{{affairDetail.source_type}}</span>
+								<span class="red"><i class="remark_time_ico"></i>{{overTime(affairDetail.expiration_time, visit_time);}}</span>
+							</p>
+							<p><span>处理人：{{affairDetail.current_handler}}</span><span>超期时间：{{affairDetail.expiration_time}}</span><span>创建人：{{affairDetail.founder}}</span><span>创建时间：{{affairDetail.created}}</span></p>
+						</div>
+						<p>备注：{{affairDetail.note}}</p>
+					</div>
+					<div class="myaffair_box">
+						<h4><a href="javascript:void(0);" class="myaffair_icoDown"></a>客户信息</h4>
+						<div class="myaffair_box_m custom_info">
+							<ul class="clearfix">
+								<li>
+									<p><label>淘宝昵称：</label><a target="_blank" ng-href="http://amos.alicdn.com/msg.aw?v=2&amp;uid={{userInfo.customerno}}&amp;site=cntaobao&amp;s=2&amp;charset=utf-8">{{userInfo.customerno}}</a></p>
+									<p><label>姓名：</label>{{userInfo.full_name}}</p>
+									<p><label>性别：</label>{{userInfo.sex}}</p>
+									<p><label>生日：</label>{{userInfo.birthday}}</p>
+									<p><label>年龄：</label>{{userInfo.age}}</p>
+								</li>
+								<li>
+									<p><label>手机：</label>{{userInfo.mobile}}</p>
+									<p><label>邮箱：</label><a ng-href="mailto:{{userInfo.email}}">{{userInfo.email}}</a></p>
+									<p><label>注册时间：</label>{{userInfo.created}}</p>
+									<p><label>信用等级：</label>{{userInfo.buyerCreditLevel}}</p>
+									<p><label>好评率：</label>{{userInfo.buyerGoodRate}}</p>
+								</li>
+								<li>
+									<p><label>省份：</label>{{userInfo.state}}</p>
+									<p><label>城市：</label>{{userInfo.city}}</p>
+									<p><label>区县：</label>{{userInfo.district}}</p>
+									<p><label>地址：</label>{{userInfo.address}}</p>
+									<p><label>邮编：</label>{{userInfo.zip}}</p>
+								</li>
+							</ul>
+						</div>
+					</div>
+					<div class="myaffair_box">
+						<h4><a href="javascript:void(0);" class="myaffair_icoUp"></a>订单信息</h4>
+						<div class="myaffair_box_m order_info">
+							<table>
+								<thead>
+									<tr>
+										<td>
+											<span>成交时间：{{tidInfo.pay_time}}</span><span>订单编号：{{tidInfo.tid}}</span>
+											<span><a ng-href="http://amos.alicdn.com/msg.aw?v=2&uid={{userInfo.customerno}}&site=cntaobao&s=2&charset=utf-8"><img class="vm" ng-src="http://amos.alicdn.com/online.aw?v=2&amp;uid={{userInfo.customerno}}&amp;site=cntaobao&amp;s=2&amp;charset=utf-8">{{userInfo.customerno}}</a></span>
+											<span class="color_high">￥{{tidInfo.payment}}</span>
+										</td>
+										<td align="center">
+											<a href="javascript:void(0);" class="ico_msg" ng-show="tidInfo.buyerMemo" ng-title="{{tidInfo.buyerMemo}}"></a>&nbsp;
+											<a href="javascript:void(0);" class="remark remark{{tidInfo.sellerFlag}}" ng-show="tidInfo.sellerMemo" ng-title="{{tidInfo.sellerMemo}}"></a>
+										</td>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td>
+											<table>
+												<tbody>
+													<tr ng-repeat="o in oidInfo">
+														<td>
+															<a class="f_l mr10" ng-href="{{o.picUrl}}"><img ng-src="{{o.picPath}}_60x60.jpg" /></a>
+															<div class="order_tid_title"><a ng-href="{{o.titleUrl}}">{{o.title}}</a></div>
+															<p class="color_gray">{{o.sku_properties_name}}</p>
+														</td>
+														<td>{{o.payment}} <span class="color_gray">({{o.num}})</span></td>
+														<td class="color_high ac">{{getStatus(o.refundStatus, o.status);}}</td>
+														<td ng-show="o.result"><span class="result" ng-class="setGradeIcon(o.result)"></span></td>
+													</tr>
+												</tbody>
+											</table>
+										</td>
+										<td class="ac p10">
+											<p>{{tidInfo.ostatus}}</p>
+											<p class="mb5 refundStatus5">{{tidInfo.shippingStatus}}</p>
+											<p ng-hide="tidInfo.out_sid && tidInfo.out_sid != 'null'">无物流单号</p>
+											<p ng-show="tidInfo.out_sid && tidInfo.out_sid != 'null'"><span ng-tip-box="tidInfo.tid"><i class="ico_logistics"></i>{{tidInfo.company_name}}</span></p>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+					
+					<div class="myaffair_box">
+						<h4><a href="javascript:void(0);" class="myaffair_icoUp"></a>跟进信息</h4>
+						<div class="myaffair_box_m myaffair_msg_list">
+							<p style="padding:10px 0;" ng-show="!affairHandles.length">还没有备注信息哦，添加备注请点击下面“跟进”按钮</p>
+							<ul ng-show="affairHandles.length">
+								<li ng-repeat="a in affairHandles">
+									<div>{{a.note}}</div>
+									<p><span><i class="remark_user vm"></i>{{a.founder}} </span><span>指派给：{{a.next_handler}}</span><span>处理时间：{{a.created}}</span></p>
+								</li>
+							</ul>
+							
+							
+						</div>
+					</div>
+					
+					<div>
+						<button ng-show="!showAffairHandle" ng-click="showAffairHandle = true;" class="btn btnBlue">跟进</button>
+						<!-- TODO
+						<a ng-click="bindSubuser.show(checkedTip);" href="javascript:void(0);">修改旺旺子账号</a>
+						<i class="ccms_tips" ng-title="事务跟进需要与旺旺子账号相关联，方便系统升级后，直接通过旺旺提醒工作人员处理"></i>
+						-->
+					</div>
+					<div ng-show="showAffairHandle">
+						<h5>备注</h5>
+						<div class="myaffair_textarea"><textarea ng-model="affairNote" placeholder="请输入备注.." maxlength="500"></textarea></div>
+						<div class="mt5">
+							<label>指派给<select class="borderHighlight w100" ng-model="affairHandler" ng-options="c.nick for c in customerService"><option value="">无</option></select></label>
+							<label class="ml30">事务状态<select class="borderHighlight w100" ng-model="affairStatus" ng-options="s.name for s in statusAry"></select></label>
+						</div>
+						<div class="mt10">
+							<button class="btn btnBlue" ng-click="handleAffairs();">提交</button><button class="btn" ng-click="showAffairHandle = false;">取消</button>
+						</div>
+					</div>
+					
+				</div>
+			</div>
+		</div>
+		
+		<div class="upload_msg modifyAffair" id="modifyAffair">
+			<div class="upload_msg_m">
+				<dl>
+					<dt>事务标题：</dt>
+					<dd>
+						<div class="myaffair_textarea"><textarea id="modifyTitle" ng-model="affairModify.title" maxlength="100" disabled="disabled"></textarea></div>
+					</dd>
+					<dt>重要性：</dt>
+					<dd>
+						<select class="borderHighlight" id="modifyImportant" ng-model="affairModify.importantObj" ng-options="i.name for i in importantAry"></select>
+					</dd>
+					<dt>事务状态：</dt>
+					<dd>
+						<select class="borderHighlight" id="modifyStatus" ng-model="affairModify.statusObj" ng-options="s.name for s in statusAry"></select>
+					</dd>
+					<dt>处理人：</dt>
+					<dd>
+						<select class="borderHighlight" id="currentHandler" ng-model="affairModify.currentHandlerObj" ng-options="c.nick for c in customerService"><!--<option ng-repeat="c in customerService" ng-selected="c.nick == affairDetail.current_handler">{{c.nick}}</option>--></select>
+					</dd>
+					<dt>超期时间：</dt>
+					<dd>
+						<input class="borderHighlight" ng-model="affairModify.expiration_time" id="expirationTime" readOnly="readOnly" />
+					</dd>
+					<dt>事务备注：</dt>
+					<dd>
+						<div class="myaffair_textarea"><textarea style="height:80px;" id="modifyNote" ng-model="affairModify.note" maxlength="500"></textarea></div>
+					</dd>
+				</dl>
+				<div class="mt20"><button class="btn btnBlue" style="margin-left:0;" ng-click="modifyAffair.save();">确定</button><button class="btn" ng-click="modifyAffair.close();">取消</button></div>
+			</div>
+		</div>
+		
+		
+	</div>
+
+
+</div>
+
+

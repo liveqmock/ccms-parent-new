@@ -1,0 +1,14 @@
+{
+    "request": {
+        "method": "GET",
+		"urlPattern":"/schedule/job/[0-9]+/node/snapshot"
+    },
+    "response": {
+        "status": 200,
+        "bodyFileName": "/data/execute/Result.json",
+        "headers": {
+            "Content-Type": "application/json",
+            "Cache-Control": "max-age=86400"
+        }
+    }
+}

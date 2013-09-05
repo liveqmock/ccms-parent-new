@@ -1,0 +1,32 @@
+{
+"code":0,
+"status":"ok",
+"data":{
+    "total":10000,
+    "handled":5021,
+    "remarked":8000,
+    "remarkedRate":80,
+    "plans":[
+        {"name":"方案1购物100元送礼券",
+         "handled":3982,
+         "rules":[
+             {"name":"1尊贵VIP或高级VIP",
+              "remark":"发顺丰",
+			  "position":1,
+              "remarkedRate":20
+             },
+			  {"name":"2尊贵VIP或高级VIP",
+              "remark":"发顺丰",
+			  "position":2,
+              "remarkedRate":30
+             },
+			  {"name":"3尊贵VIP或高级VIP",
+              "remark":"发顺丰",
+			  "position":3,
+              "remarkedRate":50
+             }
+         ]
+        }
+      ]
+}
+}

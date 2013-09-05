@@ -1,0 +1,64 @@
+﻿{"total":2,"page":1,"pageSize":20,"data":[
+	{
+		"couponId":123456,
+		"couponName":"双11满100减10",
+		"couponType":"taobao",
+		"createTime":"20131001 12:00:00",
+		"startTime":"20131001 00:00:00",
+		"endTime":"20131010 12:00:00",
+		"available":true,
+		"enable":true,
+		"denomination":{"denominationId":1,"denominationName":"3元","denominationValue":3},
+		"shop":{"shopId":"123","shopName":"数云旗舰店","shopType":"taobao"},
+		"creator":{"userId":1,"userType":"taobao","loginName":"数云旗舰店:客服1","realName":"数云旗舰店:客服1"},
+		"threshold":0,
+		"remark":""
+	},
+	{
+		"couponId":574641,
+		"couponName":"11满100减10",
+		"couponType":"taobao",
+		"createTime":"20131001 12:00:00",
+		"startTime":"20131001 00:00:00",
+		"endTime":"20131010 12:00:00",
+		"available":false,
+		"enable":true,
+		"denomination":{"denominationId":1,"denominationName":"3元","denominationValue":3},
+		"shop":{"shopId":"222","shopName":"数云旗舰店","shopType":"taobao"},
+		"creator":{"userId":1,"userType":"taobao","loginName":"数云旗舰店:客服1","realName":"数云旗舰店:客服1"},
+		"threshold":99,
+		"remark":"备注备注.."
+	},
+	{
+		"couponId":13246574,
+		"couponName":"双11满100减10",
+		"couponType":"taobao",
+		"createTime":"20131001 12:00:00",
+		"startTime":"20131001 00:00:00",
+		"endTime":"20131010 12:00:00",
+		"available":true,
+		"enable":true,
+		"denomination":{"denominationId":1,"denominationName":"3元","denominationValue":3},
+		"shop":{"shopId":"333","shopName":"数云旗舰店","shopType":"taobao"},
+		"creator":{"userId":1,"userType":"taobao","loginName":"数云旗舰店:客服1","realName":"数云旗舰店:客服1"},
+		"threshold":8888,
+		"remark":"备注备注备注备注备注备注备注备注备注备注备注备注备注备注.."
+	},
+	{
+		"couponId":654646,
+		"couponName":"双11满100减10",
+		"couponType":"taobao",
+		"createTime":"20131001 12:00:00",
+		"startTime":"20131001 00:00:00",
+		"endTime":"20131010 12:00:00",
+		"available":true,
+		"enable":false,
+		"denomination":{"denominationId":1,"denominationName":"3元","denominationValue":3},
+		"shop":{"shopId":"44444","shopName":"数云旗舰店","shopType":"taobao"},
+		"creator":{"userId":1,"userType":"taobao","loginName":"数云旗舰店:客服1","realName":"数云旗舰店:客服1"},
+		"threshold":100,
+		"remark":"备注备注备注备注备注备注备注备注备注备注备注备注备注备注备注备注备注备注备注备注备注备注.."
+	}
+]}
+ 
+ 

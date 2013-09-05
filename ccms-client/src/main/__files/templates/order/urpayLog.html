@@ -1,0 +1,218 @@
+
+<script>
+
+function urpayLog($scope,$http,$location){
+	$scope.tips = '查看客户关怀和催付的发送记录，了解客户维护情况';
+	//时间限制
+	var logMinDate = -29,logMaxDate = '0y 0m 0d';
+	
+	function bindDatepicker(_startDate,_endDate){
+		_startDate.datetimepicker({
+			timeFormat:'HH:mm:ss',
+			showSecond:true,
+			changeMonth:true,
+			changeYear:true,
+			minDate: logMinDate,
+			maxDate: logMaxDate,
+			onClose: function(dateText){
+				if(dateText){
+					_startDate.datetimepicker('setDate', dateText);
+					var startDate = _startDate.datetimepicker('getDate'),
+						endDate = _endDate.datetimepicker('getDate');
+					_endDate.datetimepicker('option', 'minDate', dateText);
+				}
+			}
+		});
+		_endDate.datetimepicker({
+			timeFormat:'HH:mm:ss',
+			showSecond:true,
+			changeMonth:true,
+			changeYear:true,
+			minDate: logMinDate,
+			maxDate: logMaxDate,
+			onClose: function(dateText) {
+				if(dateText){
+					_endDate.datetimepicker('setDate', dateText);
+					var startDate = _startDate.datetimepicker('getDate'),
+						endDate = _endDate.datetimepicker('getDate');
+					_startDate.datetimepicker('option', 'maxDate', dateText);
+				}
+			}
+		});
+	}
+	var datePickerObj = [{"s":$('#startCreated'),"e":$('#endCreated')},{"s":$('#sendStartCreated'),"e":$('#sendEndCreated')}];
+	$.each(datePickerObj,function(i,n){
+		bindDatepicker(n.s,n.e);
+	});
+	
+	var _startDate = $('#startCreated'),
+		_endDate = $('#endCreated');
+	$http.get(root+"shop/taobao/list").success(function(res){
+		$scope.shops = res.data.shops;
+		$http.get(root+'urpay/urpaySummary/urpayType').success(function(resp){
+			$scope.urpayTypeList = [{"type":"","value":"不限"}].concat(resp.data);
+			$scope.$watch(function(){return $location.search();},function(search){
+				if($location.path() == '/order/urpayLog'){
+					if(search.dpId){//判断是点击详情过来的还是在本页面筛选
+						//筛选参数设置
+						$scope.urpayType = ccms.getObjInAry($scope.urpayTypeList,search.type,'type');
+						$scope.query = '';
+						
+						//时间限制
+						
+						_startDate.datetimepicker('option', 'maxDate',search.endCreated);
+						_startDate.datetimepicker('setDate',search.startCreated);
+						_endDate.datetimepicker('option', 'minDate',search.startCreated);
+						_endDate.datetimepicker('setDate',search.endCreated);
+						
+						$scope.init(ccms.getObjInAry($scope.shops,search.dpId,'shopId'));
+					}else{
+						$scope.reset();
+						$scope.init($scope.shops[0]);
+
+					}
+				}
+			});
+		})
+	});
+
+	ccms.fixedHeight($('#urpayLogList'), 37);
+
+	
+	$scope.reset = function(){
+		$scope.query = '';
+		$('.datetimepicker').val('');
+		$.each(datePickerObj,function(i,n){
+			n.s.datetimepicker('option', 'maxDate',logMaxDate);
+			n.e.datetimepicker('option', 'minDate',logMinDate);
+		});
+		$scope.urpayType = $scope.urpayTypeList[0];
+	}
+	
+	$scope.changeShop = function(shop){
+		$scope.reset();
+		$scope.init(shop);
+	}
+
+
+	$scope.init = function(shop){
+		$scope.shop = shop;
+		var params = {
+			dpId: $scope.shop.shopId,
+			type: $scope.urpayType.type,
+			mobileOrNickOrTid: $scope.query,
+			startCreated: ccms.getSecond(_startDate.val()),
+			endCreated: ccms.getSecond(_endDate.val()),
+			sendStartCreated: ccms.getSecond($('#sendStartCreated').val()),
+			sendEndCreated: ccms.getSecond($('#sendEndCreated').val())
+		};
+		
+		var errorStr = '';
+		$('#log_filter li.datepickerWrap').each(function(){
+			if($('input[value!=""]',this).length == 1){
+				errorStr += '<p>请填写'+($('label',this).text()).replace('时间：','')+$('input[value=]',this).attr('placeholder')+'</p>';
+			}
+		});
+		
+		if((params.startCreated+''+params.endCreated).length != 13 && params.startCreated > params.endCreated){
+			errorStr += '<p>下单结束时间要大于开始时间</p>';
+		}
+		if((params.sendStartCreated+''+params.sendEndCreated).length != 13 && params.sendStartCreated > params.sendEndCreated){
+			errorStr += '<p>发送结束时间要大于开始时间</p>';
+		}
+		if(errorStr){
+			$(this).Alert({"title": "提示","str": errorStr,"mark": true,"width": "190px"});
+			return false;
+		}
+		$scope.showUrypayLog = false;
+		
+		$scope.checkIsPager(arguments,$scope,1,20);//分页必须 -- 检查执行的函数是在页面其他地方发起还是分页上 下面的$scope.defaultPage和$scope.defaultSize也是必须，而且必须在checkIsPager()之后
+		
+		$http.get(root+'urpay/urpaySummary/urpayLogList?'+$.param(params)+'&currPage='+$scope.defaultPage+'&pageSize='+$scope.defaultSize+'&_='+thisTime).success(function(res){
+			var data = res.data;
+			$scope.logList = data.content;
+			
+			//分页必须  分页配置
+			$scope.pagerSetting = {
+				curpage: data.currPage,
+				total: data.totalElements,
+				totalPages: data.totalPages,
+				totalTip: '本次筛选出发送记录{total}条',
+				exportUrl: root+'urpay/urpaySummary/downloadUrpayLog?'+$.param(params),
+				rp: data.pageSize,
+				submit: function(){
+					$scope.init(shop,'isPager');
+				}
+			}
+			$scope.showUrypayLog = true;
+		});
+
+	}
+}
+$(function(){
+	$(".ccms_tips").Tips();
+});
+</script>
+<div class="maincontainerB order_main_wrap">
+    <div class="maincontainer" ng-controller="urpayLog">
+		<div class="urpayLogWrap">
+			<div class="clearfix">
+				<h2 class="heading fl">发送记录</h2>
+				<span id="ccms_tips" class="ccms_tips fl">
+					<span class="ccms_tipsContent" style="display: none;"><b></b>{{tips}}</span>
+				</span>
+				<div class="shopinfo" id="shopinfo">
+					<b>店铺选择 :</b><span>{{shop.shopName}}<i></i></span>
+					<dl style="display: none;">
+						<dd ng-repeat="s in shops" ng-click="changeShop(s);"><a href="javascript:void(0)">{{s.shopName}}</a></dd>
+					</dl>
+				</div>
+			</div>
+			<form class="log_filter" id="log_filter">
+				<ul class="clearfix">
+					<li class="datepickerWrap">
+						<label>下单时间：</label><input type="text" readonly="readOnly" ng-model="startCreated" id="startCreated" class="borderHighlight datetimepicker" placeholder="开始时间" /> - &nbsp;<input type="text" class="borderHighlight datetimepicker" readonly="readOnly" ng-model="endCreated" id="endCreated" placeholder="结束时间" />
+					</li>
+					<li class="datepickerWrap">
+						<label>发送时间：</label><input type="text" readonly="readOnly" ng-model="sendStartCreated" id="sendStartCreated" class="borderHighlight datetimepicker" placeholder="开始时间" /> - &nbsp;<input type="text" class="borderHighlight datetimepicker" readonly="readOnly" ng-model="sendEndCreated" id="sendEndCreated" placeholder="结束时间" />
+					</li>
+					<li><label>发送类型：<select class="borderHighlight width200" ng-model="urpayType" ng-options="t.value for t in urpayTypeList"></select></label></li>
+					<li><label>快速查询：<input type="text" class="borderHighlight" ng-model="query" size="40" placeholder="手机号/淘宝昵称/订单编号" /></label></li>
+				</ul>
+				<div class="filter_btns">
+					<button type="submit" ng-click="init(shop);" class="btn btnBlue ng-binding">筛选</button>
+					<a href="javascript:;" ng-click="reset();">重置</a>
+				</div>
+			</form>
+			<div class="log_header clearfix"><h3>发送记录列表</h3></div>
+			<div class="order_reportList" id="urpayLogList">
+				<div ng-show="!showUrypayLog" class="loading"><i></i>努力加载中...</div>
+				<table ng-show="showUrypayLog">
+					<thead>
+						<tr>
+							<th>下单时间</th>
+							<th>发送时间</th>
+							<th>手机号码</th>
+							<th>发送类型</th>
+							<th>淘宝昵称</th>
+							<th>订单编号</th>
+							<th>短信内容</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr ng-repeat="l in logList" ng-class-even="'even'">
+							<td>{{l.tradeCreated}}</td>
+							<td>{{l.created}}</td>
+							<td>{{l.mobile}}</td>
+							<td>{{l.type}}</td>
+							<td><a title="点击这里给我发消息" target="_blank" ng-href="http://amos.alicdn.com/msg.aw?v=2&uid={{l.buyerNick}}&site=cntaobao&s=2&charset=utf-8" >{{l.buyerNick}} &nbsp;<img class="vm" ng-src="http://amos.alicdn.com/online.aw?v=2&uid={{l.buyerNick}}&site=cntaobao&s=2&charset=utf-8" /></a></td>
+							<td>{{l.tid}}</td>
+							<td><span class="contentTips" ng-show="l.smsContent" ng-title="{{l.smsContent}}"></span></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<div class="urpay_pager" ng-pager="pagerSetting"></div>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,233 @@
+
+<div class="marketingCampNodeBg ng-scope">
+    <div class="triangleArrows goalTriangleArrows"></div>
+    <div class="marketingCampNode">
+    <div ng-controller="GoalCtrl">
+        <div class="clearfix moduleHeader titlebox">
+            <h4 class="fl">目标客户节点设置</h4>
+            <span class="fr">节点ID：<b style="font-weight:normal;"></b></span>
+        </div>
+        <form class="marketingCampNodeMain">
+            <div class="unBox">
+                <table class="ccmsTableB">
+                    <thead>
+                        <tr>
+                            <th><span>姓名</span></th>
+                            <th><span>性别</span></th>
+                            <th><span>生日</span></th>
+                            <th><span>省份</span></th>
+                            <th><span>城市</span></th>
+                            <th><span>客户全站等级</span></th>
+                            <th><span>淘宝呢称</span></th>
+                            <th><span>手机号</span></th>
+                            <th><span>email</span></th>
+                            <th><span>买家信用等级</span></th>
+                            <th><span>买家好评率</span></th>
+                            <th><span>地址</span></th>
+                        </tr>
+                    </thead>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                </table>
+                <p>* 该节点无需编辑，活动在执行后可以查看到客户数据</p>
+            </div>
+            <div class="inBox">
+                <p class="clearfix"><span class="blueTips_div fl">目标组默认只显示前100条客户数据,更多数据请下载明细</span><a class="formdownLoad fr downloadBtn" href="javascript:void(0);" title="下载">下载</a></p>
+                <div class="goalFlexigrid">
+                     <table class="ccmsTableB">
+                        <thead>
+                        <tr>
+                            <th><span>姓名</span></th>
+                            <th><span>性别</span></th>
+                            <th><span>生日</span></th>
+                            <th><span>省份</span></th>
+                            <th><span>城市</span></th>
+                            <th><span>客户全站等级</span></th>
+                            <th><span>淘宝呢称</span></th>
+                            <th><span>手机号</span></th>
+                            <th><span>email</span></th>
+                            <th><span>买家信用等级</span></th>
+                            <th><span>买家好评率</span></th>
+                            <th><span>地址</span></th>
+                        </tr>
+                        </thead>
+                        <tr ng-repeat="info in infos">
+                            <td>{{info.full_name}}</td>
+                            <td>{{info.sex}}</td>
+                            <td>{{info.birthday}}</td>
+                            <td>{{info.state}}</td>
+                            <td>{{info.city}}</td>
+                            <td>{{info.vip_info}}</td>
+                            <td>{{info.customerno}}</td>
+                            <td>{{info.mobile}}</td>
+                            <td>{{info.email}}</td>
+                            <td>{{info.buyer_credit_lev}}</td>
+                            <td>{{info.buyer_good_ratio}}</td>
+                            <td>{{info.address}}</td>
+                        </tr>
+                    </table>
+                    <!-- <div class="PageBox clearfix">
+                        <div class="fr">
+                            <button class="prevNone" title="" ng-click="firstPage()"></button>
+                            <button class="prev" title="前一页" ng-click="prevPage()"></button>
+                            <label>跳到</label> <input type="number" ng-change="change()" ng-model="goPage" min="1" max={{sumPage}} /> <label>页</label>
+                            <button class="next" title="下一页" ng-click="nextPage()"></button>
+                            <button class="nextNone" title="" ng-click="lastPage()"></button>
+                            <em>{{nowPage}}/{{sumPage}}</em>
+                            <select>
+                                <option>10</option>
+                                <option>15</option>
+                                <option>20</option>
+                            </select>
+                        </div>
+                    </div> -->
+                    <p>* 该节点无需编辑，活动在执行后可以查看到客户数据</p>
+                </div>
+            </form>
+        </div>
+    </div>
+    </div>
+</div>
+<script type="text/javascript">
+//编辑权限判断
+isEditNodeTpl();
+
+//判断活动是否执行
+var $unBox=$("div.unBox"),
+    $inBox=$("div.inBox");
+
+
+
+    $inBox.show().siblings(".unBox").hide();
+    //var nodeId=$(".canvas .graphRect:eq(3)").attr("id");
+    var nodeName=$(".canvas .graphRect:eq(3)").attr("alt");
+function GoalCtrl($scope,$http,$location){
+    $.ajax({//打开请求
+        "url":root+"node/target/"+nodeTplId,
+        //"url":"data/goalLink.json",
+        "type":"GET",
+        "dataType":"JSON",
+        "data":{"name":nodeName},
+        "success":function(wrapData){
+                
+            //$scope.goalId=wrapData.data[0].nodeId;
+            $(".titlebox b").text(nodeTplId);
+            var path=$location.path().split(":")[1];//获取执行状态请求
+            //$.post("data/getOneMarketList.json",{id:path.split(':')[1]},function(d){
+            
+            $http.get(root+'campaign/'+path).success(function(d){
+                var hdFlag=d.data[0].campStatus,
+				    jobId=$("select[name=cycleExecute]").val();
+                if(jobId){//B1执行过、A1设计
+                    setSaveFullIcon(nodeTplId);//去除mark
+                    function firstMethod(pageNum){
+                            $scope.pageDatas=pageNum;
+                            //$http.get("data/goal.json").success(function(res){//查看数据请求
+                            $http.get(root+"node/target/report/"+nodeTplId+"?campId="+path+"&jobId="+jobId).success(function(res){
+                                setSaveFullIcon(nodeTplId);//去除mark
+                                $scope.infos=res;
+                                //初始化
+                                /*$scope.goPage=1;
+                                $scope.nowPage=1;
+                                $scope.sumPage=Math.ceil(res.data.length/$scope.pageDatas);
+                                
+                                if($scope.sumPage <= 1 ){
+                                    $scope.infos=res.data;
+                                }else{
+                                    $scope.infos=res.data.slice(0,$scope.pageDatas*$scope.nowPage);
+                                };
+                                
+                                $scope.prevPage=function(){
+                                    $scope.nowPage--;
+                                    if($scope.nowPage<=0){
+                                        $scope.nowPage=1;
+                                        return;
+                                    }
+                                    $scope.infos=res.data.slice($scope.pageDatas*($scope.nowPage-1),$scope.pageDatas*$scope.nowPage);
+                                };
+                            
+                            $scope.nextPage=function(){
+                                $scope.nowPage++;
+                                if($scope.nowPage>$scope.sumPage){
+                                    $scope.nowPage=$scope.sumPage;
+                                    return;
+                                }
+                                $scope.infos=res.data.slice($scope.pageDatas*($scope.nowPage-1),$scope.pageDatas*$scope.nowPage);
+                            };
+                            
+                            $scope.firstPage=function(){
+                                $scope.nowPage=1;
+                                $scope.infos=res.data.slice(0,$scope.pageDatas*$scope.nowPage); 
+                            };
+                            
+                            $scope.lastPage=function(){
+                                $scope.nowPage=$scope.sumPage;
+                                $scope.infos=res.data.slice($scope.pageDatas*($scope.sumPage-1),$scope.pageDatas*$scope.sumPage);
+                            };
+                            
+                            $scope.change=function(){
+                                var pageFlag=typeof($scope.goPage)=="number" && $scope.goPage <= $scope.sumPage;
+                                if(pageFlag){
+                                    $scope.nowPage=$scope.goPage;
+                                    $scope.infos=res.data.slice($scope.pageDatas*($scope.nowPage-1),$scope.pageDatas*$scope.nowPage);
+                                }else{return false;}
+                            };*/
+                        }); 
+                    }
+                        
+                    firstMethod(10);//初始化10条数据
+//下载数据
+                    $(".inBox .downloadBtn").on("click",function(){
+                        var  jodId =$("select[name=cycleExecute]").val();
+                        window.location.href=root+"node/target/download/"+nodeTplId+"?campaignId="+path+"&jobId="+jodId;
+                    })      
+                
+//jQuery 切换显示数据条数
+                    $(".PageBox select").change(function(){
+                        var numVal=$(this).val();
+                        firstMethod(numVal);
+                    }); 
+                
+                    
+                }else{
+                    $unBox.show().siblings(".inBox").hide();
+                }
+            });
+            //},"JSON");
+        },
+        "error":function(){
+			$(this).Alert({"title":"提示","str":"网络异常，请稍后再试！","mark":true,"width":"160px"});
+		}
+    });
+
+}
+
+    
+    
+</script>

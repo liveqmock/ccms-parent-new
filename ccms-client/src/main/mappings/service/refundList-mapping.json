@@ -1,0 +1,14 @@
+{
+    "request": {
+        "method": "POST",
+        "urlPattern": "/customerCenter/refund/refundList"
+    },
+    "response": {
+        "status": 200,
+        "bodyFileName": "/data/service/refundList.json",
+        "headers": {
+            "Content-Type": "application/json",
+            "Cache-Control": "max-age=86400"
+        }
+    }
+}

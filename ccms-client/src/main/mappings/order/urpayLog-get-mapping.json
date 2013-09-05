@@ -1,0 +1,14 @@
+{
+    "request": {
+        "method": "GET",
+        "urlPattern": "/urpay/urpaySummary/urpayLogList.*"
+    },
+    "response": {
+        "status": 200,
+        "bodyFileName": "/data/order/urpayLogList.json",
+        "headers": {
+            "Content-Type": "application/json",
+            "Cache-Control": "max-age=86400"
+        }
+    }
+}

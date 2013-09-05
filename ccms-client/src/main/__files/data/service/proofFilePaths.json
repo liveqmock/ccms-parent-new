@@ -1,0 +1,8 @@
+{
+	"status":"0", 
+	"code":"0", 
+	"data":[
+		{"id":"12","fileName":"logo","path":"/images/small/logo.png"},
+		{"id":"13","fileName":"他就地方","path":"/images/campType1.png"}
+	]
+}

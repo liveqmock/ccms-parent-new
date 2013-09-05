@@ -1,0 +1,21 @@
+﻿{
+	"name":"",
+	"key":"coupon",
+	"id":8,
+	"children":[
+		{
+			"name":"旺旺子号",
+			"key":"fullshop",
+			"id":28,
+			"children":[],
+			"tip":null,
+			"dataUrl":null,
+			"url":"#/admin/taobaouser",
+			"supportOps":"CDWRV"
+		}
+	],
+	"tip":null,
+	"dataUrl":null,
+	"url":null,
+	"supportOps":"CDWRV"
+}

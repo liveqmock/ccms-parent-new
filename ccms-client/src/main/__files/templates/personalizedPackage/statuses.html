@@ -1,0 +1,171 @@
+<link get-root type="text/css" rel="stylesheet" _href="styles/personalizedPackage/personalized.css" />
+<nscript get-root type="text/javascript" _src="scripts/personalizedPackage/cookies.js"></nscript>
+<script type="text/javascript">
+$(document).ready(function(){
+	//监控TAB切换[当前--历史]下个迭带
+	/*$(".monitoringtab li").click(function(){
+		$(this).addClass("cur").siblings().removeClass("cur");
+		$(".monitoringcontent").eq($(".monitoringtab li").index(this)).show().siblings(".monitoringcontent").hide();
+		if( $(".monitoringtab li").index(this)==0 ){
+			$(".deploymenttipA").show();
+			$(".monitoringcontent").css("padding-right","240px");
+			$(".curMonitoring").css("padding-right","240px");
+		}else if( $(".monitoringtab li").index(this)==1 ){
+			$(".deploymenttipA").hide();
+			$(".monitoringcontent").css("padding-right","0px");
+			$(".curMonitoring").css("padding-right","0px");
+		}
+	})*/
+	
+	//今日--累计
+	/*$(".todaycumulative").click(function(){
+		$(this).attr("class","curTodaycumulative").siblings("input").attr("class","todaycumulative")
+	})
+	$(".curTodaycumulative").click(function(){
+		$(this).attr("class","curTodaycumulative").siblings("input").attr("class","todaycumulative")
+	})*/
+})
+</script>
+<div class="maincontainerB">
+	<div class="maincontainer" ng-controller="statusesController">
+      <!--main-->
+      <!--<div class="fl deploymentmain">-->
+        <div class="clearfix">
+    		<h2 class="heading fl">运行监控</h2>
+            <!--p class="shopSelect fl"><label>当前店铺：</label>
+            <select class="personalizeSelect" ng-model="currentShop" ng-options="s.shopName for s in shops"></select></p-->
+            <div class="shopinfo" id="shopinfo">
+                <b>店铺选择 :</b><span class="" dpId="{{currentShop.shopId}}">{{currentShop.shopName}}<i></i></span>
+                <dl style="display: none;">
+                    <dd ng-repeat="shop in shops" shop_id="{{shop.shopId}}"><a ng-click="changShop(shop);" href="javascript:void(0)">{{shop.shopName}}</a></dd>
+                </dl>
+                <div class="clear"></div>
+            </div>
+            
+        </div>
+        <div class="curMonitoring">
+          <ul class="monitoringtab font13">
+              <li class="cur">当前方案监控</li>
+              <!--<li>历史方案监控</li> style="padding-right:240px;"-->
+          </ul>
+        </div>
+        <!--当前方案监控-->
+        <div class="monitoringcontent" style="display:;">
+            <!--<input class="curTodaycumulative" type="button" value="今日" />
+            <input class="todaycumulative" type="button" value="累计" />-->
+            <!--今日-->
+            <div class="clear">
+              <!--方案列表-->
+              <div class="padtop10 inline-block tSolutionList" ng-repeat="plan in plans" >
+                  <!--开启-->
+                  <div class="fl marginrig24" ng-show="plan.rules.length > 0" ng-click="setActive(plan,$index)">
+                    <div class="solution_off relative" ng-class="plan==currentPlan && 'cursolution' || 'solution_off'">
+                      <ul class="solutiondetail pad15">
+                          <li class="blue_pa font14">{{plan.name}}</li>
+                          <li class="gray_66 font12"><p>规则数：{{plan.rules.length}}<br/>处理订单：{{plan.statuses.handled}}笔<br/>备注订单：{{plan.statuses.matched}}笔</p></li>
+                          <li class="font12 blue_pb" ng-show="plan.active">
+                              <time-from-now start-time="plan.startTime" server-time="plan.statuses.visit" class="font14"></time-from-now>
+                          </li>
+                      </ul>
+                      <p class="absolute de_solutiontitle padlef10 font14" ng-class="plan.active && 'de_solutiontitle' || 'de_title'">
+                          <span class="fl w70">方案{{$index + 1}}</span>
+                          <span class="fr padrig20"  ng-class="plan.active && 'blue_pc' || 'gray_c8'">{{plan.active && '已开启' || '已关闭'}}</span>
+                      </p>
+                      <p class="absolute lasttime orange_b font11 left" ng-show="plan.active && false"><i class="messgetip middle"></i>送礼品C；发顺丰【数云】</p>
+                    </div>
+                  </div>
+                  
+                  <!--未配置-->
+                  <div class="fl marginrig24" ng-show="plan.rules.length == 0">
+                    <div class="solution_not relative">
+                        <span class="deploymentlist font16 gray_a3">未配置</span>
+                        <p class="absolute de_title padlef10 font14">方案{{$index + 1}}</p>
+                    </div>
+                  </div>
+                  
+              </div>
+              <!--方案相关数据 style="padding-right:240px;"-->
+              <div ng-model="currentPlan">
+                  <p class="clear trangle20" ng-class="className"></p>
+                  <!--方案对应表格数据-->
+                  <table class="tablecommB">
+                    <thead>
+                      <tr>
+                        <th width="10%">优先级</th>
+                        <th width="25%"><span>规则名称</span></th>
+                        <th width="20%"><span>订单备注内容</span></th>
+                        <th width="20%"><span>备注订单数</span></th>
+                        <th width="25%"><span class="autoMark">占比<i class="yellownote"></i><em>规则备注订单数/方案备注订单数</em></span></th>
+                      </tr>
+                    </thead>
+                    <tbody ng-repeat="rule in currentPlan.rules">
+                      <tr ng-class-even="'evenA'">
+                        <td>{{rule.position}}</td>
+                        <td>{{rule.name}}</td>
+                        <td class="wordbreaka" title="{{rule.remarkContent}}"><span>{{rule.remarkContent}}</span></td>
+                        <td>{{ getRuleData(rule).matched }}</td>
+                        <td class="w200">
+                          <span class="fl w30 right">{{ getRuleData(rule).rate }}</span>
+                          <div class="loadingA inline-block marginlef12"><span class="loadingpercentA inline-block" ng-style="{ width: getRuleData(rule).rate }"></span></div>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+              </div>
+            </div>
+        </div>
+        <!--历史方案监控-->
+        <div class="monitoringcontent" style="display:none;">
+          <input class="curTodaycumulative" type="button" value="最近7天" />
+          <input class="todaycumulative" type="button" value="最近30天" />
+          <!--chart-->
+          <div class="clear">
+            <div class="hc-Pie" id="trend_chart"></div>
+          </div>
+          <!--table-->
+          <div class="clear padtop15">
+              <!--方案对应表格数据-->
+              <table class="tablecommC">
+                <thead>
+                  <tr>
+                    <th class="left" width="7%"><span>日期</span></th>
+                    <th class="right" width="12%"><span>处理订单数（剔重）</span></th>
+                    <th class="right" width="12%"><span>平均每订单处理时间</span></th>
+                    <th class="right" width="13%"><span>总备注订单数（剔重）</span></th>
+                    <th class="right" width="11%"><span>备注订单数占比</span></th>
+                    <th class="right" width="11%"><span>方案一备注订单数</span></th>
+                    <th class="right" width="11%"><span>方案二备注订单数</span></th>
+                    <th class="right" width="12%">方案三备注订单数</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="left">2013-05-15</td>
+                    <td class="right">1,000</td>
+                    <td class="right">300秒</td>
+                    <td class="right">1,800</td>
+                    <td class="right">18%</td>
+                    <td class="right">2,000</td>
+                    <td class="right">1,000</td>
+                    <td class="right padrig10">1,3000</td>
+                  </tr>
+                </tbody>
+              </table>
+          </div>
+        </div>
+      <!--</div>-->
+      <!--right-->
+      <div class="fr deploymenttipA" ng-show="false">
+          <h3 class="font13 gray_3d lineheight20">当前个性化包裹引擎平均每订单处理时间：<span class="font16 orange_b">368秒</span></h3>
+          <p class="singleorder gray_78 martop20"><span class="padrig5">10:56:22</span>为订单123456添加备注：<br/><span class="blue_pe">夹手册【数云】</span><i class="edges"></i></p>
+          
+          <p class="singleorder gray_78"><span class="padrig5">10:56:22</span>为订单123456添加备注：<br/><span class="blue_pe">送礼品C；发顺丰【数云】</span><i class="edges"></i></p>
+          
+          <p class="singleorder gray_78"><span class="padrig5">10:56:22</span>为订单123456添加备注：<br/><span class="blue_pe">夹手册【数云】</span><i class="edges"></i></p>
+          
+          <p class="singleorder gray_78"><span class="padrig5">10:56:22</span>为订单123456添加备注：<br/><span class="blue_pe">夹手册【数云】</span><i class="edges"></i></p>
+          
+          <p class="singleorder gray_78"><span class="padrig5">10:56:22</span>为订单123456添加备注：<br/><span class="blue_pe">夹手册【数云】</span><i class="edges"></i></p>
+      </div>
+    </div>
+</div>

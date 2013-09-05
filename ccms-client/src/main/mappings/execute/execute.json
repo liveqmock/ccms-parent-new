@@ -1,0 +1,14 @@
+{
+    "request": {
+        "method": "GET",
+		"urlPattern":"/schedule/campaign/[0-9]+/execute"
+    },
+    "response": {
+        "status": 200,
+        "bodyFileName": "/data/execute/execute.json",
+        "headers": {
+            "Content-Type": "application/json",
+            "Cache-Control": "max-age=86400"
+        }
+    }
+}

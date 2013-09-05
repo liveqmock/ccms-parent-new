@@ -1,0 +1,297 @@
+
+<nscript get-root _src="3rd/highcharts/highcharts.js"></nscript>
+<nscript get-root _src="scripts/order/urpay.js"></nscript>
+<div class="maincontainerB order_main_wrap">
+    <div class="maincontainer" ng-controller="urpay">
+		<div class="order_payment_wrap">
+			<div ng-show="!showUrPay" class="loading"><i></i>努力加载中...</div>
+			<form ng-visible="showUrPay" class="order_payment" id="order_payment">
+				<div class="clearfix">
+					<h2 class="heading fl">{{typeName}}</h2>
+					<span id="ccms_tips" class="ccms_tips fl">
+						<span class="ccms_tipsContent" style="display: none;"><b></b>{{tips}}</span>
+					</span>
+					<div class="shopinfo" id="shopinfo">
+						<b>店铺选择 :</b><span class="" dpId="{{shop.shopId}}">{{shop.shopName}}<i></i></span>
+						<dl style="display: none;">
+							<dd ng-repeat="s in shops" shop_id="{{s.shopId}}"><a ng-click="init(urpayType,s);" href="javascript:void(0)">{{s.shopName}}</a></dd>
+						</dl>
+						<div class="clear"></div>
+					</div>
+				</div>
+				<div class="urpayList">
+					<dl ng-show="urpayType == 1">
+						<dt><span class="red">*</span>催付类型：</dt>
+						<dd>
+							<label class="mr10"><input type="radio" value="1" name="taskType" ng-model="taskType">实时催付</label>
+							<label><input type="radio" value="2" name="taskType" ng-model="taskType">定时催付</label>
+						</dd>
+					</dl>
+					<dl>
+						<dt><span class="red">*</span><span ng-hide="careMoment">{{timeName}}</span><span ng-show="careMoment">付款时间</span>：</dt>
+						<dd>
+							<span class="width333" ng-show="!dateType">
+								<select name="dateNumber" id="dateNumber" ng-model="dateNumber" class="borderHighlight">
+									<option value="0">持续开启</option>
+									<option value="30">开启30天</option>
+								</select>
+							</span>
+							<span class="width333" ng-show="dateType">
+								<input type="text" id="startDate" name="startDate" readonly="readOnly" class="borderHighlight datetimepicker required" value="{{urpayData.startDate}}" /> - &nbsp;<input type="text" name="endDate" id="endDate" readonly="readOnly" class="borderHighlight datetimepicker required" value="{{urpayData.endDate}}" />
+							</span>
+							<label><input type="checkbox" id="dateType" name="dateType" ng-model="dateType" ng-checked="dateType" />自定义时间</label>
+							<p ng-show="isOpen && !dateType" class="color_gray">开始时间：{{urpayData.startDate}}</p>
+						</dd>
+						<dt><span class="red">*</span>{{orderName}}时间：</dt>
+						<dd>
+							<p>
+								<span ng-show="taskType == 1">
+									<select id="urpay_start_time" name="urpay_start_time" class="borderHighlight width100">
+										<!--<option ng-disabled="t >= urpay_etime" ng-selected="t == urpay_stime" ng-repeat="t in times" value="{{t}}">{{addZero(t)}}:00</option>-->
+									</select>
+									&nbsp;-&nbsp;
+									<select id="urpay_end_time" name="urpay_end_time" class="borderHighlight width100">
+										<!--<option ng-disabled="t <= urpay_stime" ng-selected="t == urpay_etime" ng-repeat="t in times" value="{{t}}">{{addZero(t)}}:00</option>-->
+									</select>
+								</span>
+								<span ng-show="taskType == 2" id="fixUrpayTime">
+									<span ng-repeat="t in times">
+										<label class="ur_label"><input type="checkbox" value="{{t}}" ng-checked="(','+fixUrpayTime+',').indexOf(','+t+',') >= 0" />{{t}}点</label><br ng-show="$index==6" />
+									</span>
+								</span>
+							</p>
+							<div ng-show="isUrpay">{{offsetTip1}} <input name="offset" ng-model="offset" type="text" class="borderHighlight required digits" size="6" min="{{offsetMin}}" max="{{offsetMax}}" />{{offsetTip2}}</div>
+							<div ng-hide="isUrpay">
+								<span ng-show="urpayType == 6">
+									<label class="mr10">
+										<input type="radio" name="careMoment" ng-change="careMomentFn(0);" value="0" ng-model="careMoment" />下单后立即发送
+										<span class="ico_tips" ng-title="如发现订单已付款不会发送，如超过最晚发送时间不会再发送。"></span>
+									</label>
+									<label>
+										<input type="radio" name="careMoment" value="1" ng-change="careMomentFn(1);" ng-model="careMoment" />付款后立即发送
+										<span class="ico_tips" ng-title="如发现订单已发货不会发送，如超过最晚发送时间不会再发送。"></span>
+									</label>
+								</span>
+								<span ng-show="urpayType != 6">订单{{subName}}<span ng-show="urpayType == 11">成功</span>后立即发送</span>
+							</div>
+							<div ng-hide="urpayType == 2 || urpayType == 3 || urpayType == 6">
+								<span class="mr10">{{notifyOptionTt}}</span>
+								<label class="mr10"><input type="radio" name="notifyOption" value="0" ng-model="notifyOption" />不发送</label>
+								<label><input type="radio" name="notifyOption" value="1" ng-model="notifyOption" />次日发送</label>
+							</div>
+
+						</dd>
+						<dt>过滤条件：</dt>
+						<dd>
+							<label ng-repeat="c in urpayData.filterConditionList">
+								<input name="filterCondition" type="checkbox" value="{{c.code}}" ng-checked="inArray(c.code,urpayData.filterCondition);" />{{c.name}}
+								<span class="ico_tips" ng-title="{{c.remark}}"></span><br ng-show="$index%2 == 1" />
+							</label>
+						</dd>
+						<dt><span class="red">*</span>会员等级：</dt>
+						<dd>
+							<label class="mr10" ng-repeat="grade in urpayData.memberGradeList">
+								<input ng-checked="inArray(grade.code,urpayData.memberGrade);" type="checkbox" name="memberGrade" value="{{grade.code}}" ng-disabledOrderInput="{{grade.code}}" />{{grade.name}}
+								<span ng-show="grade.remark" class="ico_tips" ng-title="{{grade.remark}}"></span>
+							</label>
+						</dd>
+						<dt><span class="red">*</span><span ng-show="urpayType==11">退款成功</span><span ng-show="urpayType != 11">订单</span>金额：</dt>
+						<dd>
+							<label class="mr10"><input type="checkbox" name="order_acount" id="order_acount" ng-model="order_acount" value="-1" />不限</label>
+							<input type="text" class="borderHighlight number" size="6" name="orderMinAcount" id="orderMinAcount" value="{{orderMinAcount}}" ng-disabled="order_acount" max="1000000000" /> - <input type="text" class="borderHighlight number" name="orderMaxAcount" id="orderMaxAcount" value="{{orderMaxAcount}}" ng-disabled="order_acount" placeholder="无上限" size="6" max="1000000000" />元
+						</dd>
+						<!--
+						<dt>商品选择：</dt>
+						<dd>
+							<label class="mr10"><input type="checkbox" />不限</label>
+							<input type="text" class="borderHighlight mr10" />
+							<label><input type="checkbox" />排除选中商品</label>
+						</dd>
+						-->
+					</dl>
+					<dl ng-show="urpayType != 3">
+						<dt>聚划算：</dt>
+						<dd>
+							<div ng-show="isUrpay">
+								<label class="mr10">
+									<input ng-disabled="urpayType == 2 || offset > 25" id="includeCheap" name="includeCheap" ng-checked="urpayType == 2 || urpayData.includeCheap" type="checkbox" />
+									<span ng-show="urpayType == 2">不</span>包含聚划算
+								</label>
+								<span class="error" ng-show="urpayType == 1 && offset > 25">如要包含聚划算订单，催付时间应设置在25分钟以内（聚划算订单30分钟后自动关闭）</span>
+								<span class="error" ng-show="urpayType == 2">预关闭催付不能催付聚划算订单</span>
+							</div>
+							<div ng-hide="isUrpay">
+								<label class="mr10"><input type="radio" ng-model="includeCheap" name="includeCheap" value="-1" />不限</label>
+								<label class="mr10"><input type="radio" ng-model="includeCheap" name="includeCheap" value="1" />仅聚划算</label>
+								<label class="mr10"><input type="radio" ng-model="includeCheap" name="includeCheap" value="0" />排除聚划算</label>
+							</div>
+						</dd>
+					</dl>
+					<dl>
+						<dt class="nomargin">插入变量：</dt>
+						<dd class="nomargin">
+							<a href="javascript:;" class="smsVar" val="昵称" orderVal="#CUSTOMERNO#" tVal="CUSTOMERNO">#昵称</a>
+							<a href="javascript:;" class="smsVar" val="姓名" orderVal="#RECEIVER_NAME#" tVal="RECEIVER_NAME">#姓名</a>
+							<a href="javascript:;" ng-show="urpayType == 7" class="smsVar" val="发货时间" orderVal="#CONSIGN_TIME#" tVal="CONSIGN_TIME" ng-title="示例：11月11日18时">#发货时间</a>
+							<a href="javascript:;" ng-show="urpayType == 8" class="smsVar" val="同城时间" orderVal="#ARRIVED_TIME#" tVal="ARRIVED_TIME" ng-title="示例：11月11日18时">#同城时间</a>
+							<a href="javascript:;" ng-show="urpayType == 9" class="smsVar" val="派件时间" orderVal="#DELIVERY_TIME#" tVal="DELIVERY_TIME" ng-title="示例：11月11日18时">#派件时间</a>
+							<a href="javascript:;" ng-show="urpayType == 10" class="smsVar" val="签收时间" orderVal="#SIGNED_TIME#" tVal="SIGNED_TIME" ng-title="示例：11月11日18时">#签收时间</a>
+							<a href="javascript:;" ng-show="urpayType == 12" class="smsVar" val="确认收货时间" orderVal="#ENDTIME#" tVal="ENDTIME" ng-title="示例：11月11日18时">#确认收货时间</a>
+							<a href="javascript:;" class="smsVar" val="订单编号" orderVal="#TID#" tVal="TID" ng-title="示例：407926732927739">#订单编号</a>
+							
+							<span ng-show="isUrpay || urpayType == 6">
+								<a href="javascript:;" class="smsVar" val="下单时间" orderVal="#CREATED#" tVal="CREATED" ng-title="示例：11月11日18时">#下单时间</a>
+								<a href="javascript:;" ng-show="urpayType == 6 && careMoment" class="smsVar" val="付款时间" orderVal="#PAY_TIME#" tVal="PAY_TIME" ng-title="示例：11月11日18时">#付款时间</a>
+								<a href="javascript:;" class="smsVar" val="订单金额" orderVal="#PAYMENT#" tVal="PAYMENT" ng-title="示例：88.00">#订单金额</a>
+							</span>
+							<span ng-show="urpayType == 7 || urpayType == 8 || urpayType == 9 || urpayType == 10">
+								<a href="javascript:;" class="smsVar" val="物流公司" orderVal="#COMPANY_NAME#" tVal="COMPANY_NAME" ng-title="示例：顺丰速运">#物流公司</a>
+								<a href="javascript:;" class="smsVar" val="物流单号" orderVal="#OUT_SID#" tVal="OUT_SID" ng-title="示例：181618161816">#物流单号</a>
+								<a href="javascript:;" class="smsVar" val="收货城市" orderVal="#RECEIVER_CITY#" tVal="RECEIVER_CITY" ng-title="示例：呼和浩特">#收货城市</a>
+								<a href="javascript:;" class="smsVar" val="收货县区" orderVal="#RECEIVER_DISTRICT#" tVal="RECEIVER_DISTRICT" ng-title="示例：赛罕区">#收货县区</a>
+							</span>
+							<span ng-show="urpayType == 11">
+								<a href="javascript:;" class="smsVar" val="退款金额" orderVal="#REFUND_FEE#" tVal="REFUND_FEE" ng-title="示例：88.00">#退款金额</a>
+								<a href="javascript:;" class="smsVar" val="退款成功时间" orderVal="#REFUND_SUCCESS_TIME#" tVal="REFUND_SUCCESS_TIME" ng-title="示例：11月11日18时">#退款成功时间</a>
+							</span>
+						</dd>
+						<dt><span class="red">*</span>短信内容；</dt>
+						<dd>
+							<div class="max_width"><textarea id="textEditor" name="kindEditor"></textarea></div>
+							<p>已输入<span id="smsCont" class="mseLen">0</span>字，不含变量</p>
+							<div class="max_width" ng-show="gateway.notice.length > 0"><div class="sms_tips">{{gateway.notice}}</div></div>
+						</dd>
+						<dt>短信通道：</dt>
+						<dd>
+							<select class="borderHighlight width100 mr10" name="gatewayId" ng-model="gateway" ng-options="g.gatewayName for g in gatewayList"></select>
+							<span ng-show="gatewayList">余额<span class="highlight">{{floor2(gateway.gatewayBalance)}}</span>元</span>
+							<span style="color:red;" ng-show="gatewaySucs && !gatewayList.length">通道信息获取失败</span>
+						</dd>
+						<dt></dt>
+						<dd>
+							<button class="btn btnBlue f_l" type="submit">{{getText(isOpen);}}{{orderName}}</button>
+							<span class="urpayop_log" ng-show="urpayData.opUser">
+								<div>上次{{getText(!isOpen);}}时间：{{urpayData.updated}}</div>
+								<div>操作人：{{urpayData.opUser}}</div>
+							</span>
+						</dd>
+					</dl>
+					<div ng-show="isOpen" class="disabled_mark"></div>
+				</div>
+			</form>
+		</div>
+		<div class="order_sendData_wrap">
+			<div ng-show="!showSummary" class="loading"><i></i>努力加载中...</div>
+			<div class="order_sendData" ng-visible="showSummary">
+				<h3 class="order_title">实时数据监控</h3>
+				<div class="clearfix data_monitoring">
+					<div ng-show="showSummary && isUrpay">
+						<div class="area">
+							<dl>
+								<dt class="ico_1"><div id="orderNum_chart" class="chart"></div><p>{{increment(summary[0].orderNum,summary[1].orderNum);}}</p></dt>
+								<dd><strong>{{summary[0].orderNum}}</strong><p>催付数</p></dd>
+							</dl>
+							<div class="popover">
+								<i class="arrow"></i>
+								<p><strong>{{summary[0].orderNum}}</strong>今天催付数</p>
+								<p><strong>{{summary[1].orderNum}}</strong>昨天催付数</p>
+								<p><strong>{{orderNum7}}</strong>近7天催付数</p>
+								<p><strong>{{orderNum30}}</strong>近30天催付数</p>
+							</div>
+						</div>
+						<div class="area">
+							<dl>
+								<dt class="ico_2"><div id="responseNum_chart" class="chart"></div><p>{{increment(summary[0].responseNum,summary[1].responseNum);}}</p></dt>
+								<dd><strong>{{summary[0].responseNum}}</strong><p>响应数</p></dd>
+							</dl>
+							<div class="popover">
+								<i class="arrow"></i>
+								<p><strong>{{summary[0].responseNum}}</strong>今天响应数</p>
+								<p><strong>{{summary[1].responseNum}}</strong>昨天响应数</p>
+								<p><strong>{{responseNum7}}</strong>近7天响应数</p>
+								<p><strong>{{responseNum30}}</strong>近30天响应数</p>
+							</div>
+						</div>
+						<div class="area">
+							<dl>
+								<dt class="ico_3"><div id="responsivity_chart" class="chart"></div><p>{{increment(summary[0].responsivity,summary[1].responsivity);}}</p></dt>
+								<dd><strong>{{summary[0].responsivity}}%</strong><p>响应率</p></dd>
+							</dl>
+							<div class="popover">
+								<i class="arrow"></i>
+								<p><strong>{{summary[0].responsivity}}%</strong>今天响应率</p>
+								<p><strong>{{summary[1].responsivity}}%</strong>昨天响应率</p>
+								<p><strong>{{responsivity7}}%</strong>近7天响应率</p>
+								<p><strong>{{responsivity30}}%</strong>近30天响应率</p>
+							</div>
+						</div>
+						<div class="area">
+							<dl>
+								<dt class="ico_4"><div id="roi_chart" class="chart"></div><p>{{increment(summary[0].roi,summary[1].roi);}}</p></dt>
+								<dd><strong>1:{{summary[0].roi}}</strong><p>ROI</p></dd>
+							</dl>
+							<div class="popover">
+								<i class="arrow"></i>
+								<p><strong>1:{{summary[0].roi}}</strong>今天ROI</p>
+								<p><strong>1:{{summary[1].roi}}</strong>昨天ROI</p>
+								<p><strong>1:{{roi7}}</strong>近7天ROI</p>
+								<p><strong>1:{{roi30}}</strong>近30天ROI</p>
+							</div>
+						</div>
+					</div>
+					<div ng-show="showSummary && !isUrpay">
+						<div class="area">
+							<dl>
+								<dt class="ico_1"><div id="sendNum_chart" class="chart"></div><p>{{increment(summary[0].sendNum,summary[1].sendNum);}}</p></dt>
+								<dd><strong>{{summary[0].sendNum}}</strong><p>发送量</p></dd>
+							</dl>
+							<div class="popover">
+								<i class="arrow"></i>
+								<p><strong>{{summary[0].sendNum}}</strong>今天短信发送量</p>
+								<p><strong>{{summary[1].sendNum}}</strong>昨天短信发送量</p>
+								<p><strong>{{sendNum7}}</strong>近7天短信发送量</p>
+								<p><strong>{{sendNum30}}</strong>近30天短信发送量</p>
+							</div>
+						</div>
+					</div>
+				</div>
+				<h3 class="order_title"><span class="fr order_ttSub" ng-show="showSummary">更新时间：<span ng-show="isUrpay">{{formatDate(summary[0].updated)}}</span><span ng-hide="isUrpay">{{visit}}</span>  &nbsp;| <a ng-href="{{exportUrl}}" ng-title="历史响应报告只保留近30天数据，请及时下载"><i class="ico_export" id="exportBtn"></i>导出</a></span>历史响应报表</h3>
+
+				<div class="order_reportList" id="order_reportList">
+					<table>
+						<thead ng-switch on="isUrpay">
+							<tr ng-switch-when="true">
+								<th>下单日期</th>
+								<th>
+									<span class="vm">催付订单数</span>
+									<span class="ico_tips" ng-title="按催付订单的下单日期统计"></span>
+								</th>
+								<th>催付响应数</th>
+								<th>响应率</th>
+								<th>
+									<span class="vm">短信发送量</span>
+									<span class="ico_tips" ng-title="短信发送量根据对应发送订单的下单时间统计"></span>
+								</th>
+								<th>催付响应金额</th>
+								<th>
+									<span class="vm">ROI</span>
+									<span class="ico_tips" ng-title="ROI=催付响应金额/(短信发送量*0.05元[短信单价])"></span>
+								</th>
+								<th>发送详情</th>
+							</tr>
+							<tr ng-switch-default>
+								<th>下单日期</th>
+								<th>
+									<span class="vm">短信发送量</span>
+									<span class="ico_tips" ng-title="短信发送量根据对应发送订单的下单时间统计"></span>
+								</th>
+								<th>发送详情</th>
+							</tr>
+						</thead>
+						<tbody></tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

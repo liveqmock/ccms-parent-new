@@ -1,0 +1,14 @@
+{
+    "request": {
+        "method": "PUT",
+        "urlPattern": "/rulecenter/plan/.*"
+    },
+    "response": {
+        "status": 200,
+        "bodyFileName": "/data/personalizedPackage/startTime.json",
+        "headers": {
+            "Content-Type": "application/json",
+            "Cache-Control": "max-age=86400"
+        }
+    }
+}

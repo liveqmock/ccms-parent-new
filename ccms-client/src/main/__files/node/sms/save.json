@@ -1,0 +1,5 @@
+{
+"nodeId":1, "name":"短信节点", "unsubscribeEnabled":true, "blacklistDisabled":true,
+"redlistEnabled":false, "deliveryChannelId":0, "testPhoneString":"13298302212,18609872320,13564982320",
+"messageValue":"测试短信"
+ }

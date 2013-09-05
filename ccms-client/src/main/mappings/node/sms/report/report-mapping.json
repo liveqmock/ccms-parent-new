@@ -1,0 +1,14 @@
+{
+    "request": {
+        "method": "GET",
+        "urlPattern": "/node/sms/report/.*"
+    },
+    "response": {
+        "status": 200,
+        "bodyFileName": "/node/sms/mseReport.json",
+        "headers": {
+            "Content-Type": "application/json",
+            "Cache-Control": "max-age=86400"
+        }
+    }
+}

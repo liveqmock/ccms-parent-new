@@ -1,0 +1,10 @@
+{
+	"status":0,
+	"errCode":"",
+	"message":"",
+    "data":[
+		{"name":"abnormalDays","value":"6"},
+		{"name":"天津","value":"10"},
+		{"name":"四川省","value":"23"}
+	]
+}

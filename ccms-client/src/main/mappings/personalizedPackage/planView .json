@@ -1,0 +1,14 @@
+{
+    "request": {
+        "method": "GET",
+        "urlPattern": "/rulecenter/plan/.*/preview"
+    },
+    "response": {
+        "status": 200,
+        "bodyFileName": "/data/personalizedPackage/previewLink.json",
+        "headers": {
+            "Content-Type": "application/json",
+            "Cache-Control": "max-age=86400"
+        }
+    }
+}

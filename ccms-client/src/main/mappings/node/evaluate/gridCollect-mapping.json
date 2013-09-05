@@ -1,0 +1,14 @@
+{
+    "request": {
+        "method": "GET",
+        "urlPattern": "/node/evaluate/[0-9]+/grid/collect.*"
+    },
+    "response": {
+        "status": 200,
+        "bodyFileName": "/data/evalute/gridCollect.json",
+        "headers": {
+            "Content-Type": "application/json",
+            "Cache-Control": "max-age=86400"
+        }
+    }
+}

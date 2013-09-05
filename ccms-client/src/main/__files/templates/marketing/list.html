@@ -1,0 +1,20 @@
+<nscript get-root type="text/javascript" _src="scripts/marketing/marketingList.js"></nscript>
+<div class="marketingCampGraph"  ng-controller="Marketlist">
+	 <div class="mt">
+		  <input class="checkBox" type="checkbox" name="show_activity" /><label>只显示我的活动</label><em>|</em>
+		  <label>活动状态：</label>
+		  <select class="selectBox" name="campState">
+            <option value="">不限</option>
+			<option value="A1">设计中</option>
+			<option value="B1">测试执行中</option>
+			<option value="B3">正式执行中</option>
+            <option value="A4">执行中止</option>
+			<option value="A5">执行完成</option>
+            <option value="A6">执行错误</option>
+		  </select>
+		  <input class="hdSearch" name="keywords" type="text" value=""/>
+		  <a id="marketSearch" title="查询" href="javascript:void(0)"></a>
+		  <span class="inputTips">活动名称</span>
+	 </div>
+	 <div class="campaignListCon"></div>
+</div>

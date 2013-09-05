@@ -1,0 +1,14 @@
+{
+    "request": {
+        "method": "GET",
+        "urlPattern": "/node/evaluate/[0-9]+"
+    },
+    "response": {
+        "status": 200,
+        "bodyFileName": "/data/valute/open.json",
+        "headers": {
+            "Content-Type": "application/json",
+            "Cache-Control": "max-age=86400"
+        }
+    }
+}

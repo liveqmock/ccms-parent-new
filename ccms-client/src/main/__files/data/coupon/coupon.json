@@ -1,0 +1,45 @@
+﻿{
+	"status":0, 
+	"data":{
+		"nodeId":123,
+		"node":{
+			"nodeId":123,
+			"nodeName":"优惠券"
+		},
+		"shop":{
+			"shopId":"123",
+			"shopName":"数云旗舰店",
+			"shopType":"taobao"
+		},
+		"coupon":{
+			"couponId":22,
+			"couponName":"我的优惠券222",
+			"createTime":"20131001 12:00:00",
+			"startTime":"20131001 12:00:00",
+			"endTime":"20131010 12:00:00",
+			"available":true,
+			"enable":true,
+			"threshold":100,
+			"denomination":{
+				"denominationId":1,
+				"denominationName":"3元",
+				"denominationValue":3
+			},
+			"shop":{
+				"shopId":"123",
+				"shopName":"数云旗舰店",
+				"shopType":"taobao"
+			},
+			"creator":{
+				"userId":1,
+				"userType":"taobao",
+				"loginName":"数云旗舰店:客服1",
+				"realName":"数云旗舰店:客服1"
+			},
+			"remark":"备注内容"
+		},
+		"channelId":6,
+		"previewCustomers":"xxx,yyy,zzz",
+		"outputControl":"1"
+	}
+}

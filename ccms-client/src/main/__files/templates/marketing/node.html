@@ -1,0 +1,23 @@
+
+<nscript get-root type="text/javascript" _src="scripts/marketing/executeNodeFlow.js"></nscript>
+<nscript get-root type="text/javascript" _src="scripts/marketing/initializeNodeFlow.js"></nscript>
+<div class="nodeFlow">
+	<div class="mt">
+		<a class="proExecute" title="测试执行" href="javascript:void(0);">测试执行</a>
+		<a class="officialExecute" title="正式执行" href="javascript:void(0);">正式执行</a>
+		<span>执行批次</span>
+        <select name="cycleExecute" style="width:150px;">
+             <option></option>
+        </select>
+	</div>
+	<div class="mc">
+		<div class="canvas clearfix">
+			<div ng-class="curLat();" class="node" ng-repeat="node in nodes">
+				<img width="{{node.width}}" height="{{node.height}}" nodetype="{{node.type}}" alt="{{node.value}}" id="{{node.id}}" ng-src="{{node.imageSrc}}" ng-click="showNodeTpl(node.type,node.id);" class="graphRect">
+				<p>{{node.value}}<span class="posi"><img src="images/fillBg.png" class="unfilled" style="display:none;"/></span></p>
+                
+			</div>
+		</div>
+		<div ng-include src="snodeTpl" ng-visible="snodeTplLoaded" onload="afterLoadNodeTpl();"></div>
+	</div>
+</div>

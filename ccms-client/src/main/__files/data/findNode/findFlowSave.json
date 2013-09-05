@@ -1,0 +1,18 @@
+﻿{
+  findId:"1",
+  nodeType:null, 
+  isexclude:"0",  
+  "attributeList":[{
+      conditionId:"1",
+      "attr":{"isQuota":false,"key":null,"name":"购买金额"},
+      "operator":{"key":"EQ","name":"等于"},
+      "val":{"dbType":"string","queryType":"dic","values":["100"]}   
+     }, 
+     {
+      conditionId:"1",
+      "attr":{"isQuota":false,"key":null,"name":"生日"},
+      "operator":{"key":"EQ","name":"等于"},
+      "val":{"dbType":"string","queryType":"data","values":["1"]}   
+     } 
+  ]
+}

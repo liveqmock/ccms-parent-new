@@ -1,0 +1,21 @@
+﻿{
+	"name":"",
+	"key":"marketing",
+	"id":8,
+	"children":[
+		{
+			"name":"手机黑名单",
+			"key":"campaign",
+			"id":28,
+			"children":[],
+			"tip":null,
+			"dataUrl":null,
+			"url":"#/customer/blacklist",
+			"supportOps":"CDWRV"
+		}
+	],
+	"tip":null,
+	"dataUrl":null,
+	"url":null,
+	"supportOps":"CDWRV"
+}

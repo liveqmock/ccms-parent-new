@@ -1,0 +1,31 @@
+{"status":"0",
+"errCode":null,
+"message":null,
+"data":{"pageSize":10,"currPage":1,"totalPages":2,"totalElements":19,
+"content":[
+   {"tid":"001","oid":"1001","content":"在商场买过这样的衣服2","created":1377760205720,"result":"bad","reply":"","pic_url":"http://img01.taobaocdn.com/bao/uploaded/i1/T1vA6zXlBaXXbMNj3Z_033128.jpg","detail_url": "http://detail.taobao.com/item.htm?id=323456789","title":"测试商品","price":100.00,"customerno":"tu_taotao","grade":"2","regardFlag":1,"receiver_mobile":"1368776",
+				"followupStatus": -1,
+				"followupId": "",
+				"memoVo":[{
+				"sellerMemo":"买家留言",
+				"buyerMemo":"买家留言",
+				"flag":0
+			}]},
+	{"tid":"002","oid":"1003","content":"在商场买过这样的衣服2","created":"2013-12-25","result":"bad","reply":"","pic_url":"http://img01.taobaocdn.com/bao/uploaded/i1/T1vA6zXlBaXXbMNj3Z_033128.jpg","detail_url": "http://detail.taobao.com/item.htm?id=323456789","title":"测试商品","price":100.00,"customerno":"tu_taotao","grade":"2","regardFlag":1,"receiver_mobile":"1368776",
+				"followupStatus": 1,
+				"followupId": 674,
+				"memoVo":[{
+				"sellerMemo":"买家留言",
+				"buyerMemo":"买家留言",
+				"flag":0
+			}]},
+	{"tid":"003","oid":"1004","content":"在商场买过这样的衣服2","created":"2013-12-25","result":"bad","reply":"","pic_url":"http://img01.taobaocdn.com/bao/uploaded/i1/T1vA6zXlBaXXbMNj3Z_033128.jpg","detail_url": "http://detail.taobao.com/item.htm?id=323456789","title":"测试商品","price":100.00,"customerno":"tu_taotao","grade":"2","regardFlag":1,"receiver_mobile":"1368776",
+				"followupStatus": 4,
+				"followupId": 6564,
+				"memoVo":[{
+				"sellerMemo":"买家留言",
+				"buyerMemo":"买家留言",
+				"flag":0
+			}]}
+]},
+"visit":"2013-07-10 21:11:34"}

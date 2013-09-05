@@ -1,0 +1,161 @@
+<link get-root type="text/css" rel="stylesheet" _href="styles/personalizedPackage/personalized.css" />
+
+<link get-root type="text/css" rel="stylesheet" _href="../../3rd/datepicker/css/jquery.ui.all.css">
+<link get-root type="text/css" rel="stylesheet" _href="../../3rd/datepicker/css/demos.css">
+<link get-root type="text/css" rel="stylesheet" _href="../../3rd/datepicker/css/jquery.ui.base.css">
+<link get-root type="text/css" rel="stylesheet" _href="../../3rd/datepicker/css/jquery.ui.core.css">
+<link get-root type="text/css" rel="stylesheet" _href="../../3rd/datepicker/css/jquery.ui.theme.css">
+<link get-root type="text/css" rel="stylesheet" _href="../../3rd/datepicker/css/jquery.ui.datepicker.css">
+
+<nscript get-root type="text/javascript" _src="scripts/personalizedPackage/personalized.js"></nscript>
+
+<nscript get-root type="text/javascript" _src="../../3rd/datepicker/js/jquery.ui.core.js"></nscript>
+<nscript get-root type="text/javascript" _src="../../3rd/datepicker/js/jquery.ui.datepicker.js"></nscript>
+<div class="maincontainerB ">
+	<div class="maincontainer">
+      <div class="clearfix">
+          <h2 class="heading fl">明细查询</h2>
+            <div class="shopinfo" id="shopinfo">
+                <b>店铺选择 :</b><span class="" dpId="{{nowShopId}}">{{shopModuleVal}}<i></i></span>
+                <dl style="display: none;">
+                    <dd ng-repeat="shop in shops" shop_id="{{shop.shopId}}"><a ng-click="init(shop.shopId,shop.shopName);" href="javascript:void(0)">{{shop.shopName}}</a></dd>
+                </dl>
+                <div class="clear"></div>
+            </div>
+      </div>
+      <div class="clear">
+      <!--表单筛选-->
+      <div class="tablediv">
+        <table class="gray3d">
+          <tbody>
+            <tr>
+              <td><label>方案一：</label></td>
+              <td><select class="gray_67 selectA"><option>不限</option></select></td>
+              <td><label>方案二：</label></td>
+              <td><select class="gray_67 selectA"><option>备注</option></select></td>
+              <td><label>方案三：</label></td>
+              <td><select class="gray_67 selectA"><option>未备注</option></select></td>
+            </tr>
+            <tr>
+              <td><label>下单时间：</label></td>
+              <td class="gray_c5"><input type="text" class="gray_c5 inputA inputcomm"  id="from" value="开始时间" /><span class="padlefrig5">&minus;</span><input type="text" class="gray_c5 inputA inputcomm" id="to" value="结束时间" /></td>
+              <td><label>付款时间：</label></td>
+              <td class="gray_c5"><input type="text" class="gray_c5 inputA inputcomm" value="开始时间" /><span class="padlefrig5">&minus;</span><input type="text" class="gray_c5 inputA inputcomm" value="结束时间" /></td>
+              <td><label>备注时间：</label></td>
+              <td class="gray_c5"><input type="text" class="gray_c5 inputA inputcomm" value="开始时间" /><span class="padlefrig5">&minus;</span><input type="text" class="gray_c5 inputA inputcomm" value="结束时间" /></td>
+            </tr>
+            <tr>
+              <td><label>订单备注内容：</label></td>
+              <td colspan="5"><input type="text" class="gray_c5 inputB inputcomm" value="输入备注关键字，多个关键字用空格隔开" /></td>
+            </tr>
+            <tr>
+              <td></td>
+              <td colspan="5"><input type="submit" class="buttoncommblue marginrig10" value="筛选" /><input class="buttoncancle" type="reset" value="重置" /></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <!--数据列表-->
+      <div class="padtop10">
+        <ul class="monitoringtab font13">
+            <li class="cur">明细查询列表</li>
+        </ul>
+        <!--表格-->
+        <div class="padtop10">
+          <table class="tablecommD borderbottomnone">
+            <thead>
+              <tr>
+                <th class="left" width="20%">订单编号：26187235892157</th>
+                <th class="gray_99 left" width="20%">成交时间：2013-04-21 10:27</th>
+                <th class="gray_99 left" width="35%">付款时间：2013-04-21 14:10</th>
+                <th class="gray_3d right" width="20%">实收款：<span class="orange_c font14">69.00</span> <span class="gray_99">(含运费：5.00)</span></th>
+              </tr>
+            </thead>
+          </table>
+          <table class="tablecommD lineheight23">
+            <tbody>
+              <tr>
+                <td width="20%">
+                  <p class="gray_3d">个性化备注内容个性化备注内容</p>
+                  <p class="gray_99">[ 2013-01-08 18:24 ]</p>
+                </td>
+                <td class="gray_3d center" width="10%">买家ID：songxp_80<a href="javascript:" class="onlinewang marlef5"></a>
+                </td>
+                <td class="gray_3d" width="40%">
+                  <a class="fl minwidth320" href="#">尚纳 2012羽绒服 女 中长款 新款正品蕾丝修身型冬装外套YRF1162</a>
+                  <p class="fr">单价：64 <span class="padlef10">数量：1</span></p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        
+        <!--表格-->
+        <div class="padtop10">
+          <table class="tablecommD borderbottomnone">
+            <thead>
+              <tr>
+                <th class="left" width="20%">订单编号：26187235892157</th>
+                <th class="gray_99 left" width="20%">成交时间：2013-04-21 10:27</th>
+                <th class="gray_99 left" width="35%">付款时间：2013-04-21 14:10</th>
+                <th class="gray_3d right" width="20%">实收款：<span class="orange_c font14">133.00</span> <span class="gray_99">(含运费：5.00)</span></th>
+              </tr>
+            </thead>
+          </table>
+          <table class="tablecommD lineheight23">
+            <tbody>
+              <tr>
+                <td width="20%" rowspan="2">
+                  <p class="gray_3d">个性化备注内容个性化备注内容</p>
+                  <p class="gray_99">[ 2013-01-08 18:24 ]</p>
+                </td>
+                <td class="gray_3d center" width="10%" rowspan="2">买家ID：songxp_80<a href="javascript:" class="onlinewang marlef5"></a>
+                </td>
+                <td class="gray_3d" width="40%">
+                  <a class="fl minwidth320" href="#">尚纳 2012羽绒服 女 中长款 新款正品蕾丝修身型冬装外套YRF1162</a>
+                  <p class="fr">单价：64 <span class="padlef10">数量：1</span></p>
+                </td>
+              </tr>
+              <tr>
+                <td class="gray_3d">
+                  <a class="fl minwidth320" href="#">尚纳 2012羽绒服 女 中长款 新款正品蕾丝修身型冬装外套YRF1162</a>
+                  <p class="fr">单价：64 <span class="padlef10">数量：1</span></p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        
+        <!--表格-->
+        <div class="padtop10">
+          <table class="tablecommD borderbottomnone">
+            <thead>
+              <tr>
+                <th class="left" width="20%">订单编号：26187235892157</th>
+                <th class="gray_99 left" width="20%">成交时间：2013-04-21 10:27</th>
+                <th class="gray_99 left" width="35%">付款时间：2013-04-21 14:10</th>
+                <th class="gray_3d right" width="20%">实收款：<span class="orange_c font14">133.00</span> <span class="gray_99">(含运费：5.00)</span></th>
+              </tr>
+            </thead>
+          </table>
+          <table class="tablecommD lineheight23">
+            <tbody>
+              <tr>
+                <td width="20%">
+                  <p class="gray_3d">个性化备注内容个性化备注内容</p>
+                  <p class="gray_99">[ 2013-01-08 18:24 ]</p>
+                </td>
+                <td class="gray_3d center" width="10%">买家ID：songxp_80<a href="javascript:" class="onlinewang marlef5"></a>
+                </td>
+                <td class="gray_3d" width="40%">
+                  <a class="fl minwidth320" href="#">尚纳 2012羽绒服 女 中长款 新款正品蕾丝修身型冬装外套YRF1162</a>
+                  <p class="fr">单价：64 <span class="padlef10">数量：1</span></p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      </div>
+    </div>
+</div>

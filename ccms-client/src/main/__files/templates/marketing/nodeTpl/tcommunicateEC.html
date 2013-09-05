@@ -1,0 +1,150 @@
+<div id="ecView" class="marketingCampNodeBg" ng-controller="DiscountCtr">
+	<div class="triangleArrows discountTicket"></div>
+    <div class="marketingCampNode">
+        <div class="clearfix moduleHeader">
+        	<h4 class="fl">优惠选择节点设置</h4>
+        	<span class="fr"><a ng-show="showReport" ng-click="reportPop()" class="emailReport" title="优惠券发送报告">优惠券发送报告</a>节点ID：{{nodeTplId}}</span>
+        </div>
+        <form id="umpNode" class="marketingCampNodeMain marketingCampNodeEmail" novalidate="novalidate">
+			<div style="display:none;">
+				<select name="channelId" id="channelId">
+					<option value=""></option>
+					<!--<option ng-selected="umpData.channelId == c.channelId" ng-repeat="c in couponChannels" value="{{c.channelId}}">{{c.channelName}}</option>-->
+				</select>
+				<select name="shopId" id="shopId">
+					<option value="{{umpData.shop.shopId}}">{{umpData.shop.shopName}}</option>
+					<option ng-repeat="shop in shops" value="{{shop.shopId}}">{{shop.shopName}}</option>
+				</select>
+			</div>
+            <div class="createDiscount">
+				<span class="marketingCampNodeLabel"><i class="red">*</i>优惠券：</span>
+            	<select class="borderHighlight" name="couponId" id="couponId">
+					<option value=""></option>
+				</select>
+                <a href="#/coupon/tickets/add">创建优惠券</a>
+            </div>
+            <div>
+				<span class="marketingCampNodeLabel">测试淘宝号码：</span>
+				<textarea class="borderHighlight" name="previewCustomers">{{umpData.previewCustomers}}</textarea>
+				<p style="padding:6px 0 0 132px;color:#666;">多个帐号请用","隔开</p>
+			</div>
+            <div>
+                <button class="btn btnBlue" type="submit">保存</button>
+            </div>
+        </form>
+    </div>
+</div>
+<div id="yhqReport" class="marketingCampNodeBg yhqReport" style="display:none">
+    <div class="marketingCampNode">
+        <div class="clearfix moduleHeader"><h4 class="fl">优惠券发送报告</h4><a class="closeTable fr" href="javascript:;">X</a><a class="fullTable fr" href="javascript:;">□</a></div>
+        <iframe width="100%" height="50%" frameborder="0" src="">
+        </iframe>
+    </div>
+</div>
+<script type="text/javascript">
+//编辑权限控制
+isEditNodeTpl();
+
+function DiscountCtr($scope,$http){
+	var jobId = $('select[name=cycleExecute]').val();
+	
+	if(jobId){
+		//是否显示发送报告
+		$http.get(root+'node/coupon/report/'+nodeTplId+'?jobId='+jobId).success(function(response){
+			var data = response.data;
+			$scope.showReport = data.showReport;
+			
+			$scope.reportPop=function(){
+				$("#ecView").hide();
+				$("#yhqReport iframe").prop("src",data.reportUrl);
+				$("#yhqReport").show();
+			}
+		});
+	}
+	
+	//读取可选优惠券列表
+	function getCouponList(shopId,sltCouponId,callback){
+		$http.get(root+'coupon/taobao/shop/'+shopId+'?_='+new Date().getTime()).success(function(res){
+			if(res.data.coupons){
+				//用ng-select虽然可以给option设置selected = 'selected'，但是不起作用
+				angular.forEach(res.data.coupons,function(coupon){
+					var selectedStr = coupon.couponId ==sltCouponId ? ' selected="selected"' : '';
+					$('#couponId').append('<option'+selectedStr+' value='+coupon.couponId+'>'+coupon.couponName+'</option>');
+				});
+				if(callback) callback();
+			}
+		});
+	}
+	
+	//获取优惠券通道
+	function getChannelList(sltChannelId,callback){
+		$http.get(root+"coupon/taobao/channel?_="+new Date().getTime()).success(function(response){
+			var channels = response.data.channels;
+			if(channels){
+				angular.forEach(channels,function(v){
+					var selectedStr = v.channelId == sltChannelId ? ' selected="selected"' : '';
+					$('#channelId').append('<option'+selectedStr+' value='+v.channelId+'>'+v.channelName+'</option>');
+				});
+				if(callback) callback();
+			}else{
+				$(this).Alert({"title":"提示","str":"当前无可用优惠券通道！","mark":true,"width":"160px"});
+			}
+		});
+	}
+	
+	//读取保存数据
+	$http.get(root+"node/coupon/"+nodeTplId+'?_='+new Date().getTime()).success(function(response){
+		var data = $scope.umpData = response.data;
+		//判断是否保存过
+		if(data){			
+			$http.get(root+'schedule/campaign/'+campId+'/snapshot?_='+new Date().getTime()).success(function(response){
+				if(response.data.campaignStatus!="A1"){
+					//如果执行过，则把之前选中的优惠券添加进来，无论该优惠券是否失效
+					$('#couponId').append('<option selected="selected" value='+data.coupon.couponId+'>'+data.coupon.couponName+'</option>');
+				}else{
+					getCouponList(data.shop.shopId,data.coupon.couponId);
+				}
+			});
+			getChannelList(data.channelId);
+		}else{
+			getChannelList('',function(){
+				$('#channelId option').eq(1).attr('selected',true);
+			});
+			//获取店铺
+			$http.get(root+"shop/taobao/list").success(function(response){
+				$scope.shops = response.data.shops;
+				getCouponList(response.data.shops[0].shopId,'',function(){
+					//第一次设置第一个有value的为选中
+					$('#shopId option').eq(1).attr('selected',true);
+				});
+			});
+		}
+	});
+	
+	//保存
+	$('#umpNode').validate({
+		submitHandler:function(){
+			if(!$('#channelId').val()){
+				$(this).Alert({"title":"提示","str":"当前选中的优惠券通道在通道列表中不存在！","mark":true});
+				return false;
+			}
+			var json = {};
+			$('#umpNode :input[name]').each(function(){
+				if($(this).attr('disabled') || this.name == '') return;
+				json[this.name] = (this.name == 'channelId' || this.name == 'couponId') ? parseInt(this.value) : this.value;
+			});
+			json.nodeId = nodeTplId;
+			$http.post(root+'node/coupon/',json).success(function(response){
+				if(response.status == 'ok'){
+					setSaveFullIcon(nodeTplId);
+					$(this).Alert({"title":"提示","str":"保存成功","mark":true,"width":"100px"});
+				}else{
+					$(this).Alert({"title":"提示","str":response.data.errorDesc,"mark":true,"width":"160px"});
+				}
+			});
+		}
+	});
+}
+closeReport("#ecView");
+maxWindow();
+</script>

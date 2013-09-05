@@ -1,0 +1,157 @@
+<div class="marketLayer" style="top:64px;left:150px;" ng-controller="modificationMarket">
+    <h2 class="heading">修改活动</h2>
+    <form id="createMaketLayer" name="createMaketLayer">
+         <div class="bg">
+                 <div class="mb16">
+                      <label><span class="red">*</span>从模板创建：</label>
+                      <input type="text"  class="borderHighlight" name="templateId" validate="required"  disabled="disabled"/>
+                      <a href="javascript:void(0);" class="optionModule"/>
+                 </div>
+		         <div class="mb16">
+                      <label><span class="red">*</span>活动名称：</label>
+                      <input type="text" class="borderHighlight" name="campName" validate="required"  maxlength="25"  onblur="isReapeatForNmae(this,this.value)"/>
+		         </div>
+		         <div class="mb16">
+                      <label>活动备注：</label>
+                      <textarea name="campDesc"  maxlength="500"></textarea>
+		         </div>
+         </div>
+         <div class="mb">
+                 <button class="btn btnBlue" id="marketSure" ng-click="sureModification()" >确定</button><button class="btn" id="marketCancel" ng-click="cancelModification()">取消</button>
+         </div>
+    </form>
+</div>
+<script type="text/javascript">
+var prevModificationVal="";
+function isReapeatForNmae(obj,val){
+	 if(prevModificationVal==val){return false;}else{
+		     var $this=$(obj);
+		     var name=trim(val);
+			 if(name == ""){
+			     return false;
+			 }else{
+                  $.ajax({
+                      url:"campaign/check?campaignName="+encodeURI(encodeURI(name)),
+                      async: false,
+                      type:"GET",
+					  cache:false,
+                      dataType:'json',
+                      success:function(data){
+					       var $pDiv=$this.parent();
+						   $this.removeClass("isError");
+                           if(data.valid=="0"){
+                                $this.addClass("isError");
+								if($this.siblings(".promptText").length==0){
+									 $('<span class="promptText red">活动名称已存在</span>').appendTo($pDiv);
+								}else{
+								     $this.siblings(".promptText").html("活动名称已存在");
+								}
+                           }else{
+								if($this.siblings(".promptText").length==0){
+									 $('<span class="promptText red"><img src="images/graph/news/state_executed.png" style="position:relative;top:3px;"></span>').appendTo($pDiv);
+								}else{
+								     $this.siblings(".promptText").html('<img src="images/graph/news/state_executed.png" style="position:relative;top:3px;">');
+								}
+						   }
+                      }
+                   });
+			 }
+}
+}
+function modificationMarket($scope,$location) {
+    $scope.nodeId=$location.path().split(':')[1];
+	$.ajax({
+		  url:"campaign/" +$scope.nodeId,
+		  //url:"data/market/modificationTpl.json",
+		  async: false,
+		  type:"GET",
+		  cache:false,
+		  dataType : "json",
+		  success:function(response){
+			  // console.log(response);
+			  var data=response.data;
+			  if(response.status=="error"){
+					$(this).Alert({"title":"提示","str":response.data[0].errordesc,"mark":true,"width":"160px"});
+               }else{
+				   var picUrl=data[0].picUrl;
+				   var value="";
+				   if(picUrl=="../images/compType-dx.png"){
+				        value="短信营销模板";
+				   }else if(picUrl=="../images/compType-yj.png"){
+	                    value="邮件营销模板";
+				   }else if(picUrl=="../images/compType-yhq.png"){
+	                    value="优惠券营销模板";
+				   }
+				   $("[name='templateId']").val(value).attr("id",data[0].campId);
+	               $("[name='campName']").val(data[0].campName);
+			       $("[name='campDesc']").val(data[0].campDesc);
+			        prevModificationVal=data[0].campName;
+               }
+
+
+		  }
+	   });
+   $scope.sureModification=function(){
+        var f=validateCustom();
+		if(f){
+		           var campId=$("[name='templateId']").attr("id");
+		           var campName=$("[name='campName']").val();
+                   var campDesc=$("[name='campDesc']").val();
+                   var parame={
+                       campName:campName,
+                       campDesc:campDesc,
+                       platCode:"taobao"
+                   }
+                   parame=JSON.stringify(parame);
+                  $.ajax({
+                      url:"campaign/"+campId,
+                      async: false,
+                      type:"PUT",
+                      data: parame,
+                      contentType:'application/json',
+                      dataType:'json',
+                      success:function(response){
+                           if(response.status=="error"){
+								$(this).Alert({"title":"提示","str":response.data[0].errordesc,"mark":true,"width":"160px"});
+			               }else{
+			                    location.href=campaignHref
+			               }
+                      }
+                   });
+					 //history.go(-1);
+		}
+   }
+   $scope.cancelModification=function(){
+         history.go(-1);
+   }
+}
+function validateCustom(){
+		    var flag1=true;
+		    $(".marketLayer [validate='required']").each(function(i){
+			
+		         var $this=$(this);
+		         if($this.val()==""){
+                    $this.addClass("isError");
+                    var $pDiv=$(this).parent();
+                    if($this.siblings(".promptText").length==0){
+                         $('<span class="promptText red">此选项必填</span>').appendTo($pDiv);
+                    }
+                    flag1=false;
+		         }else if($this.hasClass("isError")){
+				    flag1=false;
+				 }else{
+		            $this.removeClass("isError");
+		            $this.siblings(".promptText").remove();
+		         }
+		         //$(".promptText").eq("0").text();
+		    });
+            $(".marketLayer [validate='required']").bind("focus",function(){
+		        $(this).removeClass("isError");
+		        $(this).siblings(".promptText").remove();
+	        });
+	        return flag1;
+}
+//ie8 input maxlength bug
+$("[name='campDesc']").textarealimit({length:500 });
+</script>
+

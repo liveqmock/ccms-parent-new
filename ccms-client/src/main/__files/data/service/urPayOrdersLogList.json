@@ -1,0 +1,31 @@
+﻿{
+ "status":"0", "code":"0", "data": 
+	{
+		"pageSize":0,
+		"currPage":1,
+		"totalPages":1,
+		"totalElements":2,
+		"totalAmount":0.0,
+		"endDateTime":"2013年6月6日",
+		"startDateTime":"2013年6月4日",
+		"content":[{
+			"sendUser":"send_a",
+			"tid":"a",
+			"customerno":"a",
+			"payment":123.00,
+			"created":"2013-06-08 16:27:52",
+			"payTime":"2013-06-08 17:46:49",
+			"type":2
+		},
+		{
+			"sendUser":"send_b",
+			"tid":"b",
+			"customerno":"a",
+			"payment":34.00,
+			"created":"2013-06-08 16:35:50",
+			"payTime":"2013-06-08 17:48:00",
+			"type":1
+		}]
+	}
+
+}

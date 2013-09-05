@@ -1,0 +1,19 @@
+{
+    "priority": 2,
+    "request": {
+        "method": "POST",
+        "urlPattern": "/node/sms",
+        "bodyPatterns": [
+            { "matches": "<status>OK</status>" },
+            { "doesNotMatch": ".*ERROR.*" }
+        ]
+    },
+    "response": {
+        "status": 200,
+        "bodyFileName": "/node/sms/save.json",
+        "headers": {
+            "Content-Type": "application/json",
+            "Cache-Control": "max-age=86400"
+        }
+    }
+}

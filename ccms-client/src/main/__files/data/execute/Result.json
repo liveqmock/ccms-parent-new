@@ -1,0 +1,13 @@
+{
+"status":0, 
+"data":{
+    "jobId":123,
+    "jobStatus":21,
+    "visit":"2013-04-09 12:00:00",
+    "nodeStatusList":
+        [{"nodeId":2,"nodeType":"tstart", "nodeStatus":11,"startTime":"2013-04-09 12:00:00","endTime":"2013-04-09 12:00:05","duration":"5s","outputMsg":"10��","memo":""},
+        {"nodeId":1,"nodeType":"tstart", "nodeStatus":51,"starTtime":"2013-04-09 12:00:00","endTime":"2013-04-09 12:00:05","duration":"5s","outputMsg":"10��","memo":""},
+        {"nodeId":3,"nodeType":"tstart", "nodeStatus":51,"starTtime":"2013-04-09 12:00:00","endTime":"2013-04-09 12:00:05","duration":"5s","outputMsg":"10��","memo":""}]
+ 
+    }
+}

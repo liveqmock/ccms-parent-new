@@ -1,0 +1,44 @@
+
+<nscript get-root type="text/javascript" _src="scripts/service/sourceType.js"></nscript>
+<div class="maincontainerB kf_wrap">
+    <div class="maincontainer kf_wrap_cont" ng-controller="sourceType">			
+		<div class="clearfix">
+			<h2 class="heading fl kf_head">来源类型设置</h2>
+			<div class="shopinfo fl mt5 ml10" id="shopinfo">
+				<b>店铺选择 :</b><span class="">{{shop.shopName}}<i></i></span>
+				<dl style="display: none;">
+					<dd ng-click="init(s);" ng-repeat="s in shops"><a href="javascript:void(0)">{{s.shopName}}</a></dd>
+				</dl>
+			</div>
+		</div>
+		
+		<div class="refundTab" style="margin-bottom:10px;">
+			<ul class="clearfix">
+				<li ng-repeat="p in sourceAry" ng-class="{cur: p.id == parentId}"><a href="javascript:void(0);" ng-click="getSource(shop.shopId, p)">{{p.name}}</a></li>
+			</ul>
+		</div>
+		<div class="smalldarkerblueBtn newbuildBtn" style="margin:0;"><a href="javascript:void(0);" add-source="{shopId: shop.shopId, sourceId: source.id, sourceName: source.name, callback: getSource}">新增类型</a></div>
+		<div class="order_reportList" id="sourceTypeList">
+			<div class="loading" ng-show="!showSourceType" style="display: none;"><i></i>努力加载中...</div>
+			<table ng-show="showSourceType">
+				<thead>
+					<tr>
+						<th width="200">类型名称</th>
+						<th>备注</th>
+						<th width="100">操作</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr ng-repeat="s in sourceTypes" ng-class-even="'even'">
+						<td>{{s.name}}</td>
+						<td>{{s.description}}</td>
+						<td><a title="删除" ng-click="delSource(s.id, $index);" class="btn_delete" href="javascript:void(0);"></a></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		
+	</div>
+</div>
+
+

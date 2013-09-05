@@ -1,0 +1,15 @@
+{
+    "priority": 2,
+    "request": {
+        "method": "GET",
+        "urlPattern": "/node/sms/.*"
+    },
+    "response": {
+        "status": 200,
+        "bodyFileName": "/data/sms/messageLink.json",
+        "headers": {
+            "Content-Type": "application/json",
+            "Cache-Control": "max-age=86400"
+        }
+    }
+}

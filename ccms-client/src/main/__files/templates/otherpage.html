@@ -1,0 +1,6 @@
+<div class="maincontainerB"><iframe id="otherPage" class="otherPage" frameborder="0"></iframe></div>
+<script>
+$.get(root+'ucenter/'+location.hash.split('#/')[1],function(src){
+	$('#otherPage').attr('src',src);
+});
+</script>

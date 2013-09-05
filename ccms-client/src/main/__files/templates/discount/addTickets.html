@@ -1,0 +1,84 @@
+<style type="text/css">
+.ticketsInfoBox li{margin-bottom:15px;}
+.ticketsInfoBox label{width:110px;display:inline-block;margin-right:10px;}
+.ticketsInfoBox input{border:1px solid #ccc;padding:4px;width:210px;}
+.ticketsInfoBox input[name=postMoney]{width:100px;}
+.ticketsInfoBox input[name=ticketTime]{background: url("../images/all.png") no-repeat scroll 195px -71px #FFFFFF;}
+.ticketsInfoBox select,.ticketsInfoBox select{border:1px solid #ccc;padding-left:4px;width:210px;height:25px;}
+.ticketsInfoBox textarea{margin:0;}
+#couponPop{padding:10px;width:520px;height:220px;}
+#couponPop .imgMark{margin:10px 20px 0 0;}
+#couponPop .failMark{border:1px solid #FDE4D4;width:325px;height:20px;padding-left:30px;margin:30px 0 15px 0;line-height:20px;background:url("../images/couponMark.jpg") no-repeat 10px 2px #FEEEC0;color:#FF5243;}
+#couponPop .linkTaobaoBtn{width:100px;height:35px;line-height:35px;text-align:center;color:#FFFFFF;background:#2CA6DD;border-radius:5px;display:inline-block;margin-right:15px;}
+#couponPop .linkTaobaoBtn:hover{ text-decoration:none;}
+#couponPop .cc_btn{margin-top:30px;}
+#couponPop .timeLoseMark{background:#FDFFD6;width:195px;height:auto;padding:5px 10px;border:1px solid #FDE4D4;display:inline-block;}
+</style>
+<div class="marketLayer" ng-controller="CreatCoupon" >
+    <h2 class="heading">新建优惠券</h2>
+    <div class="bg">
+    	<ul class="ticketsInfoBox">
+        	<li class="clearfix">
+            	<p class="fl"><label><font color="red">*</font>&nbsp优惠券名称：</label><input type="text" name="couponName" /></p>
+                <p class="fl">
+                	<label><font color="red">*</font>&nbsp优惠券通道：</label><select>
+                    	<option>1</option>
+                    </select>
+                </p>
+            </li>
+            <li class="clearfix">
+                <p class="fl">
+                	<label><font color="red">*</font>&nbsp优惠券面额：</label>
+                    <select>
+                    	<option>1</option>
+                    </select>
+                </p>
+                 <p class="fl">
+                	<label><font color="red">*</font>&nbsp店铺：</label>
+                    <select>
+                    	<option>1</option>
+                    </select>
+                </p>
+            </li>
+           	<li>
+            	<label>使用该券需满消费：</label><input type="text" name="postMoney" /> 元
+            </li>
+            <li>
+            	<label><font color="red">*</font>&nbsp生效时间：</label><input id="ticketStart" type="text" name="ticketTime" />
+            </li>
+            <li>
+            	<label><font color="red">*</font>&nbsp截止时间：</label><input id="ticketEnd" type="text" name="ticketTime" />
+            </li>
+            <li>
+            	<label>备注：</label><textarea class="markMessage"></textarea>
+            </li>
+        </ul>
+    </div>
+    <div class="mb">
+        <button id="couponSure" class="btn btnBlue" ng-click="clickSureCoupon()">确定</button>
+        <button id="couponCancel" class="btn" ng-click="clickConcelCoupon()">取消</button>
+    </div>
+</div>
+<!--弹框start-->
+<div id="couponPop" class="msgPopBox ui-draggable clearfix">
+	<div class="fl imgMark"><img src="../images/leftMark.jpg" width="140" height="185" /></div>
+    <div class="fl">
+        <p class="failMark">您尚未授权成功</p>
+        <p>创建优惠券需要店铺主账号的授权。</p>
+        <div class="cc_btn clearfix">
+            <a class="linkTaobaoBtn fl" href="##">立即授权</a><span class="timeLoseMark fl">授权后30分钟内可以免授权创券，超出30分钟后需要重新授权。</span>
+        </div>
+   	</div>
+</div>
+<!--弹框end-->
+<script type="text/javascript">
+function CreatCoupon($scope){
+	
+
+}
+
+
+
+
+
+</script>

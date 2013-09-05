@@ -1,0 +1,11 @@
+{
+"status":0, 
+"data":{
+    "campaignId":123456,
+    "campaignStatus":"B1",
+    "visit":"2013-04-09 12:00:00",
+    "jobStatusList":[{"jobId":1, "jobStatus":21,"startTime":"2013-04-09 12:00:00"},
+        {"jobId":2, "jobStatus":12,"startTime":"2013-04-09 12:00:00"},
+        {"jobId":3, "jobStatus":11,"startTime":"2013-04-09 12:00:00"}] 
+    }
+}

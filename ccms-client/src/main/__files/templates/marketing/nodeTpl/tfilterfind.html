@@ -1,0 +1,60 @@
+<div class="marketingCampNodeBg">
+	<div class="triangleArrows findTriangleArrows"></div>
+	<div class="marketingCampNode">
+		<div class="clearfix moduleHeader">
+			<h4 class="fl">客户筛选节点设置</h4><span class="fr" id="findID">节点ID：{{nodeTplId}}</span>
+		</div>
+		<form class="marketingCampNodeMain marketingCampNodeQuery" id="marketingCampNodeQuery">
+			<div class="nodeQueryAside" style="text-align:right;">
+				<label><input type="radio" name="timeType" value="2" checked="checked">绝对时间</label>
+				<label><input type="radio" name="timeType" value="1">相对时间</label>
+				<label><input type="checkbox" name="exclude">排除满足条件的客户</label>
+			</div>
+			<div class="nodeQueryCustomer" id="nodeQueryCustomer">
+				<div id="nodeQueryPop" style="display:none;width:300px;">
+					<ul id="zTreeToQuery" class="ztree" style="max-height:400px;overflow-y:auto;"></ul>
+				</div>
+				<h5><span class="smallPlus"><a href="javascript:void(0)">-</a></span>1.客户属性查询<input type="hidden" id="property" value=""/></h5>
+				<div>
+					<table class="ccmsTableB marketingCampNodeQueryTable">
+						<thead><tr><th><span>条件</span></th><th><span>属性</span></th><th><span>判断条件</span></th><th><span>属性值<i class="red">*</i></span></th><th><span>操作</span></th></tr></thead>
+						<tbody></tbody>
+					</table>
+				</div>
+			</div>
+			<div class="nodeQueryOrder" id="nodeQueryOrder">
+				<h5><span class="smallPlus"><a href="javascript:void(0)">-</a></span>2.消费信息查询</h5>
+				<div style="overflow:auto;">
+					<table class="ccmsTableB marketingCampNodeQueryTable">
+						<thead>
+							<tr>
+								<th><span>条件</span></th>
+								<th><span>订单时间</span></th>
+								<th><span>购买与否<i class="red">*</i></span></th>
+								<!--<th><span>店铺</span></th>-->
+								<!--<th><span>商品</span></th>-->
+								<th><span>交易来源</span></th>
+								<th><span>是否万人团</span></th>
+								<th><span>订单状态</span></th>
+								<th><span>指标<i class="red">*</i></span></th>
+								<th><span>指标值<i class="red">*</i></span></th>
+								<th><span>操作</span></th>
+							</tr>
+						</thead>
+						<tbody></tbody>
+					</table>
+				</div>
+			</div>
+			<div>
+				<button type="submit" class="btn btnBlue submitNodeData" id="saveBtn">保存</button>
+			</div>
+		</form>
+    </div>
+</div>
+<form class="relTimePop" id="relTimePop">
+	<p><input class="radio" type="radio" name="relTimeType" value="1" /><span>前</span><input class="borderHighlight digits" required name="minuteDate" type="text" size="6" /><span>天</span><input class="borderHighlight relSecondTime" size="8" required readOnly="readOnly" /></p>
+	<p><input class="radio" type="radio" name="relTimeType" value="2" /><span>前</span><input class="borderHighlight digits" required name="minute" type="text" size="6" /><span>分钟</span></p>
+	<p><input class="radio" type="radio" name="relTimeType" value="3" /><span>前</span><input class="borderHighlight digits" required name="minuteMonth" type="text" maxlength="2" size="2" /><span>月，第</span><input class="borderHighlight digits" required type="text" name="minuteMonthDay" max="31" maxlength="2" size="2" />号<input class="borderHighlight relSecondTime" size="8" readOnly="readOnly" required /></p>
+	<p><button type="submit" class="btn btnBlue">确定</button><button id="closeTimePop" type="button" class="btn">取消</button></p>
+</form>
+<nscript get-root _src="scripts/marketing/filterfindNodeFlow.js"></nscript>

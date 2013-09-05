@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html ng-app="ccmsApp" ng-controller="ccmsCtrl">
+<head>
+	<meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
+	<script>
+	var root = location.pathname.match(/.*\//);
+	(function(){
+	  //生成css和js增加root变量
+	  function addTag(name, attributes,sync) {
+		var el = document.createElement(name),attrName;
+		for (attrName in attributes) {
+		  if(attrName == 'href' || attrName == 'src'){
+			attributes[attrName] = root + attributes[attrName];
+		  }
+		  el.setAttribute(attrName, attributes[attrName]);
+		}
+		document.write(outerHTML(el));
+	  }
+
+	  function outerHTML(node){
+		// if IE, Chrome take the internal method otherwise build one
+		return node.outerHTML || (
+			function(n){
+				var div = document.createElement('div'), h;
+				div.appendChild(n);
+				h = div.innerHTML;
+				div = null;
+				return h;
+			})(node);
+	  }
+	  addTag('link',{rel: 'stylesheet', href: 'styles/homepage.css', type: 'text/css'});
+	  addTag('link',{rel: 'stylesheet', href: 'styles/order.css', type: 'text/css'});
+	  addTag('link',{rel: 'stylesheet', href: '3rd/jquery.ui.timepicker/development-bundle/themes/base/jquery.ui.all.css', type: 'text/css'});
+	  addTag('link',{rel: 'stylesheet', href: '3rd/jquery.ui.timepicker/timepicker/css/jquery-ui-timepicker-addon.css', type: 'text/css'});
+	  addTag('link',{rel: 'stylesheet', href: '3rd/ccms_pop/css/style.css', type: 'text/css'});
+	  addTag('link',{rel: 'stylesheet', href: '3rd/flexigrid/css/flexigrid.css', type: 'text/css'});
+	  addTag('script',{src:'scripts/jquery-1.7.1.min.js'});
+	  addTag('script',{src:'scripts/angular/angular-1.0.3.min.js'});
+	  addTag('script',{src:'scripts/angular/angular-resource.min.js'});
+	  addTag('script',{src:'3rd/kindeditor-4.1.6/kindeditor-min.js'});
+	  addTag('script',{src:'scripts/common.js'});
+	  addTag('script',{src:'scripts/angular/controller.js'});
+	  addTag('script',{src:'scripts/service/shopService.js'});
+	  addTag('script',{src:'scripts/directives/timeFromNow.js'});
+	  addTag('script',{src:'scripts/personalizedPackage/statuses.js'});
+	  addTag('script',{src:'scripts/angular/main.js'});
+	  addTag('script',{src:'3rd/jquery.ui.timepicker/js/jquery-ui.custom.js'});
+	  addTag('script',{src:'3rd/jquery.ui.timepicker/timepicker/js/jquery-ui-timepicker-addon.js'});
+	  addTag('script',{src:'3rd/jquery.ui.timepicker/development-bundle/ui/i18n/jquery.ui.datepicker-zh-CN.js'});
+	  addTag('script',{src:'3rd/ccms_pop/js/yunat_pop.js'});
+	  addTag('script',{src:'3rd/flexigrid/js/flexigrid.js'});
+	  addTag('script',{src:'3rd/jquery.validate/jquery.validate.js'});
+	  addTag('script',{src:'3rd/jquery.validate/messages_zh.js'});
+	  addTag('script',{src:'3rd/ZeroClipboard/ZeroClipboard.min.js'});
+	})();
+	</script>
+	<title>数据赢家-您身边的营销管理专家</title>
+	<!--[if IE]>
+	<script type="text/javascript">
+		(function(){if(!/*@cc_on!@*/0)return;var e = "abbr,article,aside,audio,canvas,datalist,details,dialog,eventsource,figure,footer,header,hgroup,mark,menu,meter,nav,output,progress,section,time,video".split(','),i=e.length;while(i--){document.createElement(e[i])}})();
+		document.createElement("header");
+		document.createElement("nav");
+		document.createElement("article");
+		document.createElement("section");
+		document.createElement("canvas");
+		document.createElement("footer");
+	</script>
+	<![endif]-->
+</head>
+<body style="-moz-user-select:none;" class="hideNav">
+	<div class="header clearfix">
+		<h1 class="fl"><span class="logo">数据赢家</span></h1>
+		<!--
+		<div class="platform fl">
+			<span>淘宝平台</span>
+			<ul style="display:none;"><li>淘宝平台</li><li>京东平台</li><li>当当平台</li><li>ebay平台</li></ul>
+		</div>
+		-->
+		<nav class="fl">
+			<ul class="nav fl">
+				<li ng-repeat="nav in user.nav"><a href="{{nav.url}}" ng-class="navClass(nav.url);">{{nav.name}}</a></li>
+			</ul>
+			<div class="more fl comboboxParent" style="display:none;">
+				<a href="javascript:void(0)">更多<i class="helloarrow"></i></a>
+				<ul class="combobox" style="display:none;">
+					<li ng-repeat="nav in user.nav"><a href="{{nav.url}}">{{nav.name}}</a></li>
+            	</ul>
+			</div>
+
+		</nav>
+		<div class="headerAside">
+			<span class="wangwangTips"></span>
+			<span class="hello fr comboboxParent">
+				<b>
+					<a href="javascript:void(0)">{{user.name}}<i class="helloarrow"></i></a>
+					<ul class="combobox" style="display:none;">
+						<li><a href="{{userDoUrl}}" target="_blank">账户管理</a></li>
+						<li><a href="{{logout}}">退&nbsp;&nbsp;出</a></li>
+	            	</ul>
+            	</b>
+			</span>
+			<!--
+			<span title="添加到桌面" class="outdesk">
+				<b>
+					<a href="javascript:void(0)"></a>
+				</b>
+			</span>
+			-->
+			<span title="联系我们" class="contactus comboboxParent">
+				<b>
+					<a href="javascript:void(0)"></a>
+					<ul class="combobox" style="display:none;">
+						<li><a target="_blank" href="http://wpa.qq.com/msgrd?v=3&uin=800016177&site=qq&menu=yes">QQ客服</a></li>
+						<li><a target="_blank" href="http://www.taobao.com/webww/ww.php?ver=3&amp;touid=%E6%95%B0%E6%8D%AE%E8%B5%A2%E5%AE%B6&amp;siteid=cntaobao&amp;status=1&amp;charset=utf-8">旺旺客服</a></li>
+	            	</ul>
+            	</b>
+			</span>
+			<span title="帮助" class="help">
+				<b>
+					<a href="http://help.fenxibao.com/ccmsbase/" target="_blank"></a>
+				</b>
+			</span>
+		</div>
+	</div>
+	<div class="sidebar" style="display:none;" ng-show="showSideBar">
+		<ul class="sideNav">
+			<li ng-repeat="subNav in subNavs">
+				<a ng-addsubcurrent onClick="subFn(this);" ng-class="navSub(subNav.children);" href="{{subNav.url}}">{{subNav.name}}<i ng-show="subNav.children.length > 0" class="sideNavArrow"></i></a>
+				<dl style="display:none;">
+					<dd ng-repeat="tn in subNav.children">
+						<a class="sbSmall" href="{{tn.url}}" ng-addsubcur>{{tn.name}}</a>
+					</dd>
+				</dl>
+			</li>
+		</ul>
+		<div class="sidebarFt">Copyright © Shuyun All Rights Reserved.</div>
+	</div>
+	<div ng-show="!tmlLoaded" class="loading"><i></i>加载中...</div>
+	<div ng-include ng-visible="tmlLoaded" src="pageUrl" onload="afterLoadCont();"><div>
+</body>
+</html>

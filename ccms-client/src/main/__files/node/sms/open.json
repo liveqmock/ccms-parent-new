@@ -1,0 +1,7 @@
+{
+"nodeId":1, "name":"测试短信", "unsubscribeEnabled":true, "blacklistDisabled":true,
+"redlistEnabled":false, "deliveryChannelId":null, "testPhoneString":"13274432210,13564382312,18609415322",
+"messageValue":"这是一条测试短信",
+"deliveryChannelList" : [
+{"gatewayId":1, "gatewayName":"亿美软通", "gatewayPrice":0.05, "gatewayBalance": "1000.2", "gatewayType":1, "wordsLimit": 67}]
+}

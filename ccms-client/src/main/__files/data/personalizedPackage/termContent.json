@@ -1,0 +1,12 @@
+
+{
+    "code":0,
+    "status":"ok",
+    "data":{
+        "propId":42,
+        "propName":"会员等级",
+        "propType":"string",
+        "supportOps":[{"name":"EQ","label":"等于"},{"name":"GT","label":"大于"}],
+        "providedValues":[]
+    }   
+}

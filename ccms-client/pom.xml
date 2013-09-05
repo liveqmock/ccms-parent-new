@@ -1,0 +1,39 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<artifactId>ccms-client</artifactId>
+	<packaging>war</packaging>
+
+	<parent>
+		<groupId>com.yunat.ccms</groupId>
+		<artifactId>ccms-parent</artifactId>
+		<version>4.4.0-SNAPSHOT</version>
+	</parent>
+
+	<dependencies>
+		<dependency>
+			<groupId>com.github.tomakehurst</groupId>
+			<artifactId>wiremock</artifactId>
+			<version>1.31</version>
+
+			<!-- Include this if you have dependency conflicts for Guava, Jetty, Jackson
+				or Apache HTTP Client -->
+			<classifier>standalone</classifier>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<finalName>ccms-client</finalName>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-war-plugin</artifactId>
+				<version>2.3</version>
+				<configuration>
+					<warSourceDirectory>src/main/__files</warSourceDirectory>
+					<webXml>src/main/__files/WEB-INF/web.xml</webXml>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+
+</project>

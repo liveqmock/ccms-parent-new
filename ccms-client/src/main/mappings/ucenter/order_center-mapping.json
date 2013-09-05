@@ -1,0 +1,14 @@
+{
+    "request": {
+        "method": "GET",
+        "urlPattern": "/ucenter/order_center"
+    },
+    "response": {
+        "status": 200,
+        "bodyFileName": "/data/ucenter/order_center.json",
+        "headers": {
+            "Content-Type": "application/json",
+            "Cache-Control": "max-age=86400"
+        }
+    }
+}

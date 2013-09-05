@@ -1,0 +1,8 @@
+{
+    "code":0,
+    "status":"ok",
+    "data":[
+        {"typeId":"CUSTOMER_BASED","typeName":"基于顾客"},
+        {"typeId":"ORDER_BASED","typeName":"基于订单"} 
+    ]
+}

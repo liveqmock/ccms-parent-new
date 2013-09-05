@@ -1,0 +1,5 @@
+﻿{"status":"ok", "code":"0", "data":[
+   {"templateId":1,"templateName":"短信营销模板","picUrl":"../images/compType-dx.png"},
+   {"templateId":3,"templateName":"邮件营销模板","picUrl":"../images/compType-yj.png"},
+   {"templateId":4,"templateName":"优惠券营销模板","picUrl":"../images/compType-yhq.png"}
+]}

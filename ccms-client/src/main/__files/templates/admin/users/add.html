@@ -1,0 +1,76 @@
+<style>
+.error{padding-left:104px;color:red;}
+input.errorInput{border-color:red;}
+
+.formtab_hd{border-bottom:1px solid #efefef;padding-bottom:10px;margin-bottom:10px;}
+</style>
+<script>
+//判断是加载 add/modify的js
+if(/\/modify$/.test(location.href)){
+	conosle.log('modify');
+}else{
+	console.log('add');
+}
+function addUserCtrl($scope){
+	$scope.submit = function(){
+		var invalidInput = $scope.addUser.$error.required;
+		angular.forEach(invalidInput,function(value){
+			value.$dirty = true;
+		});
+		if($scope.addUser.$valid){
+			alert('submit');
+		}else{
+			$('[name=addUser]').find('.ng-invalid').eq(0).focus();
+			alert('请完善');
+		}
+	}
+}
+</script>
+<div class="maincontainerB">
+	<div class="maincontainer">
+		<h2 class="heading">{{mainTitle}}</h2>		
+		<div class="marketLayer" style="position:static;">
+			<form name="addUser" ng-controller="addUserCtrl" novalidate="novalidate" ng-submit="submit();">
+				 <div class="bg">
+					<div class="formtab_hd">
+						<a href="javascript:void(0);">基本信息</a>
+						<a href="javascript:void(0);">角色分配</a>
+					</div>
+					<div>
+						<div class="mb16">
+							<label><span class="red">*</span>用户名：</label>
+							<input ng-validinput type="text" class="borderHighlight" name="userName" ng-model="userName" required>
+							<p class="error" ng-show="addUser.userName.$error.required && addUser.userName.$dirty">用户名不能为空</p>
+						</div>
+						<div class="mb16">
+							<label><span class="red">*</span>密码：</label>
+							<input ng-validinput type="password" class="borderHighlight" name="password" ng-model="password" required>
+							<p class="error" ng-show="addUser.password.$error.required && addUser.password.$dirty">密码不能为空</p>
+						</div>
+						<div class="mb16">
+							<label><span class="red">*</span>确认密码：</label>
+							<input ng-validinput type="password" class="borderHighlight" name="password1" ng-model="password1" required>
+							<p class="error" ng-show="addUser.password1.$error.required && addUser.password1.$dirty">请再次输入密码</p>
+							<p class="error" ng-show="password1 && password1 != password">两次输入的密码不一致</p>
+						</div>
+						<div class="mb16">
+							<label>姓名：</label>
+							<input type="text" class="borderHighlight" name="truename" />
+						</div>
+						<div class="mb16">
+							<label>手机：</label>
+							<input type="text" class="borderHighlight" name="mobile" />
+						</div>
+						<div class="mb16">
+							<label>Email：</label>
+							<input type="text" class="borderHighlight" name="emaila" />
+						</div>
+					</div>
+				 </div>
+				 <div class="mb">
+						<button id="marketSure" class="btn btnBlue">确定</button><button id="marketCancel" class="btn">取消</button>
+				 </div>
+			</form>
+		</div>
+	</div>
+</div>

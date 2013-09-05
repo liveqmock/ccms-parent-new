@@ -1,0 +1,14 @@
+{
+    "request": {
+        "method": "GET",
+        "urlPattern": "/ucenter/shop_monitor"
+    },
+    "response": {
+        "status": 200,
+        "bodyFileName": "/data/ucenter/shop_monitor.json",
+        "headers": {
+            "Content-Type": "application/json",
+            "Cache-Control": "max-age=86400"
+        }
+    }
+}

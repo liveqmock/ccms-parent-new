@@ -1,0 +1,10 @@
+<script src="scripts/angular/mainCtrl.js"></script>
+<div class="maincontainerB">
+	<div class="maincontainer" ng-controller="mainCtrl">
+		<h2 class="heading">{{mainTitle}}</h2>
+		<div class="userGridWrap">
+			<h3>修改活动</h3>
+			<p><label>活动Id</label><input value="{{$location.path().split(':')[1]}}" /></p>
+		</div>
+	</div>
+</div>

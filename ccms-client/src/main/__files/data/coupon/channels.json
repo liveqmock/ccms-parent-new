@@ -1,0 +1,11 @@
+﻿{
+"data":{
+	"channels":[
+		{"channelId":4,"channelType":1,"channelName":"淘宝优惠券"},
+		{"channelId":5,"channelType":2,"channelName":"京东优惠券"},
+		{"channelId":6,"channelType":3,"channelName":"易迅优惠券"},
+		{"channelId":7,"channelType":4,"channelName":"vip优惠券"},
+		{"channelId":8,"channelType":5,"channelName":"tulv优惠券"}
+	]
+}
+}

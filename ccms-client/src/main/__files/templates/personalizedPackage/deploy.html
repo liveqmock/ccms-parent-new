@@ -1,0 +1,98 @@
+
+<link get-root type="text/css" rel="stylesheet" _href="styles/personalizedPackage/personalized.css" />
+<nscript get-root type="text/javascript" _src="scripts/personalizedPackage/deploy.js"></nscript>
+<nscript get-root type="text/javascript" _src="scripts/personalizedPackage/cookies.js"></nscript>
+<div class="maincontainerB deploy" ng-controller="deployCtr" style="overflow-y:scroll;">
+	<div class="maincontainer" style="bottom:auto">
+    	<div class="clearfix">
+    		<h2 class="heading fl">方案配置</h2>
+            <div class="shopinfo" id="shopinfo">
+                <b>店铺选择 :</b><span class="" dpId="{{nowShopId}}">{{shopModuleVal}}<i></i></span>
+                <dl style="display: none;">
+                    <dd ng-repeat="shop in shops" shop_id="{{shop.shopId}}"><a ng-click="init(shop.shopId,shop.shopName);" href="javascript:void(0)">{{shop.shopName}}</a></dd>
+                </dl>
+                <div class="clear"></div>
+            </div>
+        </div>
+        <div class="schemeList">
+        	<ul class="clearfix"></ul>
+        </div>
+        <div class="schemeBox">
+        </div>
+        <div class="buttonBox">
+        	<a class="saveBtn" href="javascript:void(0)" title="保存">保存</a>
+            <a class="methodBtn btnBorder" href="javascript:void(0)" title="方法预案" ng-click="popPreview()">方案预演</a>
+            <a class="ruleBtn btnBorder" href="javascript:void(0)" title="添加规则">添加规则</a>
+        </div>
+        <div class="schemeAlert">当前店铺没有部署方案，请先部署方案！</div>
+<!--弹框-->
+        <div class="editorPop" style="display:none;">
+            <ul>
+            	<li>
+                	<label>条件名称：</label><input class="editorName" type="text" /><input class="checkBox" type="checkbox" />默认名称
+                </li>
+                <li class="popType">
+                	<label>指标类型：</label><select ng-model="typeVal"><option id="{{type.typeId}}" ng-repeat="type in types">{{type.typeName}}</option></select>
+                </li>
+                <li class="popChoseList">
+                	<label>指标选择：</label><select ng-model="choseVal"><option id="{{choseList.id}}" ng-repeat="choseList in choseLists">{{choseList.name}}</option></select>
+                </li>
+                <li class="popTermContent">
+                	<label>满足条件：</label><select class="termSelectOne" ng-model="termSelectOneVal"><option name="{{contentTerm.name}}" ng-repeat="contentTerm in contentTerms">{{contentTerm.label}}</option></select><input class="termEditor" type="text" /><input class="productView" ids={{productSelectedIds}} disabled="disabled" type="text" ng-model="productViewName" /><select ng-model="termSelectTwoVal" class="termSelectTwo"><option id="{{provideValue.id}}" name="{{provideValue.value}}" ng-repeat="provideValue in providedValues">{{provideValue.name}}</option></select><select class="cityList" ng-model="cityVal"><option ng-repeat="city in citys" name="{{city.name}}">{{city.value}}</option></select><a class="productMark" href="javascript:void(0)" title="选择商品" ng-click="proSel()" ></a>
+                </li>
+            </ul>
+           	<div class="deployBtnBox">
+                <button class="saveBtn btn btnBlue">确定</button><button class="cancelBtn btn">取消</button>
+        	</div>
+        </div>
+<!--弹框end-->
+<!--方案预演-->
+<div id="startRehearsal" style="display:none;">
+    <div class="popupbg inline-block W640">
+      <!--content-->
+      <div>
+        <!--订单数-->
+        <ul class="bgbluea block padtop15 padbottom20 h40">
+          <li class="ordersum gray_6e font12"><i class="ordericon fl"></i><p class="fl padlef10">预演订单总数<br/><span class="font18 gray_57 tahoma">{{previewData.total}}</span> 笔</p></li>
+          <li class="ordersingle gray_6e font12">方案备注订单数<br/><span class="font18 blue_pd tahoma">{{previewData.handled}}</span> 笔</li>
+          <li class="ordersingle gray_6e font12">已备注订单数<br/><span class="font18 orange_a tahoma">{{previewData.remarked}}</span> 笔</li>
+          <li class="ordersingle gray_6e font12">备注订单占比<br/><span class="font18 gray_57 tahoma">{{previewData.remarkedRate}}%</span></li>
+        </ul>
+        <!--水平线-->
+        <hr class="hrA" />
+        <!--方案对应表格数据-->
+        <table class="tablecommA">
+          <thead>
+            <tr>
+              <th width="65">优先级</th>
+              <th width="150"><span>规则名称</span></th>
+              <th width="120"><span>订单备注内容</span></th>
+              <th width="240"><span>占订单比例</span></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr ng-repeat="previewRule in previewRules">
+              <td>{{previewRule.position}}</td>
+              <td>{{previewRule.name}}</td>
+              <td>{{previewRule.remark}}</td>
+              <td>
+                <span class="fl w30 right">{{previewRule.remarkedRate}}%</span>
+                <div class="loadingA inline-block marginlef12"><span style="width:{{previewRule.remarkedRate}}%" class="loadingpercentA inline-block"></span></div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div style="position:relative;margin-top:20px;">
+        <div class="loadingB">
+          <div style="width:{{handledPercent}}%;" class="loadingpercentB"></div>
+        </div>
+        <div class="loadingpercentfont">{{previewData.handled}}/{{previewData.total}}</div>
+      </div>
+</div>
+<!--预演弹框end-->
+    </div>
+<div class="productSelected" ng-include src='productSelect' onload="popupProSel()" style="display:none"></div>
+</div>
+
+

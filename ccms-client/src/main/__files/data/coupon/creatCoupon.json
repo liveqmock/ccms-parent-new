@@ -1,0 +1,8 @@
+﻿{
+"couponName":"双11满100减10",
+"startTime":"20131001 12:00:00",
+"endTime":"20131010 12:00:00",
+"threshold":100,
+"shopId":"123456",
+"denominationId":2
+}

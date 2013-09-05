@@ -1,0 +1,14 @@
+{
+    "request": {
+        "method": "POST",
+        "urlPattern": "/customerCenter/logistics/logisticsList"
+    },
+    "response": {
+        "status": 200,
+        "bodyFileName": "/data/service/logisticsList.json",
+        "headers": {
+            "Content-Type": "application/json",
+            "Cache-Control": "max-age=86400"
+        }
+    }
+}

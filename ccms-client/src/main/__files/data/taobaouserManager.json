@@ -1,0 +1,18 @@
+{"total":1,"page":0,"data":[
+	{
+		"id":"1",
+		"platUserId":"12334",
+		"platUserName":"tomwalk",
+		"shopName":"qiushi_shop_test",
+		"isSubuser":false,
+		"disabled":false
+	},
+	{
+		"id":"2",
+		"platUserId":"23456",
+		"platUserName":"tomwalk",
+		"shopName":"测试测试",
+		"isSubuser":true,
+		"disabled":true
+	}
+]}

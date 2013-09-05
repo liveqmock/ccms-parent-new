@@ -1,0 +1,14 @@
+{
+    "request": {
+        "method": "GET",
+        "urlPattern": "/rulecenter/shop/.*/products/.*"
+    },
+    "response": {
+        "status": 200,
+        "bodyFileName": "3rd/productSelected/findGoods.json",
+        "headers": {
+            "Content-Type": "application/json",
+            "Cache-Control": "max-age=86400"
+        }
+    }
+}

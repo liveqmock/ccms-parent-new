@@ -1,0 +1,5 @@
+{
+"targetGroupCustomers":200, "controlGroupCustomers":10,
+"validPhoneAmount":190, "invalidPhoneAmount":10,
+"reportUrl": "http://ccc.ss.report.com/report/123"
+}

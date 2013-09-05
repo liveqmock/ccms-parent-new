@@ -1,0 +1,69 @@
+{
+    "data":{
+		"serviceStaffName": [
+			{
+				"name": "数据赢家：雪梨"
+			}, 
+			{
+				"name": "数据赢家：XX"
+			},
+			{
+				"name": "数据赢家：XXX"
+			}
+		],
+		"urpayStatus": [
+			{
+				"value": 1 ,
+				"status":"已催付"
+			},
+			{
+				"value": 0 ,
+				"status": "未催付"
+			},
+			{
+				"value": "00" ,
+				"status": "建议催付"
+			},
+			{
+				"value": "01" ,
+				"status": "不建议催付"
+			}
+		],
+		"dateOrPaymentOrderBy": [
+			{
+				"value" : "dateasc",
+				"orderby":"时间倒序"
+			},
+			{
+				"value" : "datedesc",
+				"orderby":"时间顺序"
+			},
+			{
+				"value" : "paymentasc",
+				"orderby":"金额降序"
+			},
+			{
+				"value" : "paymentdesc",
+				"orderby":"金额升序"
+			}
+		],
+		"serviceStaffNick": null,
+		"mobile": null,
+		"createdStart" : null,
+		"createdEnd" : null,
+		"isHide": [
+			{
+				"hide": "不显示隐藏订单"
+			},
+			{
+				"hide": "显示隐藏订单"
+			}
+		],
+		"title": null,
+		"outerId": null
+	
+		
+	},
+    "code": "0",
+    "status": "ok"
+}

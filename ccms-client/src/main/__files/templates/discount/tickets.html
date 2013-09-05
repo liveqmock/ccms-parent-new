@@ -1,0 +1,44 @@
+<style type="text/css">
+.coupon .addMarketBtnCoupon{background: url("../images/addCoupon.jpg") no-repeat scroll 0 0 transparent;cursor: pointer;height: 20px;left: 135px;position: absolute;text-indent: -9999px;top: 27px;width: 82px;}
+.coupon .questionIcon{background: url("../images/icon.png") no-repeat scroll 0 0 transparent;cursor: pointer;height: 12px;left: 225px;position: absolute;text-indent: -9999px;top: 27px;width: 12px;}
+.coupon .iconBox{border:1px solid #FFE0CC;padding:0 10px;background:#FDFFD6;height:24px;line-height:24px;position:absolute;left:250px;top:24px;}
+</style>
+<div class="coupon" ng-controller="MarketTwo">
+	<div class="maincontainerB">
+        <div class="maincontainer">
+            <h2 class="heading">新建优惠券</h2>
+            <div class="addMarketBtnCoupon" ng-click="addTickets()" title="新建优惠券">新建优惠券</div>
+            <div class="questionIcon" title="提示"></div>
+            <div class="iconBox">需要店铺订购淘宝官方的"店铺优惠券"应用，点击 <a href="##" title="立即订购">立即订购</a></div>
+            <div id="addHdModel"  ng-include src='addTicketTpl'></div>
+            <div class="list">
+                <div class="listHeader">
+                    <ul class="listTab clearfix">
+                        <li class="listSelected"><a href="javascript:;" title="优惠券列表">优惠券列表</a></li>
+                    </ul>
+    
+                </div>
+                <div class="listContainer" ng-include src='nodeTpl'></div>
+            </div>
+        </div>
+	</div>
+</div>
+<script type="text/javascript">
+	function MarketTwo($scope){
+		$scope.addTickets=function(){
+			$scope.addTicketTpl="templates/discount/addTickets.html?_="+new Date().getTime();
+		};
+		
+			
+		$scope.clickSureCoupon=function(){
+			//验证未加
+			$("#couponPop").addInteractivePop({magTitle:"授权提醒",mark:true,drag:false});
+		};
+		$scope.clickConcelCoupon=function(){
+			$scope.addTicketTpl="";
+		};
+	
+	}
+
+
+</script>

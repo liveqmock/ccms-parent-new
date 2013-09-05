@@ -1,0 +1,14 @@
+{
+    "request": {
+        "method": "GET",
+        "urlPattern": "/ucenter/shop_diagnosis"
+    },
+    "response": {
+        "status": 200,
+        "bodyFileName": "/data/ucenter/shop_diagnosis.json",
+        "headers": {
+            "Content-Type": "application/json",
+            "Cache-Control": "max-age=86400"
+        }
+    }
+}

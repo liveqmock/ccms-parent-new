@@ -1,0 +1,14 @@
+{
+    "request": {
+        "method": "PUT",
+        "urlPattern": "/coupon/taobao/[0-9]+"
+    },
+    "response": {
+        "status": 200,
+        "bodyFileName": "/data/coupon/modify.json",
+        "headers": {
+            "Content-Type": "application/json",
+            "Cache-Control": "max-age=86400"
+        }
+    }
+}

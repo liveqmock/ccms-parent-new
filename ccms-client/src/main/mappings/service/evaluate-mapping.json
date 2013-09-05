@@ -1,0 +1,14 @@
+{
+    "request": {
+        "method": "POST",
+        "urlPattern": "/traderate/query"
+    },
+    "response": {
+        "status": 200,
+        "bodyFileName": "/data/service/evaluate.json",
+        "headers": {
+            "Content-Type": "application/json",
+            "Cache-Control": "max-age=86400"
+        }
+    }
+}

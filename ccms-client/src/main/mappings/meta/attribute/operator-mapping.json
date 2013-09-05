@@ -1,0 +1,14 @@
+{
+    "request": {
+        "method": "GET",
+        "urlPattern": "/meta/attribute/[0-9]+/operator"
+    },
+    "response": {
+        "status": 200,
+        "bodyFileName": "/data/findNode/attribute/operator.json",
+        "headers": {
+            "Content-Type": "application/json",
+            "Cache-Control": "max-age=86400"
+        }
+    }
+}

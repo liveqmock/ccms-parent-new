@@ -1,0 +1,40 @@
+﻿{
+"status":0, 
+"data":{
+		"coupons":[
+			{
+				"couponId":123456,
+				"couponName":"双11满100减10",
+				"createTime":"20131001 12:00:00",
+				"startTime":"20131001 12:00:00",
+				"endTime":"20131010 12:00:00",
+				"available":true,
+				"enable":true,
+				"threshold":100,
+				"remark":"备注内容"
+			},
+			{
+				"couponId":22,
+				"couponName":"我的优惠券222",
+				"createTime":"20131001 12:00:00",
+				"startTime":"20131001 12:00:00",
+				"endTime":"20131010 12:00:00",
+				"available":true,
+				"enable":true,
+				"threshold":100,
+				"remark":"备注内容"
+			},
+			{
+				"couponId":333333,
+				"couponName":"优惠券3333",
+				"createTime":"20131001 12:00:00",
+				"startTime":"20131001 12:00:00",
+				"endTime":"20131010 12:00:00",
+				"available":true,
+				"enable":true,
+				"threshold":100,
+				"remark":"备注内容"
+			}
+		]
+	}
+}

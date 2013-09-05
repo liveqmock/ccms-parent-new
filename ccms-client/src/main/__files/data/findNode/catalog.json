@@ -1,0 +1,19 @@
+[
+	{"id":1,"pId":null,"key":null,"dbType":null,"queryType":null,"labelName":"客户信息"},
+	{"id":3,"pId":1,"key":3,"dbType":"string","queryType":"STRING","labelName":"姓名"},
+	{"id":4,"pId":1,"key":4,"dbType":"string","queryType":"DIC","labelName":"性别"},
+	{"id":7,"pId":1,"key":7,"dbType":"date","queryType":"BIRTHDAY","labelName":"生日"},
+	{"id":11,"pId":1,"key":11,"dbType":"string","queryType":"DIC","labelName":"城市"},
+	{"id":10,"pId":1,"key":10,"dbType":"string","queryType":"DIC","labelName":"省份"},
+	{"id":2,"pId":1,"key":2,"dbType":"string","queryType":"STRING","labelName":"淘宝昵称"},
+	{"id":9,"pId":1,"key":9,"dbType":"string","queryType":"STRING","labelName":"手机"},
+	{"id":8,"pId":1,"key":8,"dbType":"string","queryType":"STRING","labelName":"邮箱"},
+	{"id":23,"pId":1,"key":23,"dbType":"string","queryType":"ORDERED_DIC","labelName":"会员等级"},
+	{"id":24,"pId":1,"key":24,"dbType":"string","queryType":"STRING","labelName":"客户标签"},
+	{"id":18,"pId":1,"key":18,"dbType":"string","queryType":"ORDERED_DIC","labelName":"买家信用等级"},
+	{"id":20,"pId":1,"key":20,"dbType":"number","queryType":"NUMBER","labelName":"买家好评率"},
+	{"id":17,"pId":1,"key":17,"dbType":"string","queryType":"DIC","labelName":"客户全站等级"},
+	{"id":13,"pId":1,"key":13,"dbType":"string","queryType":"STRING","labelName":"地址"},
+	{"id":14,"pId":1,"key":14,"dbType":"string","queryType":"STRING","labelName":"邮编"},
+	{"id":5,"pId":1,"key":5,"dbType":"string","queryType":"STRING","labelName":"职业"}
+]

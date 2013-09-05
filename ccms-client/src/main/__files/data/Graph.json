@@ -1,0 +1,13 @@
+﻿{"status":"ok", "code":"0", "data":[
+       {"nodes":[
+          {"id":1, "type":"tflowtime", "value":"营销时间", "style":"tflowtime;image=../images/graph/icon/lc_time.png","x":null, "y":null, "vertex":"1", "width":52, "height":52, "asT":"geometry", "fill":true},
+          {"id":2, "type":"tflowstart", "value":"开始设计", "style":"tflowstart;image=../images/graph/icon/lc_begin.png","x":null, "y":null, "vertex":"1", "width":52, "height":52, "asT":"geometry", "fill":true},
+          {"id":3, "type":"tfilterfind", "value":"客户筛选", "style":"tfilterfind;image=../images/graph/icon/lc_lsearch.png","x":null, "y":null, "vertex":"1", "width":52, "height":52, "asT":"geometry", "fill":true},
+          {"id":4, "type":"tcustomertargetgroup", "value":"目标客户", "style":"tcustomertargetgroup;image=../images/graph/icon/kh_clients.png","x":null, "y":null, "vertex":"1", "width":52, "height":52, "asT":"geometry", "fill":true},
+          {"id":5, "type":"tcommunicateEC", "value":"优惠券", "style":"tcommunicateEC;image=../images/graph/icon/mb_note.png","x":null, "y":null, "vertex":"1", "width":52, "height":52, "asT":"geometry", "fill":true},
+          {"id":5, "type":"tcommunicateSMS", "value":"短信发送", "style":"tcommunicateMMS;image=../images/graph/icon/mb_note.png","x":null, "y":null, "vertex":"1", "width":52, "height":52, "asT":"geometry", "fill":true},
+          {"id":6, "type":"tcustomerevaluate", "value":"效果评估", "style":"tcommunicateUMP;image=../images/graph/icon/lc_valuate.png","x":null, "y":null, "vertex":"1", "width":52, "height":52, "asT":"geometry", "fill":false}],
+
+      "connects":[
+          {"id":1, "source":1, "target":2, "edge":"1", "relative":"1", "asT":"geometry", "fill":"true"}]
+}]}

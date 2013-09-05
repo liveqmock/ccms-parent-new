@@ -1,0 +1,39 @@
+<div class="maincontainerB">
+	<div class="maincontainer">
+		<!--
+		三级导航模版
+		//console.log($('#threeNavId').attr('src'));//根据src地址来发起不同的请求
+		-->
+		<!--
+		<div id="threeNavId" ng-include src="'templates/threeNav.html?url=manager'"></div>
+		<div class="listContainer">
+			<div></div>
+		</div>
+		-->
+		<h2 class="heading">{{mainTitle}}</h2>
+		<div class="userGridWrap">
+			<div id="userGrid"></div>
+			<div class="custom_search">
+				<label><input type="checkbox" name="show_myactivity" /><span>只显示我的活动</span></label><span class="custom_line">|</span>
+				<label>
+					<span>活动状态：</span>
+					<select name="disabled">
+						<option value="" selected="selected">根据状态筛选</option>
+						<option value="false">已启用</option>
+						<option value="true">已禁用</option>
+					</select>
+				</label>
+			</div>
+		</div>
+	</div>
+</div>
+<link type="text/css" rel="stylesheet" get-root _href="3rd/flexigrid/css/flexigrid.css">
+<nscript get-root _src="3rd/flexigrid/js/flexigrid.js"></nscript>
+<nscript get-root _src="scripts/admin/users.js"></nscript>
+<!--
+
+<link type="text/css" rel="stylesheet" href="3rd/flexigrid/css/flexigrid.css">
+<script src="3rd/flexigrid/js/flexigrid.js"></script>
+-->
+
+

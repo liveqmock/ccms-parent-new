@@ -1,0 +1,87 @@
+<nscript get-root _src="scripts/order/alarm.js"></nscript>
+<style type="text/css">
+.alarmContent{padding:15px;}
+#alarm{padding:3px 20px 20px 50px;}
+.alarmSMSContent textarea{vertical-align:top;width:380px;border:1px solid #dcdcdc;}
+#alarm label{width:80px;display:inline-block; text-align:right;}
+#alarm .telPhone input{width:214;}
+.additivePhone{margin-left:84px; overflow:hidden;}
+.additivePhone .items{float:left;padding:8px;border:1px solid #dff0ff;background:#eff7ff;width:130px;position:relative;font-size:14px;color:#3ca0cb;margin-right:8px;;}
+.additivePhone .items .close{position:absolute;top:-1px;right:8px;font-size:22px;cursor:pointer;color:#d7dadc;font-weight:900;}
+#alarm .triangle{width:0;height:0;border:5px solid transparent;border-left-color:#fff; display:inline-block;margin-right:5px;overflow:hidden; vertical-align:middle;}
+.addset{background-color : #ffffcc ; margin-left:50px; padding:3px 4px;border:1px solid #FFDEC8;margin-top:2px;display:inline-block;}
+</style>
+<div class="maincontainerB order_main_wrap">
+    <div class="maincontainer" ng-controller="alarmCtr">
+		 <div class="alarmContent">
+              <div class="clearfix">
+                   <h2 class="heading fl">{{alarmTitle}}</h2>
+                   <div class="shopinfo fl mt5 ml10" id="shopinfo">
+                        <b>店铺选择 :</b><span class="" id="{{shopId}}">{{shopName}}<i></i></span>
+                        <dl style="display: none;">
+                            <dd ng-click="initMethod(s);" ng-repeat="s in shops" shop_id="{{s.shopId}}"><a href="javascript:void(0)">{{s.shopName}}</a></dd>
+                        </dl>
+					 </div>
+					<span class="addset" ng-title-max="220" ng-title="1.商城店在买家评价后会自动进行回评,所以无需开启自动回评<br><br>2.集市店评价需要买卖双方评价后才可以获取评价信息,为了更及时的进行中差评告警,建议开启自动回评">商城店无需开启,集市店需要先开启启动评价   <a href="javascript:void(0);" ng-click="autoReplyComment()" ng-show="shopType=='C'">进入设置</a></span> 
+              </div> 
+              <form id="alarm">
+                     <div class="alarmTime mb10">
+                           <label>告警时间：</label>
+                           <span ng-show="offsetTip1">
+                                每天8点,12点,16点,20点发送一次汇总统计
+								<span class="ico_tips" ng-title="每天8点-20点分四个时间段定时统计未完结的退款申请,通过短信及时通知卖家"></span>
+								
+                           </span>
+                           <span ng-show="offsetTip2">
+                                    <select id="urpay_start_time" name="urpay_start_time" class="borderHighlight width100">
+										
+									</select>
+									&nbsp;-&nbsp;
+									<select id="urpay_end_time" name="urpay_end_time" class="borderHighlight width100">
+										
+									</select>
+									<span class="ico_tips" ng-title="超过设定的告警时间段,告警短信将在次日的开始告警时间统一发送"></span>
+							 </span>
+                     </div>
+                     <div class="alarmSMSContent mb10">
+                           <label>短信内容：</label>
+                           <textarea class="mh100" id="textEditor" name="kindEditor" readonly="true"  disabled=true  >{{warnContent}}</textarea>
+                     </div>
+                     <div class="telPhone mb10">
+                           <label>卖家手机：</label>
+                           <input type="text"  class="borderHighlight" style="margin-left:0;"  id ="mobileText" />
+                           
+						   
+                           <button  class="addBtn"   ng-click="addMoble()"   id ="addBtn" >添加</button>
+                           <div class="additivePhone">
+                           </div>
+                     </div>
+                     <div class="">
+                            <label>&nbsp;</label>
+                            <button class="btn btnBlue" ng-click="saveMethod(openFlag)" ><span ng-show="!openFlag">开启</span> <span ng-show="openFlag">关闭</span></button>
+                     </div>
+              </form>    
+         </div>
+		 
+		 <div id="Comment_position" style="display:none;">
+                     <table class="SMS_Table">
+                        <tr><th valign="top">评论方式：</th><td>
+                              <input type="radio" ng-model="order_type" value="order_success" />订单交易成功后自动给买家好评<input type="radio"  style="margin-left:20px;" ng-model="order_type"  value="order_traderate"/>买家评价后自动给买家好评
+                        </td></tr>
+                        <tr><th valign="top">评价内容：</th><td>
+                              <textarea ng-model="eva_content"  maxlength="500" ng-entry-fontlen>{{eva_content}}</textarea>
+                              <p>已输入<span class="red entryFontLen">0</span>字</p>
+                        </td></tr>
+                        <tr><th valign="middle">自动评价：</th><td>
+                              <select ng-model="isOpen">
+                                 <option value="0">已关闭</option>
+                                 <option value="1">已开启</option>
+                              </select>
+                        </td></tr>
+                        <tr><th></th><td><div class="cc_btn">
+                                <button ng-click="autoCommentSave()" class="btn btnBlue">确定</button><button ng-click="autoCommentCancel()" class="btn">取消</button>
+                        </div></td></tr>
+                    </table>
+         </div>
+	</div>
+</div>

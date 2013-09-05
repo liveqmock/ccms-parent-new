@@ -1,0 +1,18 @@
+{"total":2,"page":1,"data":[
+   {"campId":1,"campName":"123123451234512345123451234545","createTime":null,"startTime":null,"endTime":null,"status":"A1","version":"BASIC","picUrl":"../images/compType-dx.png","creater":"淘宝用户","investigator":null,"progName":null,"supportOps":"CDWRV"},
+   {"campId":2,"campName":"123","createTime":null,"startTime":null,"endTime":null,"status":"B1","version":"BASIC","picUrl":"../images/compType-dx.png","creater":null,"investigator":null,"progName":null,"supportOps":"CDWRV"},
+   {"campId":3,"campName":"2","createTime":null,"startTime":null,"endTime":null,"status":"A1","version":"BASIC","picUrl":"../images/compType-dx.png","creater":null,"investigator":null,"progName":null},
+   {"campId":4,"campName":"2","createTime":null,"startTime":null,"endTime":null,"status":"B1","version":"BASIC","picUrl":"../images/compType-dx.png","creater":null,"investigator":null,"progName":null},
+   {"campId":5,"campName":"12345","createTime":null,"startTime":null,"endTime":null,"status":"A1","version":"BASIC","picUrl":"../images/compType-dx.png","creater":null,"investigator":null,"progName":null,"supportOps":"CDWRV"},
+   {"campId":6,"campName":"123","createTime":null,"startTime":null,"endTime":null,"status":"B1","version":"BASIC","picUrl":"../images/compType-dx.png","creater":null,"investigator":null,"progName":null},
+   {"campId":7,"campName":"2","createTime":null,"startTime":null,"endTime":null,"status":"A1","version":"BASIC","picUrl":"../images/compType-dx.png","creater":null,"investigator":null,"progName":null},
+   {"campId":8,"campName":"2","createTime":null,"startTime":null,"endTime":null,"status":"B1","version":"BASIC","picUrl":"../images/compType-dx.png","creater":null,"investigator":null,"progName":null,"supportOps":"CDWRV"},
+   {"campId":9,"campName":"12345","createTime":null,"startTime":null,"endTime":null,"status":"A1","version":"BASIC","picUrl":"../images/compType-dx.png","creater":null,"investigator":null,"progName":null,"supportOps":"CDRV"},
+   {"campId":10,"campName":"123","createTime":null,"startTime":null,"endTime":null,"status":"B1","version":"BASIC","picUrl":"../images/compType-dx.png","creater":null,"investigator":null,"progName":null,"supportOps":"CWRV"},
+   {"campId":11,"campName":"2","createTime":null,"startTime":null,"endTime":null,"status":"A1","version":"BASIC","picUrl":"../images/compType-dx.png","creater":null,"investigator":null,"progName":null},
+   {"campId":12,"campName":"2","createTime":null,"startTime":null,"endTime":null,"status":"B1","version":"BASIC","picUrl":"../images/compType-dx.png","creater":null,"investigator":null,"progName":null},
+   {"campId":13,"campName":"12345","createTime":null,"startTime":null,"endTime":null,"status":"A1","version":"BASIC","picUrl":"../images/compType-dx.png","creater":null,"investigator":null,"progName":null,"supportOps":"CDWRV"},
+   {"campId":14,"campName":"123","createTime":null,"startTime":null,"endTime":null,"status":"B1","version":"BASIC","picUrl":"../images/compType-dx.png","creater":null,"investigator":null,"progName":null,"supportOps":"CDWRV"},
+   {"campId":15,"campName":"2","createTime":null,"startTime":null,"endTime":null,"status":"A1","version":"BASIC","picUrl":"../images/compType-dx.png","creater":null,"investigator":null,"progName":null},
+   {"campId":16,"campName":"2","createTime":null,"startTime":null,"endTime":null,"status":"B1","version":"BASIC","picUrl":"../images/compType-dx.png","creater":null,"investigator":null,"progName":null}
+ ]}

@@ -1,0 +1,19 @@
+﻿{
+    "name":"",
+    "key":"nav","id":10,
+    "children":[
+		{"name":"店铺诊断","key":"nav/shopHealth_link","id":12,"children":[],"tip":null,"dataUrl":null,"url":"#/shop_diagnosis","supportOps":"CDWRV"},
+        {"name":"店铺监控","key":"nav/shopMonitor_link","id":13,"children":[],"tip":null,"dataUrl":null,"url":"#/shop_monitor","supportOps":"CDWRV"},
+        {"name":"营销活动","key":"nav/marketing_link","id":15,"children":[],"tip":null,"dataUrl":null,"url":"#/marketing/campaign.list","supportOps":"CDWRV"},
+        {"name":"促销管理","key":"nav/promotions_link","id":16,"children":[],"tip":null,"dataUrl":null,"url":"#/coupon/tickets","supportOps":"CDWRV"},
+        {"name":"客户管理","key":"nav/customerManage_link","id":17,"children":[],"tip":null,"dataUrl":null,"url":"#/customer/blacklist","supportOps":"CDWRV"},
+        {"name":"系统管理","key":"nav/sys_link","id":18,"children":[],"tip":null,"dataUrl":null,"url":"#/admin/taobaouser","supportOps":"RV"},
+		{"name":"个性化营销","key":"nav/sys_link","id":18,"children":[],"tip":null,"dataUrl":null,"url":"#/personalizedPackage/mainIndex","supportOps":"CDWRV"},
+		{"name":"订单中心","key":"nav/sys_link","id":18,"children":[],"tip":null,"dataUrl":null,"url":"#/order/urpay?type=1","supportOps":"CDWRV"},
+		{"name":"客服中心","key":"nav/sys_link","id":18,"children":[],"tip":null,"dataUrl":null,"url":"#/affairs/orderlist","supportOps":"CDWRV"}
+    ],
+    "tip":null,
+    "dataUrl":null,
+    "url":null,
+    "supportOps":"CDWRV"
+}

@@ -1,0 +1,396 @@
+<div class="marketingCampNodeBg">
+    <div class="triangleArrows timeTriangleArrows"></div>
+	<div class="marketingCampNode">
+		<div class="clearfix moduleHeader">
+			<h4 class="fl">营销时间节点设置</h4><span class="fr" id="findID">节点ID：{{nodeTplId}}</span>
+		</div>
+        <form id="marketingCampNodeTime">
+		<div class="marketingCampNodeTime marketingCampNodeMain">
+			<div class="timeNodeOne">
+				<table>
+					<tbody>
+						<tr><td class="timeNodeType" rowspan="2" width="85"><label><input type="radio" id="timeNodeOne" name="timeNodeType" value="0">一次性执行</label></td><td><label><input type="radio" name="timeNodeOneType"  value="1">即时执行</label><label><input type="radio" name="timeNodeOneType" value="0">定期执行</label></td></tr>
+						<tr><td><label>开始日期:<input class="borderHighlight dataPlug required" id="timeNodeOneS" type="text" name="startDate" readonly="readonly"></label><label>开始时间:<input type="text" id="startTimeOne" class="borderHighlightOth borderHighlight required"  name="startTime" readonly="readonly"></input></label><span class="timeWrongMark">开始时间设置应大于当前时间</span></td></tr>
+					</tbody>
+				</table>
+			</div>
+			<div class="timeNodeCycle">
+				<table>
+					<tbody>
+						<tr><td class="timeNodeType" rowspan="4" width="85"><label><input type="radio" id="timeNodeCycle" name="timeNodeType" value="1">周期性执行</label></td><td><label><input type="radio" name="timeNodeCycleType"  value="day">每天</label></td></tr>
+						<tr><td><label><input type="radio" name="timeNodeCycleType" value="week">每周</label><label class="timeNodeCycleCB"><input type="checkbox" value="1">周日</label><label class="timeNodeCycleCB"><input type="checkbox" value="2">周一</label><label class="timeNodeCycleCB"><input type="checkbox" value="3">周二</label><label class="timeNodeCycleCB"><input type="checkbox" value="4">周三</label><label class="timeNodeCycleCB"><input type="checkbox" value="5">周四</label><label class="timeNodeCycleCB"><input type="checkbox" value="6">周五</label><label class="timeNodeCycleCB"><input type="checkbox" value="7">周六</label></td></tr>
+						<tr><td><label>开始日期:<input class="startTime borderHighlight required" id="timeNodeCycleS" type="text" name="timeNodeCycleS" readonly="readonly"></label><label>结束日期:<input class="endTime borderHighlight required" id="timeNodeCycleE" type="text" name="timeNodeCycleE" readonly="readonly"></label></td></tr>
+						<tr><td><label>开始时间:<input id="startTimeTwo" type="text" class="borderHighlightOth borderHighlight required" name="startTimeTwo" readonly="readonly" /></label><span class="timeWrongMark2">开始时间设置应大于当前时间</span></td></tr>
+					</tbody>
+				</table>
+			</div>
+			<div style="margin-top:20px">
+				<button class="btn btnBlue submitNodeData" type="submit">保存</button>
+			</div>
+		</div>
+        </form>
+	</div>
+</div>
+<script type="text/javascript">
+function removeBorderColorOne(){
+	$(".timeNodeOne #timeNodeOneS,.marketingCampNodeTime #startTimeOne").removeClass("borderMark");
+	$(".marketingCampNodeTime .timeWrongMark").hide();
+}
+function removeBorderColorTwo(){
+	$(".marketingCampNodeTime .startTime,.marketingCampNodeTime .endTime,.marketingCampNodeTime #startTimeTwo").removeClass("borderMark");
+	$(".marketingCampNodeTime .timeWrongMark2").hide();
+}
+ //编辑权限判断
+$(function(){
+	isEditNodeTpl();
+});
+	$(".marketingCampNodeTime .dataPlug").datepicker({
+			 showOtherMonths: true,//显示其他月
+			 selectOtherMonths: false,//可选择其他月
+			 //showButtonPanel: true, //是否显示按钮
+			 changeMonth: true,//下拉框修改月
+			 changeYear: true,
+			 minDate:new Date()
+	});
+
+//开始结束时间设置
+	$(".timeNodeOne #timeNodeOneS").datepicker({
+		showOtherMonths:true,
+		selectOtherMonths:false,
+		changeMonth:true,
+		changeYear:true,
+		minDate:new Date()
+	});
+	
+	
+	$(".marketingCampNodeTime .startTime").datepicker({
+		showOtherMonths:true,
+		selectOtherMonths:false,
+		changeMonth:true,
+		changeYear:true,
+		minDate:new Date(),
+		onClose:function(selectedDate){
+			$(".marketingCampNodeTime .endTime").datepicker("option","minDate",selectedDate);
+		}
+	});
+
+	$(".marketingCampNodeTime .endTime").datepicker({
+		showOtherMonths:true,
+		selectOtherMonths:false,
+		changeMonth:true,
+		changeYear:true,
+		minDate:new Date(),
+		onClose:function(selectedDate){
+			$(".marketingCampNodeTime .startTime").datepicker("option","maxDate",selectedDate);
+		}
+	});
+
+	$(".marketingCampNodeTime #startTimeOne").timepicker({
+			controlType:'slider',
+			showSecond:true,
+			timeFormat: 'HH:mm:ss'
+	});
+
+	$(".marketingCampNodeTime #startTimeTwo").timepicker({
+			showSecond:true,
+			timeFormat: 'HH:mm:ss'
+	});
+
+
+//数据
+	var $inputChecked=$(".marketingCampNode input[name=timeNodeType]"),//一次性、周期性
+		$choseOne=$(".marketingCampNode input[name=timeNodeOneType]"),
+		$choseTwo=$(".marketingCampNode input[name=timeNodeCycleType]"),
+		$graphRect=$(".canvas .graphRect:eq(1)");
+	var postData={};
+		//postData.id=$graphRect.attr("id");
+		postData.id=nodeTplId;
+		postData.name=$graphRect.attr("alt");
+
+	$.ajax({
+		"url":"node/time",
+		//"url":"data/timeNode.json",
+		"type":"GET",
+		"cache":false,
+		"dataType":"JSON",
+		"data":postData,
+		
+		"success":function(data){
+			var id=data.id,
+				name=data.name
+			$(".marketingCampNode").data({"id":id,"name":name});//绑定id和name
+			$(".marketingCampNode em").text(id);
+							
+			
+			if(data.timeNode!=null && data.timeNode!=""){
+				var wrapVal=data.timeNode.iscycle,//一次 || 周期(1)
+					oneVal=data.timeNode.isrealtime,// 定期 || 即时(1)
+					cycleType=data.timeNode.cycleType,//每天 || 每周
+	
+					realDate=data.timeNode.realtimebeginDate,//一次性开始日期
+					realTime=data.timeNode.realtimebeginTime,//一次性开始时间
+					cycleBegin=data.timeNode.cyclebeginDate,//周期
+					cycleEnd=data.timeNode.cycleendDate,
+					cycleTime=data.timeNode.cyclebeginTime,//结束日期
+					weekVal="";
+					
+					if(cycleType=="week"){
+						weekVal=data.timeNode.cycleValue.split(",");
+					}
+			if(wrapVal==null){//初始化显示
+				wrapVal=oneVal=0;
+			};
+		//填充
+
+				$(".marketingCampNode input[type=checkbox]").each(function(){//判选择断星期
+					var cVal=$(this).val();
+					for(var i=0;i<weekVal.length;i++){
+						if(cVal == weekVal[i]){
+							$(this).prop("checked",true);
+						}
+					}
+				});
+
+				$inputChecked.each(function(){
+					var val=$(this).val();
+	
+					if(val == wrapVal){//显示disabled
+						$(this).prop("checked",true);
+					}else{
+						$(this).closest("table").find("input").prop("disabled",true).addClass("disabled");
+						$(this).prop({"checked":false,"disabled":false});
+					};
+	
+	
+					if(wrapVal ==0){//一次性执行填充
+						$(this).closest("table").find("input#timeNodeOneS").val(realDate).end().find("input#startTimeOne").val(realTime);
+					}else{
+						$(this).closest("table").find("input#timeNodeCycleS").val(cycleBegin).end().find("input#timeNodeCycleE").val(cycleEnd).end().find("input#startTimeTwo").val(cycleTime);
+	
+					}
+				});
+
+				$choseOne.each(function(){
+					var childVal=$(this).val();
+					if(childVal == oneVal){
+						$(this).prop("checked",true);
+							if(oneVal==1){
+								$(this).closest("tr").next("tr").find("input").prop("disabled",true).addClass("disabled");
+							}
+					}
+				});
+
+				$choseTwo.each(function(){
+					var othChildVal=$(this).val();
+	
+					if(othChildVal ==cycleType ){
+						$(this).prop("checked",true);
+							if(cycleType == 0){
+								$(this).closest("table").find("input[type=checkbox]").prop("disabled",true);
+							}
+					}
+				});
+			}else{
+				$inputChecked.eq(0).prop("checked",true);	
+				$choseOne.eq(0).prop("checked",true).closest("tr").siblings("tr").find("input").prop("disabled",true).addClass("disabled");
+				$choseTwo.prop("disabled",true).eq(0).closest("tr").siblings("tr").find("input[type=checkbox]").prop("disabled",true).end().find("input[type=text]").prop("disabled",true).addClass("disabled");
+			};
+		},
+		"error":function(){console.log("alax错误")}
+		})
+
+//事件改变
+	$inputChecked.on("click",function(){
+		$inputChecked.not(":checked").closest("table").find("input[type=text]").val("").addClass("disabled").end().find("input[type=checkbox]").prop("checked",false);
+		var $timeNodeTypeChecked=$(this).closest("table");
+		$inputChecked.closest("table").find("input").prop("disabled",true);
+		$inputChecked.prop("disabled",false);
+		$timeNodeTypeChecked.find($choseOne).prop("disabled",false);
+		$timeNodeTypeChecked.find($choseTwo).prop("disabled",false);
+		var subVal=$(this).val();
+		var timeNodeOneTypeVal=$(".marketingCampNode input[name=timeNodeOneType]:checked").val();
+		if(0 == subVal){
+			removeBorderColorTwo();
+			if(1 == timeNodeOneTypeVal){
+				$timeNodeTypeChecked.find("input[type=text]").prop("disabled",true).addClass("disabled");
+			}else{
+				$timeNodeTypeChecked.find("input[type=text]").prop("disabled",false).removeClass("disabled");
+			}
+		}else{
+			removeBorderColorOne();
+			$(this).closest("td").siblings("td").find("input[name=timeNodeCycleType]").prop("checked",true);
+			$timeNodeTypeChecked.find("input[type=text]").prop("disabled",false).removeClass("disabled");
+			var $typeChecked=$(this).closest("table").find("input[type=checkbox]"),//多选显示||隐藏
+				timeNodeCycleTypeVal=$(".marketingCampNode input[name=timeNodeCycleType]:checked").val();
+			if( "day"==timeNodeCycleTypeVal ){
+				$typeChecked.prop("disabled",true);
+			}else{
+				$typeChecked.prop("disabled",false);
+			}
+		}
+
+	});
+
+	$choseOne.on("click",function(){
+		var index=$choseOne.index($(this)),
+		    $inputText=$(this).closest("tr").next("tr").find("input");
+
+		if( 1==index ){
+			$inputText.prop("disabled",false).removeClass("disabled");
+		}else{
+			removeBorderColorOne();
+			$inputText.prop("disabled",true).addClass("disabled");
+		}
+	});
+
+	$choseTwo.on("click",function(){
+		var indexT=$choseTwo.index($(this)),
+			$inputTextT=$(this).closest("table").find("input[type=checkbox]");
+		if(1==indexT){
+			$inputTextT.prop("disabled",false);
+		}else{
+			$inputTextT.prop("disabled",true);
+		}
+	});
+/*end*/
+
+
+//提交保存
+ var $timeSubBtn=$(".marketingCampNodeTime .btn");
+
+
+$timeSubBtn.bind("click",function(){
+	var originalData=$(".marketingCampNode").data();
+
+	var dataObj={},startDataVal,endDataVal,startTimeVal;
+
+	var $timeNodeType=$(".marketingCampNode input[name=timeNodeType]:checked"),//执行周期
+	 	$timeNodeOneType=$(".marketingCampNode input[name=timeNodeOneType]:checked"),//即时、定期
+	    $timeNodeCycleType=$(".marketingCampNode input[name=timeNodeCycleType]:checked");//每天、每周
+
+
+	var iscycle=$timeNodeType.attr("value"),
+		isrealtime=$timeNodeOneType.attr("value"),
+		cycleType=$timeNodeCycleType.attr("value"),
+		checkedBoxVal=[];//星期几
+		$(".marketingCampNode input[type=checkbox]:checked").each(function(){
+			checkedBoxVal.push($(this).val());
+		});
+		checkedBoxVal=checkedBoxVal.join(",");
+	
+		realtimebeginDate=$timeNodeType.closest("table").find("input#timeNodeOneS").val();
+		realtimebeginTime=$timeNodeType.closest("table").find("input#startTimeOne").val();
+		cyclebeginDate=$timeNodeType.closest("table").find("input#timeNodeCycleS").val();
+		cycleendDate=$timeNodeType.closest("table").find("input#timeNodeCycleE").val();
+		cyclebeginTime=$timeNodeType.closest("table").find("input#startTimeTwo").val();
+
+	dataObj={
+		    "id":originalData.id,
+		    "name":originalData.name,
+
+			"iscycle":iscycle,
+			"isrealtime":isrealtime,
+			"cycleType":cycleType,
+			"realtimebeginDate":realtimebeginDate,
+			"realtimebeginTime":realtimebeginTime,
+			"cyclebeginDate":cyclebeginDate,
+			"cycleendDate":cycleendDate,
+			"cyclebeginTime":cyclebeginTime,
+			"cycleValue":checkedBoxVal
+	}
+	var timeFlag=!(dataObj.iscycle && dataObj.iscycle && dataObj.isrealtime && dataObj.cycleType && dataObj.realtimebeginDate && dataObj.realtimebeginTime && dataObj.cyclebeginDate && dataObj.cycleendDate &&dataObj.cyclebeginTime &&dataObj.cycleValue);
+//验证
+	var timeFlagOne=dataObj.iscycle==0 && dataObj.isrealtime == 0 && (dataObj.realtimebeginDate=="" || dataObj.realtimebeginTime ==""),
+		timeFalgTwo=dataObj.iscycle==1 && (dataObj.cyclebeginDate =="" || dataObj.cycleendDate=="" || dataObj.cyclebeginTime =="");
+	    timeFlagThree=(dataObj.iscycle==1 && dataObj.cycleType=="week" && dataObj.cycleValue=="");//每周条件下必有一天
+//时间验证 大于当前时间
+	function joinAry(a1,a2){
+		var ary1=a1.split("-"),
+			ary2=a2.split(":");
+		for(var i in ary2){
+			ary1.push(ary2[i]);
+		}
+		return ary1;
+	}
+	
+	function myDate(ary){
+		var star=new Date();	
+		star.setFullYear(ary[0]);
+		star.setMonth(ary[1]-1);
+		star.setDate(ary[2]);
+		star.setHours(ary[3]);
+		star.setMinutes(ary[4]);
+		return star;
+	}
+	
+	function checkTimeFlag(d,t){
+		var ary= joinAry(d,t);
+		var date=myDate(ary);
+		var newdate=new Date().getTime();
+		if((newdate-date.getTime())>=0){//时间小于当前时间
+			return false;
+		}else{
+			return true;
+		};
+	}
+	
+	if(dataObj.iscycle==0 && dataObj.isrealtime == 0){//一次性执行
+		var dateTimeFlag=checkTimeFlag(dataObj.realtimebeginDate,dataObj.realtimebeginTime);
+		if(!dateTimeFlag){
+			$(".timeNodeOne #timeNodeOneS,.marketingCampNodeTime #startTimeOne").addClass("borderMark");
+			$(".marketingCampNodeTime .timeWrongMark").show();
+			return false;
+		}else{
+			removeBorderColorOne();
+		}
+	}
+	
+	if(dataObj.iscycle==1){
+		var dateTimeFlag=checkTimeFlag(dataObj.cyclebeginDate,dataObj.cyclebeginTime);
+		if(!dateTimeFlag){
+			$(".marketingCampNodeTime .startTime,.marketingCampNodeTime .endTime,.marketingCampNodeTime #startTimeTwo").addClass("borderMark");
+			$(".marketingCampNodeTime .timeWrongMark2").show();
+			return false;
+		}else{
+			removeBorderColorTwo();
+		}
+	};
+	if(timeFlagThree){
+		$(this).Alert({"title":"提示","str":"请选择每周条件的具体范围","mark":true,"width":"200px"});
+		return false;
+	}
+	
+//验证时间判断end	
+	
+	
+	 if(!timeFlagOne && !timeFalgTwo){
+	 	 $.ajax({
+			"url":"node/time",
+			"type":"POST",
+			"dataType":"JSON",
+			"contentType": "application/json; charset=utf-8",
+			"data":JSON.stringify(dataObj),
+			"success":function(data){
+				setSaveFullIcon(postData.id);//去除mark
+				$(this).yAlert({"text":"保存成功"});
+				removeAlert();
+			},
+			"error":function(){
+				$(this).Alert({"title":"提示","str":"网络异常，请稍后再试！","mark":true,"width":"160px"});
+			}
+		});
+	 }
+
+
+	
+});
+//验证
+$("#marketingCampNodeTime").validate();
+</script>
+
+
+
+
+
+
+

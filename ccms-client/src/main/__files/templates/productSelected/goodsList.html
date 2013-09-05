@@ -1,0 +1,102 @@
+<style type="text/css">
+.productBox{width:880px;color:#999999;}
+.proSearchCategory{border:1px solid #d6effe; background:#ecf8fc;padding:3px 8px 5px;position:relative;}
+.proSearchCategory label{width:80px;display:inline-block;text-align:right; vertical-align:middle;}
+.productBox .w40{width:40px;}
+input#productName{width:180px;height:19px;color:#999999;}
+.mergeArea{display:none;}
+.searchStrMark{margin-left:10px;color:#FF0000;}
+.proSearchCategory .smalldarkerblueBtn{height:22px;line-height:22px;}
+.proSearchCategory .moreBtn{display:inline-block;color:#68b6d7;margin-left:30px;}
+.proSearchCategory .moreBtn span{width:0;height:0;overflow:hidden;border:6px solid transparent;display:inline-block;vertical-align:-6px;margin-left:5px;}
+.proSearchCategory .moreBtn .slideUnfold{border-top-color:#299fd4;}
+.productListArea{overflow:hidden;margin-top:6px;}
+.selectionBox{float:left;border:1px solid #e8e8e8; position:relative;width:400px;height:460px;}
+.selectionBox .mt{height:18px;padding:4px 5px; background:#f7f7f7;border-bottom:1px solid #eaeaea;}
+.selectionBox .mt .clearGoods{margin-left:20px;color:#999999;}
+.selectionBox .mt .clearGoods:hover{text-decoration:none;color:#999999;}
+.selectionBox .mt input{margin-right:5px; vertical-align:middle;}
+.selectionBox .productList{ position:absolute;top:27px;bottom:30px;left:0;right:0; overflow-y:auto; }
+.selectionBox .productList .items{padding:6px 0 6px 100px;margin:0 8px;border-bottom:1px dashed #ccc;min-height:45px;position:relative; background:#fcfcfc;}
+#nextSelection .productList .items{padding-right:70px;}
+.selectionBox .productList .items:hover{background:#f3fcff;}
+.selectionBox .productList .pic{position:absolute;left:0;top:5px;}
+.selectionBox .productList .pic input{margin:0 10px;}
+.selectionBox .productList img{vertical-align:middle;}
+.selectionBox .productList .goodsName{height:20px;line-height:20px;text-overflow:ellipsis; overflow:hidden; white-space:nowrap;}
+.selectionBtn{width:70px;text-align:center;position:relative;float:left;left:-13px;display:table-cell;}
+.selectionBtn .smalldarkerblueBtn {background:none;}
+#nextSelection{float:right;}
+.selectionBox .closeGoods{position:absolute;top:4px;right:10px;font-size:28px;cursor:pointer;}
+.selectionBox .items:hover .closeGoods{color:#29a0d5;}
+.selectionBox .goodsPrice{color:#fe8c8c;margin-left:20px;}
+.selectionBox .mb{position:absolute;left:0;bottom:0; right:0;height:30px; background:#F3F3F3;padding:0 10px;border-top:1px solid #e8e8e8;}
+#nextSelection .mb{line-height:30px;font-size:12px;text-align:left;}
+#nextSelection .mb em{color:#3D3D3D;}
+.productBox .mb{ text-align:center;}
+.newbuildBtn .searchGoods{background:none;padding:0 15px;}
+.newbuildBtn .addGoods{background:url(images/packagePt.png) no-repeat 0 -366px;padding:0;display:inline-block;width:62px;height:20px; }
+div.pGroup{position:relative;}
+.pGroup .pageTips{position:absolute;top:-28px;left:25px;width:200px;}
+.pGroup .pageTips .huaat_tips{padding-left:10px;padding-right:20px; background:#fe8383;border:none;}
+.pGroup .pageTips .huaat_tips span{position:absolute;left:10px;top:26px;width:0;height:0;border:4px solid transparent;border-top-color:#fe8383;}
+</style>
+<nscript get-root type="text/javascript" _src="3rd/productSelected/productSelection.js"></nscript>
+<div class="productBox"  ng-controller="proList" >
+    <div class="proSearchCategory">
+         <div>
+              <label>关键词：</label><input type="text"   name="productName" id="productName" class="borderHighlight" ng-model="productName" >
+              <div class="smalldarkerblueBtn newbuildBtn" ng-click="searchProductList(1,20,false)"><a class="searchGoods" href="javascript:void(0)">搜索</a></div>
+              <div class="moreBtn">更多条件<span class="slideUnfold"></span></div>
+         </div>         
+         <div class="mergeArea mt10">
+              <div>
+                 <label>价格：</label><input type="text"   name="minPrice" id="minPrice" class="borderHighlight w40">&nbsp;-&nbsp;<input type="text"  name="maxPrice" id="maxPrice" class="borderHighlight w40">
+              </div>
+         </div>
+         
+    </div>
+    <div class="productListArea">
+         <div id="prevSelection" class="selectionBox">
+               <div class="mt"><input type="checkbox" id="prevAllchecked"  ng-model="prevCheckedAll" >全选</div>
+               <div class="productList">
+                    <div class="items" ng-repeat="list in seachGoods">
+                          <div class="pic">    <input type="checkbox" class="checkbox" ng-checked="prevCheckedAll">    <img width="45" height="45" ng-src="{{list.picUrl}}"> </div> 
+                          <div class="info">    <p class="goodsName">{{list.title}}</p>    <p><span class="goodsId">商品ID：<span>{{list.numIid}}</span></span><span class="goodsPrice">{{list.price}}</span></p> </div>    
+                    </div>
+               </div>
+               <div class="mb">
+                     <div class="pDiv2">
+						<div class="pGroup">
+							<div class="pFirst pButton" ng-click="firstPage()"><span></span></div>
+							<div class="pPrev pButton" ng-click="prevPage()"><span></span></div>
+						</div>
+						<div class="pGroup"><span class="pcontrol">跳至 <input type="text" value="1" size="4" ng-input-page="searchProductList" ng-model="currentPage"> 页</span><div class="pageTips"></div></div>
+						<div class="pGroup">
+							<div class="pNext pButton" ng-click="nextPage()"><span></span></div>
+							<div class="pLast pButton"  ng-click="lastPage()"><span></span></div>
+						</div>
+						<div class="pGroup pagetotal"><span class="currentPage">{{currentPage}}</span>/<span class="totalPage">{{totalPage}}</span></div>
+						<div class="pGroup"><select name="rp" ng-model="rp" ng-change="changeRp()"><option>10&nbsp;&nbsp;</option><option value="15">15&nbsp;&nbsp;</option><option value="20">20&nbsp;&nbsp;</option><option value="30">30&nbsp;&nbsp;</option><option value="50">50&nbsp;&nbsp;</option></select></div>
+						</div>
+               </div>
+         </div>
+         <div class="selectionBtn" id="selectionBtn" style="top: 220px;">
+              <div class="smalldarkerblueBtn newbuildBtn" ng-click="addGoods()"><a class="addGoods" href="javascript:void(0)"></a></div>   
+         </div>
+         <div id="nextSelection" class="selectionBox">
+               <div class="mt"><input type="checkbox" id="nextAllchecked" ng-model="nextCheckedAll">全选<a class="clearGoods" href="javascript:void(0);" title="清除" ng-click="clearGoods()">清除</a></div>
+               <div class="productList">
+                   <div class="items" ng-repeat="listG in findGoods">
+                          <div class="pic">    <input type="checkbox" class="checkbox" ng-checked="nextCheckedAll">    <img width="45" height="45" ng-src="{{listG.picUrl}}"> </div> 
+                          <div class="info">    <p class="goodsName">{{listG.title}}</p>    <p><span class="goodsId">商品ID：<span>{{listG.numIid}}</span></span><span class="goodsPrice">{{listG.price}}</span></p> </div> 
+                          <div class="closeGoods" ng-click="delGoods($index)" ng-show={{closeGoods}}>×</div>   
+                    </div>
+               </div>
+               <div class="mb">已选商品：<em>{{checkedGoodsLen}}</em></div>
+         </div>
+    </div>
+    <div class="mb">
+        <button class="btn btnBlue" id="marketSure" ng-click="saveSelectGoods()" >确定</button><button class="btn" id="marketCancel" ng-click="cancelSelectGoods()">取消</button>
+    </div>
+</div>

@@ -1,0 +1,120 @@
+{
+	"status": 0,
+	"errCode": "",
+	"message": "",
+	"data": {
+		"affairDetail": {
+			"customerno": "我是昵称",
+			"status": "1",
+			"important": "2",
+			"source_id": 1,
+			"current_handler": "雪梨",
+			"source_type": "产品",
+			"expiration_time": "2013-08-23 06:13:23",
+			"title": "客户询问了这个商品，要查询库存是否充足，快递是否可以发顺丰，是否可以退款是否可以包邮",
+			"remainTime": "已超期",
+			"source": "寻单",
+			"updated": "2013-08-16 23:23:23",
+			"created": "2013-08-16 23:23:23",
+			"source_type_id": 5,
+			"pkid": 5,
+			"tid": "9999",
+			"note": "客户询问了这个商品，请尽快联系这个客户，拿下订单！客户询问了这个商品，请尽快联系这个客户，拿下订单！客户询问了这个商品，请尽快联系这个客户，拿下订单！客户询问了这个商品，请尽快联系!",
+			"founder": "admin"
+		},
+		"tidInfo": {
+			"payment": 834.00,
+			"company_name": "申通E物流",
+			"tstatus": "",
+			"out_sid": "4646464",
+			"shipping_status": "",
+			"ostatus": "卖家已发货",
+			"tid": "219923857270114",
+			"pay_time": "2013-05-24  13:00:12",
+			"shippingStatus": "未同城",
+			"buyerMemo": "我是买家留言",
+			"sellerMemo": "我是备注",
+			"sellerFlag": "0",
+			"logistics_status": ""
+		},
+		"oidInfo": [
+			{
+				"result": "good",
+				"title": "尚纳 2012羽绒服 女 中长款 新款正品蕾丝修身型冬装外套YRF1162",
+				"titleUrl": "http://tradearchive.taobao.com/trade/detail/trade_item_detail.htm?biz_order_id=375748209580875",
+				"num": "1",
+				"refundStatus": "",
+				"payment": "278.00",
+				"status": "等待卖家确认中",
+				"picPath": "http://img04.taobaocdn.com/bao/uploaded/i4/19653023790592592/T1o.CUXEFaXXXXXXXX_!!0-item_pic.jpg",
+				"picUrl":"http://detail.tmall.com/item.htm?id=13408769093901",
+				"oid": "1",
+				"sku_properties_name": "颜色分类：黄格；尺码：M",
+				"refund_status": "CLOSED"
+			},
+			{
+				"result": "bad",
+				"title": "尚纳 2012羽绒服 女 中长款 askhdfasf afsjg的发生更大",
+				"titleUrl": "http://tradearchive.taobao.com/trade/detail/trade_item_detail.htm?biz_order_id=375748209580875",
+				"num": "2",
+				"refundStatus": "退款申请",
+				"payment": "278.00",
+				"status": "等待卖家确认中",
+				"picPath":"http://img04.taobaocdn.com/bao/uploaded/i4/19653023790592592/T1o.CUXEFaXXXXXXXX_!!0-item_pic.jpg",
+				"picUrl":"http://detail.tmall.com/item.htm?id=13408769093901",
+				"oid": "2",
+				"sku_properties_name": "颜色分类：黄格；尺码：41",
+				"refund_status": "CLOSED"
+			}
+		],
+		"userInfo": {
+			"birthday": "1976-09-09",
+			"phone": "",
+			"sex": "不详", 
+			"state": "浙江省",
+			"buyer_credit_score": 1,
+			"city": "杭州市",
+			"changed": "",
+			"created": "2013-23-23",
+			"last_visit": "",
+			"buyerCreditLevel": "2钻",
+			"district": "下城区",
+			"zip": "310006",
+			"customerno": "tomwalk",
+			"last_sync": "",
+			"age":37,
+			"buyer_credit_total_num": 1,
+			"job": "",
+			"birth_year": 1986,
+			"country": "",
+			"vip_info": "",
+			"buyerGoodRate": "99.4%",
+			"address": "庆春路XXX路",
+			"email": "jianwei.he@huaat.net",
+			"buyer_credit_good_num": 1,
+			"full_name": "何建伟",
+			"mobile": "137433433344"
+		},
+		"affairHandles": [
+			{
+				"created": "2013-07-20 13:24:20",
+				"updated": "",
+				"next_handler": "franklas",
+				"pkid": 1,
+				"note": "已经联系该用户，并且告知了商品的相关信息",
+				"founder": "admin",
+				"affairs_id": 5
+			},
+			{
+				"created": "2013-07-18  20:20:20",
+				"updated": "",
+				"next_handler": "frank",
+				"pkid": 2,
+				"note": "已经联系该用户，并且告知了商品的相关信息。",
+				"founder": "admin",
+				"affairs_id": 5
+			}
+		]
+	},
+	"visit": "2013-08-22 15:27:27"
+}

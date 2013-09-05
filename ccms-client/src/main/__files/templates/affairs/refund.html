@@ -1,0 +1,241 @@
+
+<nscript get-root type="text/javascript" _src="scripts/service/serviceComm.js"></nscript>
+<nscript get-root _src="3rd/fileupload/jquery.ui.widget.js"></nscript>
+<nscript get-root _src="3rd/fileupload/jquery.iframe-transport.js"></nscript>
+<nscript get-root _src="3rd/fileupload/jquery.fileupload.js"></nscript>
+<nscript get-root _src="3rd/ccmsAt.js"></nscript>
+<nscript get-root type="text/javascript" _src="scripts/service/refund.js"></nscript>
+
+<div class="maincontainerB kf_wrap" ng-controller="serviceCtrl">
+    <div class="maincontainer kf_wrap_cont" ng-controller="refund">
+		<div class="clearfix">
+			<h2 class="heading fl kf_head">退款跟进</h2>
+			<div class="shopinfo fl mt5 ml10" id="shopinfo">
+				<b>店铺选择 :</b><span class="" id="{{shopId}}">{{shopName}}<i></i></span>
+				<dl style="display: none;">
+					<dd ng-click="changeShop(s);" ng-repeat="s in shops" shop_id="{{s.shopId}}"><a href="javascript:void(0)">{{s.shopName}}</a></dd>
+				</dl>
+			</div>
+
+		</div>
+		<div class="refundTab mb10">
+			<ul class="clearfix">
+				<li class="cur"><a _title="refund" href="javaScript:;">当前退款<i>{{refund}}</i></a></li>
+				<li><a _title="refundNoSendGoods" href="javaScript:;">退款(未发货)<i>{{SendGoods}}</i></a></li>
+				<li><a _title="onlyRefundHasSendGoods" href="javaScript:;">仅退款(已发货)<i>{{HasSendGoods}}</i></a></li>
+				<li><a _title="returnGoodsWaitSeller" href="javaScript:;">退货—等待卖家同意<i>{{WaitSeller}}</i></a></li>
+				<li><a _title="returnGoodsWaitBuyer" href="javaScript:;">退货—等待买家退货<i>{{WaitBuyer}}</i></a></li>
+				<li><a _title="returnGoodsWaitSellerConfirm" href="javaScript:;">退货—等待卖家确认<i>{{SellerConfirm}}</i></a></li>
+				<li><a _title="" href="javaScript:;">所有退款</a></li>
+			</ul>
+		</div>
+		<div class="pr kfzx_searchbox clearfix" id="kfzx_searchbox">
+			<form>
+				<table class="searchbox_condition">
+					<tr>
+						<th>退款原因:</th><td>
+							<select class="w170 borderHighlight" id="reason" ng-model="reason">
+								<option value="">-- 不限 --</option>
+								<option ng-repeat="n in reasons">{{n}}</option>
+							</select>
+						</td>
+						<th>退款类型:</th><td>
+							 <select class="w100 borderHighlight" id="hasGoodReturn" ng-model="hasGoodReturn" ng-disabled="result">
+								 <option value="">-- 不限 --</option>
+								 <option value="false">仅退款</option>
+								 <option value="true">退货退款</option>
+							 </select>
+						</td>
+						<th>订单状态:</th><td>
+							<select class="w120 borderHighlight" id="orderStatus" ng-model="orderStatus" ng-disabled="result">
+								<option value="">-- 不限 --</option>
+								<option value="WAIT_SELLER_SEND_GOODS">等待卖家发货</option>
+								<option value="WAIT_BUYER_CONFIRM_GOODS">等待买家确认收货</option>
+								<!--<option value="TRADE_BUYER_SIGNED">-- 已签收</option>
+								<option value="">-- 未签收</option>
+								-->
+							</select>
+						</td>
+						<th>客户昵称:</th><td><input class="w100 borderHighlight" type="text" value="" id="buyerNick"  ng-model="buyerNick"/></td>
+						<th>订单编号:</th><td><input class="w100 borderHighlight" type="text" value="" id="tid" ng-model="tid"/></td>
+						<th>退款编号:</th><td><input class="w100 borderHighlight" type="text" value="" id="refundId" ng-model="refundId" /></td>
+					</tr>
+					<tr>
+						<th>退款时间:</th><td><div class="pr"><input value="{{date1}}" type="text" id="createdStartTime" name="createdStartTime" readonly="readOnly" class="datetimepicker required borderHighlight" ng-model="createdStartTime"/>  <span class="pa timeH">-</span> </div></td>
+						<td colspan="2"><input value="{{date2}}" type="text" name="createdEndTime" id="createdEndTime" readonly="readOnly" class="datetimepicker required borderHighlight" ng-model="createdEndTime"/></td>
+						<!-- <th>小二介入:</th><td>
+							  <select class="w120 borderHighlight" id="needCustomerService" ng-model="needCustomerService">
+								   <option value="">-- 不限 --</option>
+								   <option value="true">小二已介入</option>
+								   <option value="false">小二未介入</option>
+							  </select>
+						</td> -->
+						<th>商品名称:</th><td><input class="w100 borderHighlight" type="text" value="" id="title" ng-model="title"/></td>
+						<!-- <th>商品ID:</th><td><input class="w100 borderHighlight" type="text" value="" id="numIid" ng-model="numIid"/></td> -->
+						<th></th><td></td>
+						<th></th><td></td>
+						<th></th><td></td>
+					</tr>
+					<tr><th></th><td colspan="9"><button ng-click="searchOrdersList()" class="btn btnBlue SBox" type="submit">筛选</button><a href="javascript:void(0);" ng-click="reset();">重置</a> <a href="javascript:void(0);" ng-click="showVoucher();">常用凭证/话术配置</a></td></tr>
+				</table>
+				<a class="unfold" href="javaScript:;"></a>
+			</form>
+
+		</div>
+		<div class="clearfix search_result">
+			<div class="result_operate mt10" ><input ng-model="master" class="vm mr5 ml10" type="checkbox"/> 全选  ｜ <a ng-click="massCare();" href="javaScript:;">批量关怀</a>  </div>
+			<div ng-show="!showUrPay" class="loading"><i></i>努力加载中...</div>
+			<div class="order_reportList comm_list" id="comm_list">
+				<table>
+					<thead>
+						<tr>
+							<th width="20"></th>
+							<th width="200">距离退款申请时间</th>
+							<th>退款宝贝</th>
+							<th>退款金额</th>
+							<th>退款原因</th>
+							<th>客户信息</th>
+							<th>退款状态</th>
+							<th>订单状态</th>
+							<th>操作</th>
+							<th>备注</th>
+						</tr>
+					</thead>
+					<tbody ng-show="showUrPay">
+						<tr ng-repeat="r in refunds" ng-class-even="'refundeven'">
+							<td><input name="refundChb" type="checkbox" tid="{{r.tid}}" oid="{{r.oid}}" mobile="{{r.buyerNick}}" ng-checked="master"/></td>
+							<td>
+								<a class="refund_p" href="javaScript:;" ng-title="<p>申请时间：{{r.created}}</p><p{{showTimeout(r.timeout);}}>超过时间：{{r.timeout}}</p>">退款编号:{{r.refundId}}</a>
+								<p><span class="time" ng-differ-time="{sTime: visit, eTime: r.created , transfer:true}"></span></p>
+							</td>
+							<td style="text-align:left;">
+									<a class="f_l" target="_blank" href="http://detail.tmall.com/item.htm?id={{r.numIid}}"><img class="refund_pic" ng-src="{{r.picPath}}_60x60.jpg" /></a>
+									<div><p><a target="_blank" href="http://tradearchive.taobao.com/trade/detail/trade_item_detail.htm?biz_order_id={{r.tid}}">{{r.title}}</a></p>
+									<p class="refund_p">￥{{r.payment}} </p>
+									<p class="refund_p">{{r.skuPropertiesName}} </p></div>
+							</td>
+							<td>
+								<p class="color_high">{{GoodReturn(r.hasGoodReturn)}}</p>
+								<p class="color_high">￥{{r.refundFee}}</p>
+							</td>
+							<td>
+								<p class="tid">{{r.reason}} <a ng-title="{{r.refundDesc}}" href="javaScript:;" class="vm" ng-class="refundDesc(r.refundDesc)"></a></p>			
+							</td>
+							<td>
+								<p><a ng-href="http://amos.alicdn.com/msg.aw?v=2&amp;uid={{r.buyerNick}}&amp;site=cntaobao&amp;s=2&amp;charset=utf-8" title="点击这里给我发消息" target="_blank" class="uid ng-binding" href="http://amos.alicdn.com/msg.aw?v=2&amp;uid={{r.buyerNick}}&amp;site=cntaobao&amp;s=2&amp;charset=utf-8"><img ng-src="http://amos.alicdn.com/online.aw?v=2&amp;uid={{r.buyerNick}}&amp;site=cntaobao&amp;s=2&amp;charset=utf-8" class="vm" src="http://amos.alicdn.com/online.aw?v=2&amp;uid={{r.buyerNick}}&amp;site=cntaobao&amp;s=2&amp;charset=utf-8"><span class="userId">{{r.buyerNick}}</span></a></p>
+								<p><span class="memberGrade vm ml5 generalMember" ng-class="gradeClass(r.grade)">{{r.grade}}</span></p>
+							</td>
+							<td>	
+								<p ng-class="refundStatus(r.status);">{{r.status}}</p>
+								<!-- <p class="color_high">{{tbStatus(r.csStatus)}}</p> -->
+							</td>
+							<td>
+								<p>{{r.orderStatus}}</p>
+								<p><i class="ico_difficult" ng-show="r.abnormalReason" ng-title="{{r.abnormalReason}}"></i>{{r.shippingStatus}}</p>
+								<p ng-hide="r.companyName && r.companyName != 'null'">无物流单号</p>
+								<p ng-show="r.companyName && r.companyName != 'null'"><span ng-tip-box="r.tid" ng-show="r.companyName"><i class="ico_logistics"></i>{{r.companyName}}</span></p>
+							</td>
+							<td>
+								<p><a class="comm_btn comm_btn_active mb5" href="javascript:void(0);" ng-style="myStyle" ng-show="isHide(r.status,r.orderStatus,shopType)" ng-click="uploadMsg.show(r.refundId);">上传凭证</a></p>
+								<div class="operate_btns">	
+									<div class="pr mb5">
+										<a href="javascript:void(0);" ng-class="careClass(r.isCare);" ng-click="careSetting(scope, [{uid: r.buyerNick ,tel:r.receiverMobile, tid:r.tid, oid:r.oid}], shopId);"><span ng-show="r.isCare">再次</span>关怀</a>
+										<div ng-show="r.isCare" class="logistics_careBtn" onmouseover="$('.kf_tip_box',this).show();" onmouseout="$('.kf_tip_box',this).hide();">
+											<i class="dunning_tip Suggested"></i>
+											<div class="kf_tip_box">
+												<div class="pos_rel1"><span class="tip_icon2"><span class="tip_icon3"></span></span></div>
+												<div class="address_list">
+													<dl ng-repeat="log in r.careLogs" ng-class="$index > 0 && 'mt10'">
+														<dt>关怀记录如下：</dt>
+														<dd>关怀客服：{{log.serviceStaff}}</dd>
+														<dd>关怀时间：{{log.date}}</dd>
+														<dd>关怀方式：{{careType(log.manualUrpayStatus);}}</dd>
+														<dd>关怀记录：{{log.content}}</dd>
+													</dl>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+								<p><a class="comm_btn comm_btn_active mb5" href="http://refund.taobao.com/viewRefundDetailSpirit.htm?refund_id={{r.refundId}}" target="_blank">查看详情</a></p>
+							</td>
+							<td valign="top">
+								<p class="fl percentage100 h25"><input class="remark vm bordernone" ng-title="订单备注信息：<br/>给该用户送个小礼品！<br/>点击图标修改备注" ng-click="addRemark.show(r.tid);" value="0" ng-class="flag(r.memoVo.flag)"/> <a ng-class="message(r.memoVo.buyerMemo)" class="vm" href="javaScript:;" ng-title="{{r.memoVo.buyerMemo}}"></a></p>								
+								<p ng-show="r.followupStatus < 1">
+									<input ng-click="addAffair.show({tid: r.tid, sourceId: 5, buyerNick: r.buyerNick, oid: r.oid, callback: searchOrdersList, callbackParam: []})" class="baobei_dunning" type="button" value="跟进" />
+								</p>
+								<p ng-show="r.followupStatus >= 1"><a ng-href="#/affairs/myaffair?id={{r.followupId}}">{{statusAry[r.followupStatus-1]}}</a></p>
+								
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>		
+			<div class="pager_postion"></div>
+			<div id="PageDive" ng-pager="pagersetting" class="pDiv PageDive"></div>
+		</div>
+		
+		<div id="voucher_pop" class="voucher_pop">
+			<div class="voucher_tab clearfix">
+				<a ng-click="voucherTab = true;" href="javascript:void(0);" ng-class="{cur: voucherTab}">话术</a>
+				<a ng-click="showFileUpload();" href="javascript:void(0);" ng-class="{cur: !voucherTab}">凭证</a>
+			</div>
+			<div ng-show="voucherTab">
+				<ul class="user_words">
+					<li ng-repeat="c in topContentList" ng-class="{modify: c.added}">
+						<input ng-keydown="hasModify(c);" maxlength="400" cid="{{c.id}}" ng-input-focus="c.added" type="text" ng-model="c.content" ng-disabled="!c.added" />
+						<span><a href="javascript:void(0);" ng-visible="!c.added" ng-click="c.added = true" class="btn_modify" ng-title="修改话术"></a><a href="javascript:void(0);" ng-click="delRefundTop(c.id, $index);" class="btn_delete" ng-title="删除话术"></a></span>
+					</li>
+				</ul>
+				<a ng-click="topContentList.push({added: true,id: ''});" href="javascript:void(0);" class="addBtn"><span></span>新增话术</a>
+			</div>
+			<div ng-show="!voucherTab" class="voucher_main clearfix">
+				<h4>常用凭证：</h4>
+				<div class="voucher_cont">
+					<div class="clearfix">
+						<span class="upload_button lf">上传凭证<input id="upload_button" name="proofFile" id="upload" multiple="" type="file" /></span>
+						<span ng-title="每张图片大小不超过500K，支持GIF、JPG、PNG格式" class="ico_tips"></span>
+					</div>
+					<p class="file_sub_title"></p>
+					<div class="file_list">
+						<ul id="file_list" class="clearfix"></ul>
+					</div>
+				</div>
+			</div>
+			<div class="mt20"><button class="btn btnBlue" style="margin-left:0;" ng-click="saveVoucher();">确定</button><button class="btn" ng-click="closeVoucher();">取消</button></div>
+		</div>
+		<div class="upload_msg" id="upload_msg">
+			<div class="upload_msg_m">
+				<dl>
+					<dt>留言内容：</dt>
+					<dd>
+						<textarea maxlength="400" class="msg_area" id="msg_area" placeholder="请输入留言内容..."></textarea>
+						<div class="clearfix" style="margin-top:3px;"><a href="javascript:void(0);" id="commTopContent" class="comm_btn comm_btn_hover fr">常用话术</a>已输入<strong class="color_high entryFontLen" id="atCounter">0</strong>字，最多可输入400字</div>
+					</dd>
+					<dt>凭证内容：</dt>
+					<dd>
+						<div class="clearfix">
+							<span class="upload_button lf">上传凭证<input id="msg_upload_button" name="proofFile" id="upload" multiple="" type="file" /></span>
+							<span ng-title="每张图片大小不超过500K，支持GIF、JPG、PNG格式" class="ico_tips"></span>
+						</div>
+						<div class="file_list msg_file_list">
+							<ul id="msg_file_list" class="clearfix"></ul>
+						</div>
+					</dd>
+					<dt>常用凭证：</dt>
+					<dd>
+						<div class="file_list comm_file_list" id="comm_file_list">
+							<ul class="clearfix">
+								<li ng-repeat="p in proofFile"><label><input type="checkbox" /><a ng-href="{{p.path}}" target="_blank" ng-title-max="500" ng-title="<img style='display:block;max-width:500px;' src='{{p.path}}'>">{{p.fileName}}</a></label></li>
+							</ul>
+						</div>
+					</dd>
+				</dl>
+				<div class="mt20"><button class="btn btnBlue" style="margin-left:0;" ng-click="uploadMsg.save();">确定</button><button class="btn" ng-click="uploadMsg.close();">取消</button></div>
+			</div>
+		</div>
+		<div ng-include src="'/templates/affairs/serviceComm.html'"></div>	
+	</div>
+</div>
+
+

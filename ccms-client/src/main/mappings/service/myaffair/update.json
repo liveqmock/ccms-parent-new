@@ -1,0 +1,14 @@
+{
+    "request": {
+        "method": "POST",
+        "urlPattern": "/affair/update"
+    },
+    "response": {
+        "status": 200,
+        "bodyFileName": "/data/service/myaffair/update.json",
+        "headers": {
+            "Content-Type": "application/json",
+            "Cache-Control": "max-age=86400"
+        }
+    }
+}

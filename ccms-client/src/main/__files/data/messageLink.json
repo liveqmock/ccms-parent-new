@@ -1,0 +1,8 @@
+{
+"nodeId":"xxx", "name":"xxx", "unsubscribeEnabled":true, "blacklistDisabled":false,
+"redlistEnabled":false, "deliveryChannelId":"xxx", "testPhoneString":"13122222222,13188888888,13166666666",
+"messageValue":"这是要发送的短信内容不",
+"deliveryChannelList" : [
+{"gatewayId":"xx", "gatewayName":"yyy", "gatewayPrice":0.05, "gatewayBalance": "1000.2", "gatewayType":1, "wordsLimit": 67},
+{"gatewayId":"yy", "gatewayName":"zzz", "gatewayPrice":0.05, "gatewayBalance": "2000.2", "gatewayType":0, "wordsLimit": 67}]
+ }

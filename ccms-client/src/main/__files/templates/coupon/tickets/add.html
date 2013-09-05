@@ -1,0 +1,177 @@
+
+<div class="maincontainerB" ng-controller="ticketsAddCtrl">
+	<form id="ticketForm" class="maincontainer" novalidate="novalidate">
+		<h2 class="heading">{{title}}</h2>
+		<div class="bg">
+			<ul class="ticketsInfoBox">
+				<li>
+					<label><font color="red">*</font>&nbsp;优惠券名称：</label>
+					<input class="borderHighlight" maxlength="50" type="text" required name="couponName" value="{{ticket.couponName}}"/>
+				</li>
+				<!--
+				<li>
+					<label><font color="red">*</font>&nbsp;优惠券通道：</label>
+					<select class="borderHighlight" ng-disabled="isModify" required name="couponType">
+						<option value="">{{ticket.couponType}}</option>
+						<option ng-repeat="c in couponChannels" value="{{c.channelType}}">{{c.channelName}}</option>
+					</select>
+				</li>
+				-->
+				<li>
+					<label><font color="red">*</font>&nbsp;优惠券面额：</label>
+					<select class="borderHighlight" ng-disabled="isModify" required name="denominationValue">
+						<option value="{{ticket.denomination.denominationValue}}">{{ticket.denomination.denominationName}}</option>
+						<option ng-repeat="price in prices" value="{{price.denominationValue}}">{{price.denominationName}}</option>
+					</select>
+				</li>
+				<li class="clearfix">
+					<label class="fl">使用该券需满消费：</label>
+					<input placeholder="不填表示不限" ng-disabled="isModify" type="text" maxlength="6" name="threshold" class="fl digits borderHighlight" value="{{ticket.threshold}}" style="margin-left:13px;" /><span class="fl" style="line-height:25px;margin-left:4px;">元</span>
+					<p style="display:none;margin-left:64px;">
+						<label><font color="red">*</font>&nbsp;店铺：</label>
+						<select class="borderHighlight" ng-disabled="isModify" name="shopId">
+							<option value="{{ticket.shop.shopId}}">{{ticket.shop.shopName}}</option>
+							<option ng-repeat="shop in shops" value="{{shop.shopId}}">{{shop.shopName}}</option>
+						</select>
+					</p>
+				</li>
+				<li>
+					<label><font color="red">*</font>&nbsp;生效时间：</label>
+					<input ng-disabled="isModify" class="datepicker borderHighlight" type="text" readonly="readonly" name="startTime" id="startTime" value="{{ticket.startTime}}" required />
+				</li>
+				<li>
+					<label><font color="red">*</font>&nbsp;截止时间：</label>
+					<input ng-disabled="isModify" type="text" readonly="readonly" class="datepicker borderHighlight" name="endTime" id="endTime" value="{{ticket.endTime}}" required />
+				</li>
+				<li>
+					<label>备注：</label>
+					<textarea class="markMessage borderHighlight" name="remark" maxlength="512">{{ticket.remark}}</textarea>
+				</li>
+			</ul>
+		</div>
+		<div class="mb" style="padding:15px 0 0 130px;">
+			<!--
+			<button id="couponSure" class="btn btnBlue" ng-click="clickSureCoupon()">确定</button>
+			<button id="couponCancel" class="btn" ng-click="clickConcelCoupon()">取消</button>
+			-->
+			<button class="btn btnBlue" type="submit">确定</button>
+			<a class="btn" href="#/coupon/tickets">取消</a>
+		</div>
+	</form>
+	<!--弹框start-->
+	<div id="couponPop" class="msgPopBox ui-draggable clearfix" style="display:none;">
+		<div class="fl imgMark"><img src="../images/leftMark.jpg" width="140" height="185" /></div>
+		<div class="fl">
+			<p class="failMark" id="failMark" style="display:none;"></p>	
+			<p style="margin-top:15px;">创建优惠券需要店铺主账号的授权。</p>
+			<div class="cc_btn clearfix">
+				<a id="getSessionKey" class="linkTaobaoBtn fl" target="_blank" ng-href="{{grandUrl}}">立即授权</a>
+				<a id="sureSessionKey" style="display:none;" class="linkTaobaoBtn fl" href="javascript:void(0);">确定授权</a>
+				<span class="timeLoseMark fl">授权后30分钟内可以免授权创券，超出30分钟后需要重新授权。</span>
+			</div>
+		</div>
+	</div>
+</div>
+<nscript get-root _src="scripts/coupon/add.js"></nscript>
+<script>
+$.validator.addMethod("thresholdRule", function(value, element, params) { 
+	return this.optional(element) || parseInt(value) > parseInt($('[name=denominationValue] :selected').html());
+}, '使用条件必须大于优惠券面额');
+
+function ticketsAddCtrl($scope,$location,$http){
+	var path = $location.path().split(':');
+	//根据path判断是修改还是新建
+	$scope.isModify = /\/modify$/.test(path[0]) ? true : false;
+	if($scope.isModify){
+		$scope.title = '修改优惠券';
+		//获取数据
+		$http.get(root+"coupon/taobao/"+path[1]+'?_='+new Date().getTime()).success(function(response){
+			$scope.ticket = response.data;
+			if($scope.ticket.threshold == 0){
+				$scope.ticket.threshold = '不填表示不限';
+			}
+		});
+	}else{
+		$scope.title = '新建优惠券';
+		//获取优惠券通道
+		/*
+		$http.get(root+"coupon/taobao/channel").success(function(response){
+			$scope.couponChannels = response.data.channels;
+		});
+		*/
+		//获取优惠券面额
+		$http.get(root+"coupon/taobao/denomination").success(function(response){
+			$scope.prices = response.data.denominations;
+		})
+		//获取店铺
+		$http.get(root+"shop/taobao/list").success(function(response){
+			$scope.shops = response.data.shops;
+			//删除第一个option
+			$('[name=shopId] option').eq(0).remove();
+		});
+		//获取淘宝优惠券授权页面
+		$http.get(root+"coupon/taobao/grandUrl").success(function(response){
+			$scope.grandUrl = response.data.grandUrl;
+		});
+	}
+	
+	angular.element('#ticketForm').validate({
+		rules:{
+			threshold:{thresholdRule:true}
+		},
+		submitHandler:function(){
+			if($scope.isModify){
+				subFn('PUT',root+"coupon/taobao/"+path[1]);
+			}else{
+				//判断是否授权
+				$http.get(root+"coupon/taobao/shop/"+$('select[name=shopId]').val()+"/authorization").success(function(response){
+					if(response.data.authorized){
+						subFn('POST',root+"coupon/taobao/");
+					}else{
+						$("#couponPop").addInteractivePop({magTitle:"授权提醒",mark:true});
+					}
+				});
+			}
+		}
+	});
+	
+	//授权
+	$('#getSessionKey').click(function(){
+		$(this).hide().next().show();
+	});
+	$('#sureSessionKey').click(function(){
+		var _this = $(this);
+		$http.get(root+"coupon/taobao/shop/"+$('select[name=shopId]').val()+"/authorization").success(function(response){
+			if(response.data.authorized){
+				subFn('POST',root+"coupon/taobao");
+			}else{
+				$('#failMark').html('您尚未授权成功').show();
+				_this.hide().prev().show();
+			}
+		});
+	});
+	
+	function subFn(method,url){
+		var json = {};
+		$('#ticketForm :input[name]').each(function(){
+			var val = this.value;
+			if($(this).attr('disabled') || this.name == '') return;
+			if(this.name == 'denominationValue' || this.name == 'threshold'){
+				val = parseInt(this.value) || 0;
+			}
+			json[this.name] = val;
+		});
+		$http({
+			"method":method,
+			"url":url,
+			"data":JSON.stringify(json),
+		}).success(function(response){
+			if(response.status == 0){
+				location.hash = '#/coupon/tickets';
+			}else{
+				alert(response.message);
+			}
+		});
+	}
+}
+</script>

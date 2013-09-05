@@ -1,0 +1,572 @@
+<div id="evaluate" class="marketingCampNodeBg" >
+                        <div class="triangleArrows valuateTriangleArrows"></div>
+						<div class="marketingCampNode">
+							<div class="clearfix moduleHeader"><h4 class="fl">效果评估节点设置</h4><span class="fr">节点ID：<em id="evaluteId"></em></span></div>
+							<form class="marketingCampNodeMain" id="evaluate">
+								<div class="marketingCampNodeEvaluate">
+									<div>
+										<input type="checkbox" disabled="disabled" checked="true" name="selectiveShop" id="144939" ><span id="shopName"></span>
+										<div class="selectmodel selectmodelBlue fr">
+											<i class="fl">执行批次 :</i>
+											<select name="evaluateCycleExecute" class="evaluateCycleExecute">
+                                                  
+                                            </select>
+										</div>
+										<div class="selectmodel fr">
+											<i class="fl">评估周期 :</i>
+                                            <select name="evaluateCycle">
+                                                <option value="7">7天</option>
+                                                <option value="6">6天</option>
+                                                <option value="5">5天</option>
+                                                <option value="4">4天</option>
+                                                <option value="3">3天</option>
+                                                <option value="2">2天</option>
+                                                <option value="1">1天</option>
+                                            </select>
+										</div>
+									</div>
+									<div class="clearfix" id="assessmentSummary" style="display:none;">
+										<table class="evaluateTableTop">
+											<thead><tr><th colspan='7'>效果分析<span class="fr" id="parsingTime"></span></th></tr></thead>
+											<tbody></tbody>
+										</table>
+										<div class="gray7c fr ">在效果评估期内按天自动更新效果报表</div>
+									</div>	
+									<div id="evaluateProgress" style="display:none;">
+										<table class="ccmsTableB marketingCampNodeEvaluateTabel marketingCampNodeEvaluateTabelMain">
+											<thead>
+												<tr><th class="al"><span>日期</span></th><th class="ar"><span>拍下订单数</span></th><th class="ar"><span>付款订单数</span></th><th class="ar"><span>拍下客人数</span></th><th class="ar"><span>付款客人数</span></th><th class="ar"><span>拍下金额</span></th><th class="ar"><span>付款金额</span></th><th class="ar"><span>客单价</span></th><th class="ar"><span>购买商品数</span></th><th><span>ROI</span></th><th><span>查看明细</span></th></tr>
+											</thead>
+											<tbody>
+												
+											</tbody>
+										</table>
+									</div>
+								</div>
+								<div>
+									<button class="btn btnBlue" id="evaluateSave" onclick="filterevalute.saveEvl()">保存</button>
+								</div>
+							</form>
+						</div>
+</div>
+<div class="marketingCampNodeBg evaCustomerTable" style="display:none;">
+						<div class="marketingCampNode">
+							<div class="clearfix moduleHeader"><h4 class="fl">效果评估报表-客户表</h4><a href="javascript:void(0);" class="closeTable fr">X</a><a href="javascript:void(0)" class="fullTable fr">□</a></div>
+							<div class="marketingCampNodeMain">
+								<p class="evaluatePara clearfix"><a href="javascript:void(0);" class="downloadBtn fr" title="客户明细下载" data="customer-detail">下载</a></p>
+								
+								<div class="clearfix">
+									<table class="ccmsTableB marketingCampNodeEvaluateTabel" id="customerDetailList">
+										<thead>
+											<tr><th class="al"><span>淘宝昵称</span></th><th class="al"><span>姓名</span></th><th><span>性别</span></th><th><span>生日</span></th><th class="al"><span>省份</span></th><th class="al"><span>城市</span></th><th class="al"><span>区县</span></th><th><span>客户全站等级</span></th><th><span>手机号</span></th><th class="al"><span>email</span></th><th><span>买家信用等级</span></th><th class="ar"><span>买家好评率</span></th><th class="al"><span>地址</span></th><th class="ar"><span>邮编</span></th><th class="al"><span>职业</span></th></tr>
+										</thead>
+										<tbody>
+											
+											
+										</tbody>
+									</table>
+									
+								</div>
+							</div>
+						</div>
+</div>
+
+<div class="marketingCampNodeBg evaOrderTable" style="display:none;">
+						<div class="marketingCampNode">
+							<div class="clearfix moduleHeader"><h4 class="fl">效果评估报表-订单表</h4><a href="javascript:void(0);" class="closeTable fr">X</a><a href="javascript:void(0);" class="fullTable fr">□</a></div>
+							<div class="marketingCampNodeMain">
+								<p class="evaluatePara">总拍下订单数：<span class="orange1" id="totalOrder"></span>单 ，总拍下订单金额：<span class="orange1" id="totalOrderPrice"></span>元，总付款订单金额：<span class="orange1" id="totalTradePrice"></span>元，付款金额比例：<span class="orange1" id="feeRatio"></span>%<a href="javascript:void(0);" class="downloadBtn fr"  title="订单明细下载"  data="order-detail">下载</a></p>
+								
+								<div class="clearfix">
+									<table class="ccmsTableB marketingCampNodeEvaluateTabel" id="orderDetailList">
+										<thead>
+											<tr><th></th><th class="al"><span>订单编号</span></th><th class="al"><span>淘宝昵称</span></th><th><span>下单时间</span></th><th><span>付款时间</span></th><th><span>发货时间</span></th><th class="ar"><span>应付金额</span></th><th class="ar"><span>实付金额</span></th><th><span>订单状态</span></th></tr>
+										</thead>
+										<tbody>
+											
+										</tbody>
+									</table>
+								</div>
+							</div>
+						</div>
+</div>
+<div class="marketingCampNodeBg evaBydayTable" style="display:none;">
+                    <div class="marketingCampNode">
+                        <div class="clearfix moduleHeader"><h4 class="fl">2013-03-08</h4><a href="javascript:void(0);" class="closeTable fr">X</a><a href="javascript:void(0);" class="fullTable fr">□</a></div>
+                        <div class="marketingCampNodeMain">
+                            <div class="clearfix">
+                                <table class="ccmsTableB marketingCampNodeEvaluateTabel" id="gridDataByHour">
+                                    <thead>
+                                        <tr><th><span>时间</span></th><th class="ar"><span>拍下订单数（个）</span></th><th class="ar"><span>付款订单数（个）</span></th><th class="ar"><span>拍下客人数（个）</span></th><th class="ar"><span>付款客人数（个）</span></th><th class="ar"><span>拍下金额（元）</span></th><th class="ar"><span>付款金额（元）</span></th></tr>
+                                    </thead>
+                                    <tbody>
+                                        
+                                    </tbody>
+                                </table>
+                                <!--<div class="ratePageBg">
+                                    <div class="ratePage fr">
+                                        <a title="首页" class="ratePageTop" href="javascript:void(0)" onclick="operatePage.firstPage()"></a><a title="上一页" class="ratePagePrev" href="javascript:void(0)" onclick="operatePage.prevPage()"></a><span>跳至</span><input type="text" id="currentPage" style="text-align:center;"><span>至</span><a title="下一页" class="ratePageNext" href="javascript:void(0)"  onclick="operatePage.nextPage()"></a><a title="末页" class="ratePageEnd" href="javascript:void(0)"  onclick="operatePage.lastPage()"></a><span class="ratePageNum">1/23</span>
+                                    </div>
+                                </div>-->
+                            </div>
+                        </div>
+                    </div>
+</div>
+<div class="marketingCampNodeBg evaGoodsTable" style="display:none;">
+						<div class="marketingCampNode">
+							<div class="clearfix moduleHeader"><h4 class="fl">效果评估报表-商品表</h4><a href="javascript:void(0);" class="closeTable fr">X</a><a href="javascript:void(0)" class="fullTable fr">□</a></div>
+							<div class="marketingCampNodeMain">
+								
+								<p class="evaluatePara">总付款商品数：<span class="orange1">111</span>款 ，总付款商品数量：<span class="orange1">222</span>件，总付款商品金额：<span class="orange1">4444.90</span>元<a href="javascript:void(0);" class="downloadBtn fr"  title="商品明细下载" data="product-detail">下载</a></p>
+								
+								<div class="clearfix">
+									<table class="ccmsTableB marketingCampNodeEvaluateTabel" id="productDetailList">
+										<thead>
+											<tr><th><span>商品编号</span></th><th class="al"><span>商品名称</span></th><th><span>商品外部编码</span></th><th class="ar"><span>付款客人数</span></th><th class="ar"><span>付款订单数</span></th><th class="ar"><span>付款商品数量</span></th><th class="ar"><span>付款商品金额</span></th></tr>
+										</thead>
+										<tbody>
+											
+										</tbody>
+									</table>
+								</div>
+							</div>
+						</div>
+</div>
+<script type="text/javascript">
+$(document).ready(function(){
+	$(".evaOrderTable .smallPlus a").die("click").live("click",function(){
+	     var _next = $(this).parents('tr').next();
+		$('.evaOrderTableSonP').not(_next).hide();
+		if(_next.is(":visible")){
+			$(this).parents('tr').removeClass('evaOrderTableHover');
+			$(this).text('+');
+			_next.hide();
+		}else{
+			$(this).parents('tr').addClass('evaOrderTableHover');
+			$(this).text('-');
+			_next.show();
+			$(this).parents('tr').siblings().removeClass('evaOrderTableHover');
+			$(this).parents('tr').siblings().find('.smallPlus a').text('+');
+			var tid=$(".evaOrderTableHover").find(".tid").text();
+			filterevalute.getOrderSubList(".evaOrderTableHover",tid)
+		}
+	})
+	$('.evaByday').live("click",function(){
+	    var _text = $(this).parents('td').find('span').text();
+		$(this).parents('.marketingCampNodeBg').hide();
+		filterevalute.time=$(this).closest("tr").find(".evaluateTime").text();
+		$('.evaBydayTable').find('h4').text(_text);
+		filterevalute.getGridDataByHour();
+		$('.evaBydayTable').show();
+	})
+	$('.evaGoods').live("click",function(){
+	     $(this).parents('.marketingCampNodeBg').hide();
+		filterevalute.time=$(this).closest("tr").find(".evaluateTime").text();
+		filterevalute.getProductDetailList();
+		 $('.evaGoodsTable').show();
+	})
+	$('.evaOrder').live("click",function(){
+	    $(this).parents('.marketingCampNodeBg').hide();
+		filterevalute.time=$(this).closest("tr").find(".evaluateTime").text();
+		filterevalute.getOrderDetailList();
+		$('.evaOrderTable').show();
+	})
+
+	$('.evaCustomer').live("click",function(){
+	    $(this).parents('.marketingCampNodeBg').hide();
+		filterevalute.time=$(this).closest("tr").find(".evaluateTime").text();
+		filterevalute.getCustomerDetailList();
+		$('.evaCustomerTable').show();
+		
+	})
+	$('.marketingCampNodeBg .closeTable').live("click",function(){
+		$(this).parents('.marketingCampNodeBg').hide();
+		$('.marketingCampNodeEvaluate').parents('.marketingCampNodeBg').show();
+	})
+});
+
+//报告窗口
+closeReport("#evaluate");
+maxWindow();
+
+//下载明细表
+$(".downloadBtn").on("click",function(){
+      var jodId =filterevalute.jobId;
+	  var nodeId=nodeTplId;
+	  var data=$(this).attr("data"); 
+      window.location.href=root+"node/evaluate/"+nodeId+"/download/"+data+"?jobId="+jodId;
+});
+</script>
+<script type="text/javascript">
+//编辑权限判断
+isEditNodeTpl();
+
+var filterevalute={
+    nodeId:nodeTplId,
+	jobId:$("[name=cycleExecute]").val(),
+	time:null,
+	campstart:function(campId){
+	     $.ajax({	     
+			 url:root+'schedule/campaign/'+window.location.hash.split(':')[1]+'/snapshot',
+			 async:true,
+			 cache:false,
+			 type:"GET",
+			 dataType:"json",
+			 success:function(response){
+				      var data=response.data;				 
+					  var campId=data.campaignId;
+					  filterevalute.campaignStatus=data.campaignStatus;
+					  
+					  var jobStatusList=data.jobStatusList;
+					  //filterevalute.jobId=jobStatusList[0].jobId;
+					  var len=data.jobStatusList.length;
+					  var $evaluateCycleExecute=$("[name=evaluateCycleExecute]");					  
+					   $evaluateCycleExecute.parent().css("display","none");
+					   if(filterevalute.campaignStatus == "A1"){
+						   $("#assessmentSummary").css("display","none");
+						   $("#evaluateProgress").css("display","none");
+						   $("#evaluateSave").css("display","block");
+						   $("[name=evaluateCycle]").removeAttr("disabled").removeClass("disabled");
+						   
+					   }
+					   else{
+					       	filterevalute.getGridCollectData();	
+							filterevalute.getGridData();			       
+						   $("[name=evaluateCycle]").attr("disabled","disabled").addClass("disabled");
+						   $("#evaluateSave").remove();
+					   }
+					   if(filterevalute.campaignStatus != "A1" && filterevalute.campaignStatus != "B1" ){
+					       $evaluateCycleExecute.parent().css("display","inline-block");
+						   $evaluateCycleExecute.find("option").remove();
+						   for(var i=0;i<len;i++){
+							  $evaluateCycleExecute.append('<option value='+jobStatusList[i].jobId+'>'+jobStatusList[i].startTime+'</option>');
+						  } 
+						  var currentJob=$("[name=cycleExecute]").val();
+						  $evaluateCycleExecute.val(currentJob);
+						  $evaluateCycleExecute.unbind("change").bind("change",function(){
+								filterevalute.jobId=$(this).val();
+						  });
+						  if($(".disableToForm").length>0){
+						       $(".disableToForm").hide();
+						  }
+					    }
+					  
+			}
+        })
+	},
+	init:function(){
+	     $("#evaluteId").text(this.nodeId);
+	     this.openEvl();
+	     this.campstart();  
+	},
+	getGridCollectData:function(){
+	      //$("#assessmentSummary").css("display","block");
+		  $.ajax({
+		         url:root+"node/evaluate/"+this.nodeId+"/grid/collect?jobId="+this.jobId,
+				 //url:root+"data/valute/gridCollect.json",
+				 async:false,
+				 type:"Get",
+				  cache:false,
+				 dataType:"json",
+				 success:function(response){
+				      var data=response;
+				      var html='<tr><td><div><p>发送人数</p><span>'+data.channelSendCount+'人</span></div></td><td><div><p>费用</p><span>'+data.totalFee+'元</span></div></td><td><div><p>购买客户</p><span>'+data.payCustomerCount+'人</span></div></td><td><div><p>响应率</p><span class="orange1">'+data.responseRate+'%</span></div></td><td><div><p>出售产品</p><span>'+data.productCount+'个</span></div></td><td><div><p>销售额</p><span class="orange1">'+data.payPaymentSum+'元</span></div></td><td><div><p class="evaluateROI">ROI<span class="ccms_tips"><span class="ccms_tipsContent" style="display: none;"><b></b>ROI=销售额/费用</span></span></p><span class="orange1">'+data.roi+'</span></div></td></tr>'
+					  $("#assessmentSummary").find("tbody").html(html);
+					  $("#evaluateProgress").css("display","block");
+					  $(".ccms_tips").Tips();
+				 }
+		  });
+	},
+	getGridData:function(){
+	      $.ajax({
+		         url:root+"node/evaluate/"+this.nodeId+"/grid/day?jobId="+this.jobId,
+				 //url:root+"data/valute/GridData.json",
+				 async:false,
+				 type:"Get",
+				 dataType:"json",
+				 success:function(response){
+					  var data=response;					  
+					  var len=data.length;
+					  if(len != 0){
+						  for(var i=0;i<len;i++){
+							   var tr='<tr><td class="al"><span class="evaluateTime">'+data[i].evaluateTime+'</span><a href="javascript:void(0);" class="smallblueBtn evaByday">查看今日</a></td><td class="ar">'+data[i].buyOrderCount+'</td><td class="ar">'+data[i].payOrderCount+'</td><td class="ar">'+data[i].buyCustomerCount+'</td><td class="ar">'+data[i].payCustomerCount+'</td><td class="ar">'+data[i].buyPaymentSum+'</td><td class="ar">'+data[i].payPaymentSum+'</td><td class="ar">'+data[i].customerAvgFee+'</td><td class="ar">'+data[i].productCount+'</td><td>'+data[i].roi+'</td><td><ul class="blueTab"><li class="evaCustomer">客户明细</li><li class="evaOrder">订单明细</li><li class="evaGoods">商品明细</li></ul></td></tr>';
+							   $("#evaluateProgress tbody").append($(tr));
+							   
+						  }
+						  var startTime=data[0].evaluateTime;
+						  var lastTime=data[0].evaluateTime;
+						  $("#parsingTime").text(startTime+" - "+lastTime)
+						  $("#assessmentSummary").css("display","block"); 
+					  }
+				 }
+		  });
+	      
+	},
+	getCustomerDetailList:function(){
+	     var $customerDetailList=$("#customerDetailList");   
+		  $customerDetailList.find("tbody tr").remove();
+		  $.ajax({
+		         url:root+"node/evaluate/"+this.nodeId+"/customer-detail?jobId="+this.jobId+"&evaluateTime="+this.time,
+				 //url:root+"data/valute/customerDetailList.json",
+				 async:false,
+				 type:"GET",
+				 dataType:"json",
+				 success:function(response){
+					  var data=response;
+					  var len=data.length;
+					  //console.warn("客户人数:"+len);
+					  for(var i=0;i<len;i++){
+					       var html='<tr><td class="al">'+data[i].uniId+'</td><td class="al">'+data[i].fullName+'</td><td>'+data[i].sex+'</td><td>'+data[i].birthday+'</td><td class="al">'+data[i].state+'</td><td class="al">'+data[i].city+'</td><td class="al">'+data[i].district+'</td><td>'+data[i].vipInfo+'</td><td>'+data[i].mobile+'</td><td class="al">'+data[i].email+'</td><td>'+data[i].buyerCreditLev+'</td><td class="ar">'+data[i].goodRate+'</td><td class="al">'+data[i].address+'</td><td>'+data[i].zip+'</td><td class="al">'+data[i].job+'</td></tr>';
+						   $customerDetailList.find("tbody").append($(html));
+					       
+					  }
+					  //$("#assessmentSummary").css("display","block"); 
+				 }
+		  });
+		  
+	},
+	getOrderDetailList:function(){
+	      var $orderDetailList=$("#orderDetailList");   
+		  $orderDetailList.find("tbody tr").remove();
+		  $.ajax({
+		         url:root+"node/evaluate/"+this.nodeId+"/order-detail?jobId="+this.jobId+"&evaluateTime="+this.time,
+				 //url:root+"data/valute/customerDetailList.json",
+				 async:false,
+				 type:"GET",
+				 dataType:"json",
+				 success:function(response){
+					  var data=response;
+					  var len=data.length;
+					  //console.warn("订单数量:"+len);
+					  
+					//var totalOrder=totalOrderPrice=totalTradePrice=feeRatio=0;
+ 					var totalOrder=0,totalOrderPrice=0,totalTradePrice=0,feeRatio=0;
+					  $orderDetailList.children("tbody").html("");
+					  for(var i=0;i<len;i++){
+					        var html='<tr><td class="smallPlus"><a href="javascript:void(0);" >+</a></td><td class="al tid">'+data[i].tid+'</td><td class="al">'+data[i].customerno+'</td><td>'+data[i].created+'</td><td>'+data[i].payTime+'</td><td>'+data[i].consignTime+'</td><td class="ar">'+data[i].totalFee+'</td><td class="ar">'+data[i].payment+'</td><td>'+data[i].status+'</td></tr><tr class="evaOrderTableSonP"><td class="evaOrderTableSon" colspan="9"><table><tr><td class="al"><span class="evaOrderTableSonArrow"></span>子订单编号</td><td class="al">商品编号</td><td class="al">商品标题</td><td class="ar">购买数量</td><td class="ar">单价</td><td class="ar">子订单应付金额</td><td class="ar">子订单实付金额</td><td>子订单状态</td></tr></table></td></tr>';
+							var $ele=$(html);
+							$orderDetailList.children("tbody").append($ele);
+							 
+                          totalOrder++;
+						  totalOrderPrice=Number(totalOrderPrice)+Number(data[i].totalFee);
+						  totalOrderPrice=totalOrderPrice.toString().replace(/^(\d+\.\d{2})\d*$/,"$1");
+						  if(data[i].status!="已下单未付款" && data[i].status!="交易失败"){
+					           totalTradePrice=Number(totalTradePrice)+Number(data[i].payment);
+					           totalTradePrice=totalTradePrice.toString().replace(/^(\d+\.\d{2})\d*$/,"$1");
+						  }
+						  
+						  
+					 }
+					 feeRatio=Number((totalTradePrice/totalOrderPrice).toFixed(2)*100);
+					 feeRatio=feeRatio.toString().replace(/^(\d+\.\d{2})\d*$/,"$1");
+					 $("#totalOrder").text(totalOrder);
+					 $("#totalOrderPrice").text(totalOrderPrice);
+					 $("#totalTradePrice").text(totalTradePrice);
+					 $("#feeRatio").text(feeRatio);
+					  //$("#assessmentSummary").css("display","block"); 
+				 }
+		  });
+	},
+	getOrderSubList:function(obj,v){
+	    $.ajax({
+		         url:root+"node/evaluate/"+this.nodeId+"/orderitem-detail?tid="+v,
+				 //url:root+"data/valute/customerDetailList.json",
+				 async:false,
+				 type:"GET",
+				 dataType:"json",
+				 success:function(response){
+					  var data=response;
+					  $(obj).next().find("tbody tr:eq(0)").nextAll().remove();
+					  var len=data.length;
+							for(var j=0;j<len;j++){
+								var subHtml='<tr><td class="al">'+data[j].oid+'</td><td class="al">'+data[j].productNum+'</td><td class="al">'+data[j].productTitle+'</td><td class="ar">'+data[j].num+'</td><td class="ar">'+data[j].productPrice+'</td><td class="ar">'+data[j].totalFee+'</td><td class="ar">'+data[j].payment+'</td><td>'+data[j].status+'</td></tr>'
+								$(obj).next().find("table").append($(subHtml))
+							
+						  
+					 }
+				 }
+		  });  
+	},
+	getProductDetailList:function(){
+	      var $productDetailList=$("#productDetailList");   
+		  $productDetailList.find("tbody tr").remove();
+		  $.ajax({
+		         url:root+"node/evaluate/"+this.nodeId+"/product-detail?jobId="+this.jobId+"&evaluateTime="+this.time,
+				// url:root+"data/valute/customerDetailList.json",
+				 async:false,
+				 type:"GET",
+				 dataType:"json",
+				 success:function(response){
+					  var data=response;
+					  var len=data.length;
+					  //var totalProduct=totalProductCount=totalTradePrice=0;
+					  var totalProduct=0,totalProductCount=0,totalTradePrice=0;
+					  for(var i=0;i<len;i++){
+						   var html='<tr><td>'+data[i].productId+'</td><td class="al">'+data[i].productName+'</td><td>'+data[i].outerId+'</td><td class="ar">'+data[i].customerCount+'</td><td class="ar">'+data[i].orderCount+'</td><td class="ar">'+data[i].buyNum+'</td><td class="ar">'+data[i].buyFee+'</td></tr>';
+						   $productDetailList.find("tbody").append($(html));
+						  totalProductCount=totalProductCount+data[i].buyNum;
+					      totalTradePrice=totalTradePrice+data[i].buyFee;
+					      totalProduct++;
+					  }
+					  //$("#assessmentSummary").css("display","block"); 
+					  $(".evaGoodsTable .orange1:eq(0)").text(totalProduct);
+					  $(".evaGoodsTable .orange1:eq(1)").text(totalProductCount);
+					  $(".evaGoodsTable .orange1:eq(2)").text(totalTradePrice);
+				 }
+		  });
+	},
+	getGridDataByHour:function(page,rp){
+		var $gridDataByHour=$("#gridDataByHour");   
+		$gridDataByHour.find("tbody tr").remove();
+		$.ajax({
+			url:root+"node/evaluate/"+this.nodeId+"/grid/hour?jobId="+this.jobId+"&evaluateTime="+this.time,
+			async:false,
+		    type:"GET",
+		    dataType:"json",
+		    success:function(response){
+		    	var data=response;
+			    var len=data.length;
+			    for (var i=0;i<len;i++) {
+				    var evaluateTime=data[i].evaluateTime;
+					var year=evaluateTime.substr(0,11);
+					var bHour=evaluateTime.substr(11,2)+":00";
+					var hour=parseInt(evaluateTime.substr(11,2));
+					var aHour=hour+1;
+					if(aHour<9){
+					    aHour="0"+aHour+":00";
+					}else{
+					    aHour=aHour.toString()+":00";
+					}
+					evaluateTime=year+bHour+" - "+aHour;
+			    	var html='<tr><td>'+evaluateTime+'</td><td class="ar">'+data[i].buyOrderCount+'</td><td class="ar">'+data[i].payOrderCount+'</td><td class="ar">'+data[i].buyCustomerCount+'</td><td class="ar">'+data[i].payCustomerCount+'</td><td class="ar">'+data[i].buyPaymentSum+'</td><td class="ar">'+data[i].payPaymentSum+'</td></tr>';
+			    	$gridDataByHour.find("tbody").append($(html));
+			    };
+				//var total=data.total;
+				//operatePage.totalPage=total/20;
+                //operatePage.refreshPaging();
+		    }
+		});
+	},
+	openEvl:function(){
+		$.ajax({
+		      url:root+"shop/taobao/list",
+			  async:false,
+			  type:"GET",
+			  dataType:"json",
+			  success:function(response){
+			       var data=response.data;
+				   $("[name=selectiveShop]").attr("id", data.shops[0].shopId);
+				   $("#shopName").text(data.shops[0].shopName);
+			  }
+		 });
+	     $.ajax({
+		      url:root+"node/evaluate/"+filterevalute.nodeId,
+			  async:false,
+			  type:"GET",
+			  dataType:"json",
+			  success:function(response){
+			       var data=response;
+				   if (data != null) {
+				   	//$("[name=selectiveShop]").attr("id", data.shopId);
+					
+				   	$("[name=evaluateCycle]").val(data.evaluateCycle);
+				   }else{
+					$("[name=evaluateCycle]").val(7);
+				   }
+				   
+			  },
+			  error:function(response){
+			        
+			  }
+		 });
+	},
+	saveEvl:function(){
+	     var nodeId=this.nodeId;
+		 var CycleDays=$("[name=evaluateCycle]").val();
+		 var id=$("[name=selectiveShop]").attr("id");
+		 var parame={
+		          nodeId:nodeId,
+				  evaluateCycle:CycleDays,
+				  shopId:id
+		     };
+			 parame=JSON.stringify(parame);
+	     $.ajax({
+		     url:root+"node/evaluate",
+			 async:false,
+			 type:"POST",
+			 data: parame,
+             contentType:"application/json",
+			 success:function(response){
+			       setSaveFullIcon(nodeId);
+			       $(this).yAlert({"text":"保存成功"});
+				   removeAlert();
+			 }
+		 });
+	}
+}
+
+//翻页
+function test(){
+   //operatePage.getTotalPage(105,1);
+   operatePage.totalPage=100/20;
+   operatePage.refreshPaging();
+}
+filterevalute.init();
+var operatePage={
+   total:"",
+   totalPage:"",
+   curPage:1,
+   rp:20,
+   refreshPaging:function(){
+	   $("#currentPage").val(this.curPage);
+	   $(".ratePageNum").text(this.curPage+"/"+this.totalPage);
+   },
+   getConDate:function(page,rp){
+       // filterevalute.getGridDataByHour(page,rp);
+   },
+   //refreshContent:function(){},
+   prevPage:function(){
+       this.curPage--;
+	   if(this.curPage<1){this.curPage=1};
+	   this.refreshPaging();
+	   this.getConDate(this.curPage,this.rp);
+   },
+   nextPage:function(){
+       this.curPage++;
+	   if(this.curPage>this.totalPage){this.curPage=this.totalPage};
+	   this.refreshPaging();
+	   this.getConDate(this.curPage,this.rp);
+   },
+   firstPage:function(){
+       this.curPage=1;
+	   this.refreshPaging();
+	   this.getConDate(this.curPage,this.rp);
+   },
+   lastPage:function(){
+       this.curPage=this.totalPage;
+	   this.refreshPaging();
+	   this.getConDate(this.curPage,this.rp);
+   },
+   searchPage:function(index){
+       this.curPage=index;
+	   this.refreshPaging();
+	   this.getConDate(this.curPage,this.rp);
+   }
+   
+}
+$("#currentPage").live("keydown",function(event){
+      var e = event || window.event || arguments.callee.caller.arguments[0];
+	  if(e && e.keyCode==13){ 
+	      var str=$(this).val();
+		  if(/[0-9]+/.test(str)){
+		      var num=parseInt(str);
+			  if(num>0 && num < operatePage.totalPage){
+			       operatePage.searchPage(num);
+			  }
+		  }
+	  }
+});
+operatePage.getConDate();
+
+	//filterevalute.getOrderDetailList();
+</script>

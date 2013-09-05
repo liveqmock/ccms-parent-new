@@ -1,0 +1,30 @@
+{
+    "status":0,
+    "errCode":"",
+    "message":"",
+    "data": {
+        "handled":2000,
+        "matched":1000,
+        "ruleData":[
+            {
+                "id": 11,
+                "handled":1985,
+                "matched":700,
+                "rate":"20%"
+            },
+            {
+                "id": 22,
+                "handled":1985,
+                "matched":700,
+                "rate":"40%"
+            },
+            {
+                "id": 33,
+                "handled":1985,
+                "matched":700,
+                "rate":"40%"
+            }
+        ]
+    },
+    "visit" : "2013-06-20 12:12:12"
+}

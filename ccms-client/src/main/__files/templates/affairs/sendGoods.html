@@ -1,0 +1,164 @@
+
+<nscript get-root type="text/javascript" _src="scripts/service/serviceComm.js"></nscript>
+<nscript get-root type="text/javascript" _src="scripts/service/fhsw.js"></nscript>
+<div class="maincontainerB kf_wrap" ng-controller="serviceCtrl">
+    <div class="maincontainer kf_wrap_cont" ng-controller="sendGoods">
+		<div class="clearfix">
+			<h2 class="heading fl kf_head">发货跟进</h2>
+			<div class="shopinfo fl mt5 ml10" id="shopinfo">
+				<b>店铺选择 :</b><span class="" id="{{shopId}}">{{shopName}}<i></i></span>
+				<dl style="display: none;">
+					<dd ng-click="init(s);" ng-repeat="s in shops" shop_id="{{s.shopId}}"><a href="javascript:void(0)">{{s.shopName}}</a></dd>
+				</dl>
+			</div>
+
+		</div>
+		<div class="pr kfzx_searchbox clearfix" id="kfzx_searchbox">
+			<form>
+				<table class="searchbox_condition">
+					<tr>
+						<th>等待发货≥:</th><td><input class="w100 borderHighlight mr5" type="text" value="2" id="waitDay" ng-model="waitDay"/>天</td>
+						<th>是否关怀:</th><td>
+							 <select class="w100 borderHighlight" id="careStatus" ng-model="careStatus">
+								 <option value="-1">-- 不限 --</option>
+								 <option value="1">已关怀</option>
+								 <option value="0">未关怀</option>
+								 <option value="2">-- 严重延迟</option>
+								 <option value="3">-- 轻微延迟</option>
+								 <option value="4">-- 正常未发货</option>
+							 </select>
+						</td>
+						<th>订单排序:</th><td>
+							<select class="w120 borderHighlight" id="orderSort" ng-model="orderSort">
+								<option value="payTime_asc" selected="selected">时间顺序</option>
+								 <option value="payTime_desc" >时间倒序</option>
+								 <option value="payment_desc">金额降序</option>
+								 <option value="payment_asc">金额升序</option>
+							</select>
+						</td>
+						<th>订单编号:</th><td><input class="w100 borderHighlight" type="text" value="" id="tid" ng-model="tid"/></td>
+						<th>客户昵称:</th><td><input class="w100 borderHighlight" type="text" value="" id="customerno" ng-model="customerno"/></td>
+					</tr>
+					<tr>
+						<th>付款时间:</th><td><div class="pr"><input value="{{date1}}" type="text" id="payedStartTime" name="payedStartTime" readonly="readOnly" class="datetimepicker required borderHighlight" ng-model="payedStartTime"/>  <span class="pa timeH">-</span> </div></td>
+						<td colspan="2"><input value="{{date2}}" type="text" name="payedEndTime" id="payedEndTime" readonly="readOnly" class="datetimepicker required borderHighlight" ng-model="payedEndTime"/></td>
+						<th>订单显示:</th><td>
+							  <select ng-model="isHideVal" ng-change="change();" class="w120 borderHighlight" id="isHide">
+								   <option value="-1">-- 不限 --</option>
+								   <option value="0">不显示隐藏订单</option>
+								   <option value="1">只显示隐藏订单</option>
+							  </select>
+						</td>
+						<th>收货省份:</th><td>
+							<select class="w110 borderHighlight" id="receiverState" ng-model="receiver">
+								 <option value="-1">-- 不限 --</option>
+								 <option ng-repeat="r in receivers" value="{{r.name}}">{{r.name}}</option>
+							 </select>
+						</td>
+						<th>商品名称:</th><td><input class="w100 borderHighlight" type="text" value="" id="title" ng-model="title"/></td>
+					</tr>
+					<tr><th></th><td colspan="9"><button ng-click="searchOrdersList()" class="btn btnBlue SBox" type="submit">筛选</button><a href="javascript:void(0);" ng-click="reset();">重置</a><a ng-click="properties()" class="pl20" href="javaScript:;">配置发货延迟预警条件</a></td></tr>
+				</table>
+				<a class="unfold" href="javaScript:;"></a>
+			</form>
+
+		</div>
+		<div class="clearfix search_result">
+			<div class="result_operate mt10" ><input ng-model="master" class="vm mr5 ml10" type="checkbox"/> 全选  ｜ <a ng-click="massCare();" href="javaScript:;">批量关怀</a>    <a ng-click="isHides()" href="javaScript:;">{{urpayhides}}</a> </div>
+			<div ng-show="!showUrPay" class="loading"><i></i>努力加载中...</div>
+			<table class="mt10 result_title">
+				<thead>
+					<th width="18%">等待发货时间</th>
+					<th width="32%" class="borderL">宝贝</th>
+					<th width="8%">单价</th>
+					<th width="12%">数量</th>
+					<th width="10%" class="borderL">实付金额</th>
+					<th width="10%">订单状态</th>
+					<th width="10%">备注</th>
+				</thead>
+			</table>
+			<table class="result_order mb30" id="result_order">
+				<tbody class="success_order"  ng-repeat="order in ordersList" ng-show="showUrPay">
+					<tr><th width="18%" class="tl"><input name="orderChb" ng-checked="master" class="orderNum vm mr5" type="checkbox"/> 订单编号：<span class="tid" id="{{order.tid}}">{{order.tid}}</span>  </th><th class="tl" width="52%" colspan="3">
+					<a href="" class="userId">{{order.buyeyNick}}</a>
+					<a target="_blank" href="http://amos.alicdn.com/msg.aw?v=2&uid={{order.buyeyNick}}&site=cntaobao&s=2&charset=utf-8" ><img class="vm" border="0" src="http://amos.alicdn.com/online.aw?v=2&uid={{order.buyeyNick}}&site=cntaobao&s=2&charset=utf-8" alt="点击这里给我发消息" /></a>
+					<span class="memberGrade vm ml5 generalMember" ng-class="gradeClass(order.grade)">{{order.grade}}</span></th><th class="tr"></th><th colspan="2" width="20%" class="tr">
+					<div class="pr" onmouseout="$('.kf_tip_box',this).hide();" onmouseover="$('.kf_tip_box',this).show();" ><span>付款时间:{{order.payTime}}</span>
+						<div class="kf_tip_box">
+							<div class="pos_rel pa"><span class="tip_icon"><span class="tip_icon1"></span></span> </div>
+							<ul class="pa address_list">
+								<li><span>地址信息</span></li>
+								<li><span>姓名：</span>{{order.receiverName}}</li>
+								<li><span>手机：</span><i class="phone">{{order.receiverPhone}}</i></li>
+								<li><span>城市：</span>{{order.receiverState}}{{order.receiverCity}}</li>
+								<li><span>区(县)：</span>{{order.receiverDistrict}}</li>
+								<li><span>地址：</span>{{order.receiverAddress}}</li>
+								<li><span>邮编：</span>{{order.receiverZip}}</li>
+							</ul>
+						</div>
+					</div>
+					</th></tr>
+					<tr><td><span class="time" ng-differ-time="{sTime: serverTime, eTime: order.payTime, transfer:true}"></span></td><td colspan="3" class="no_borderbottom">
+						<table width="100%" class="order_bd">
+							<tr ng-repeat="goods in order.goodsItems"><td width="5%"><a href="{{goods.detailUrl}}" target="_blank"><img class="refund_pic" ng-src="{{goods.picPath}}_60x60.jpg"/></a></td><td valign="top" width="45%" class="tl"><a class="baobei_name" href="{{goods.detailUrl}}" target="_blank">{{goods.title}}</a>
+							<p class="baobei_spec">{{goods.skuPropertiesName}}</p></td><td width="15%" valign="top" ><span class="baobei_price" >￥{{Fixed(goods.price)}}</span></td><td width="19%" valign="top" ><span class="baobei_quantity" >{{goods.num}}</span></td></tr>
+						</table>
+					</td><td valign="top"><strong>￥{{Fixed(order.payment)}} </strong><p>(含运费：￥{{Fixed(order.postFee)}})</p></td><td valign="top" width="10%">
+					<div class="pr fl percentage100">
+						<span class="baobei_status fl" ng-class="{status_high: order.orderStatus == '卖家部分发货'}">{{order.orderStatus}}  </span>
+						<div onmouseout="$('.kf_tip_box',this).hide();" onmouseover="$('.kf_tip_box',this).show();" class="sendgoods_careBtn" >
+							<i class="vm pa ship_tip" ng-class="shipStatus(order.sendStatus)"></i>
+							<div class="kf_tip_box care_tip_box" ng-class="tipCare">
+								<div class="pos_rel1 pa"><span class="tip_icon2 tip_care"><span class="tip_icon3"></span></span> </div>
+								<dl class="pa address_list order_dunning order_care">
+									<dt class="order_careStatus">{{order.sendStatus}}</dt>
+									<dd>距离付款：{{order.delayTime}}</dd>							
+								</dl>
+							</div>
+						</div>
+					</div>
+					<div class="pr fl percentage100">
+						<input class="baobei_dunning" type="button" value="{{careStatu(order.careLog)}}" ng-class="againCare(order.careLog)" ng-click="careSetting(scope,[{uid: order.buyeyNick, tel: order.receiverPhone, tid: order.tid}]);" />
+						<div onmouseout="$('.kf_tip_box',this).hide();" onmouseover="$('.kf_tip_box',this).show();" class="logistics_careBtn" ng-show="order.careLog">
+							<i class="dunning_tip Suggested"></i>
+							<div class="kf_tip_box">
+								<div class="pos_rel1 pa"><span class="tip_icon2"><span class="tip_icon3"></span></span> </div>
+								<div class="pa address_list order_dunning" >
+									<dl ng-repeat="care in order.careLog" ng-class="$index > 0 && 'mt10'">
+										<dt>关怀记录</dt>
+										<dd>关怀客服：{{care.sendUser}} </dd>
+										<dd>关怀时间：{{care.sendTime}} </dd>
+										<dd>关怀方式：{{care.sendType}} </dd>
+										<dd>关怀记录：{{care.smsContent}} </dd>
+									</dl>
+								</div>
+							</div> 
+						</div>
+					</div>
+					<p class="fl percentage100"><input class="baobei_hide mt5 mb5" type="button" value="{{HideVal(order.isHide)}}" ng-click="isHide(order.tid)"/></p>
+					</td><td valign="top" width="10%">
+					<p class="fl percentage100 pt10 h25"><input class="remark vm bordernone" ng-title="订单备注信息：<br/>给该用户送个小礼品！<br/>点击图标修改备注" ng-click="addRemark.show(order.tid);" value="0" ng-class="flag(order.memoVo.flag)"/> <a ng-class="message(order.memoVo.buyerMemo)" class="vm" href="javaScript:;" ng-title="{{order.memoVo.buyerMemo}}"></a></p>
+					<p ng-show="order.followStatus < 1">
+						<input ng-click="addAffair.show({tid: order.tid, sourceId: 3, buyerNick:order.buyeyNick, callback: searchOrdersList, callbackParam: []})" class="baobei_dunning" type="button" value="跟进" />
+					</p>
+					<p ng-show="order.followStatus >= 1"><a ng-href="#/affairs/myaffair?id={{order.followId}}">{{statusAry[order.followStatus-1]}}</a></p>
+					</td></tr>
+				</tbody>
+			</table>
+			<div id="PageDive" ng-pager="pagersetting" class="pDiv PageDive"></div>
+		</div>
+		
+		<div id="properties_position" class="w600" style="display:none;">
+			<form>
+			<p class="pl30 pr50 pt20">付款超过<input ng-model="averageDelay" id="averageDelay" name="{{propertie[0].name}}" class="w100 borderHighlight mr5 required digits" type="text" />小时未发货订单标记为普通延迟</p>
+			<p class="pl30 pr50 pt10">付款超过<input ng-model="seriousDelay" id="seriousDelay" name="{{propertie[1].name}}" value="" class="w100 borderHighlight mr5 required digits" type="text"/>小时未发货订单标记为严重延迟</p>
+			<div class="cc_btn tc pt20 pb20">
+				<button class="btn btnBlue">确定</button><button ng-click="urpayOrderViewCancel()" class="btn">取消</button>
+			</div>
+			</form>
+		</div>
+		<div ng-include src="'/templates/affairs/serviceComm.html'"></div>	
+	</div>
+</div>
+
+

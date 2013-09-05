@@ -1,0 +1,14 @@
+{
+    "request": {
+        "method": "POST",
+        "urlPattern": "/urpay/urpayConfig"
+    },
+    "response": {
+        "status": 200,
+        "bodyFileName": "/data/order/urpay.json",
+        "headers": {
+            "Content-Type": "application/json",
+            "Cache-Control": "max-age=86400"
+        }
+    }
+}

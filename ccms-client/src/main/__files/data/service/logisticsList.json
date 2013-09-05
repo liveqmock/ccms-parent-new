@@ -1,0 +1,123 @@
+{"status":0,"errCode":"","message":"","data":{"total":9,"page":1,"data":[
+	{
+		"tid":"392987047847739",
+		"outSid":"",
+		"endTime":"2013-08-09 13:51:45",
+		"consignTime":"2013-07-30 13:51:45",
+		"serverTime":"2013-07-30 16:26:11",
+		"customerno":"失忆后拾忆",
+		"companyName":"",
+		"receiverName":"张正彦",
+		"receiverMobile":"",
+		"receiverState":"湖北省",
+		"receiverCity":"武汉市",
+		"receiverDistrict":"洪山区",
+		"receiverAddress":"上海市长宁区杨宅路255号 新发现才富园 5幢4楼",
+		"receiverZip":"200050","shippingType":"express",
+		"shippingStatus":"已签收","abnormalStatus":"",
+		"abnormalReason":"","blacklistMessage":"",
+		"payment":0.01,"sellerFlag":0,"buyerMessage":"",
+		"isHide":false,"isCare":false,"recentlyTime":"2013-07-30 11:10:30",
+		"recentlyTime1":1375153830000,"consignTime1":1375163505000,
+		"careLogs":[],
+		"followupStatus": -1,
+		"followupId": "",
+		"memoVo":{
+				"sellerMemo":"买家留言",
+				"buyerMemo":"买家留言",
+				"flag":0
+		}
+	},
+	{
+		"tid":"394260018890875",
+		"outSid":"null",
+		"endTime":"2013-08-21 14:49:28",
+		"consignTime":"2013-07-29 14:49:28",
+		"serverTime":"2013-07-30 16:26:11",
+		"customerno":"wjsaveve",
+		"companyName":"null",
+		"receiverName":"王健",
+		"receiverMobile":"15921635578",
+		"receiverState":"上海",
+		"receiverCity":"上海市",
+		"receiverDistrict":"长宁区",
+		"receiverAddress":"杨宅路255号新发现财富园 5号楼4楼",
+		"receiverZip":"200040",
+		"shippingType":"express",
+		"shippingStatus":"未同城",
+		"abnormalStatus":"",
+		"abnormalReason":"疑难件：上海在途时长大于1天",
+		"blacklistMessage":"","payment":0.01,
+		"sellerFlag":0,"buyerMessage":"",
+		"isHide":false,"isCare":true,
+		"recentlyTime":"2013-07-30 15:02:23","recentlyTime1":1375167743000,"consignTime1":1375080568000,
+		"careLogs":[
+			{"serviceStaff":"wj_huaat","date":"2013-07-29 15:34:57","manualUrpayStatus":1,"content":"王健关怀一下"},
+			{"serviceStaff":"wj_huaat","date":"2013-07-29 15:35:37","manualUrpayStatus":2,"content":"批量关怀一下"}
+		],
+		"followupStatus": 1,
+		"followupId": 123,
+		"memoVo":{
+			"sellerMemo":"买家留言",
+			"buyerMemo":"买家留言",
+			"flag":0
+		}
+	},
+	{"tid":"394260376460875","outSid":"null","endTime":"2013-09-10 14:49:19","consignTime":"2013-07-29 14:49:19","serverTime":"2013-07-30 16:26:11","customerno":"wjsaveve","companyName":"null","receiverName":"王健","receiverMobile":"15921635578","receiverState":"上海","receiverCity":"上海市","receiverDistrict":"长宁区","receiverAddress":"杨宅路255号新发现财富园 5号楼4楼","receiverZip":"200040","shippingType":"post","shippingStatus":"未同城","abnormalStatus":"","abnormalReason":"疑难件：上海在途时长大于1天","blacklistMessage":"","payment":0.01,"sellerFlag":0,"buyerMessage":"","isHide":false,"isCare":true,"recentlyTime":"2013-07-30 15:02:23","recentlyTime1":1375167743000,"consignTime1":1375080559000,"careLogs":[{"serviceStaff":"wj_huaat","date":"2013-07-29 15:35:08","manualUrpayStatus":2,"content":"旺旺关怀一下"},{"serviceStaff":"wj_huaat","date":"2013-07-29 15:35:37","manualUrpayStatus":2,"content":"批量关怀一下"}],
+		"followupStatus": 2,
+		"followupId": 124,
+		"memoVo":{
+			"sellerMemo":"买家留言",
+			"buyerMemo":"买家留言",
+			"flag":0
+		}},
+	{"tid":"394260098930875","outSid":"null","endTime":"2013-08-13 18:55:00","consignTime":"2013-07-29 14:49:06","serverTime":"2013-07-30 16:26:11","customerno":"wjsaveve","companyName":"null","receiverName":"王健","receiverMobile":"15921635578","receiverState":"上海","receiverCity":"上海市","receiverDistrict":"长宁区","receiverAddress":"杨宅路255号新发现财富园 5号楼4楼","receiverZip":"200040","shippingType":"express","shippingStatus":"未同城","abnormalStatus":"","abnormalReason":"疑难件：上海在途时长大于1天","blacklistMessage":"","payment":0.01,"sellerFlag":0,"buyerMessage":"","isHide":false,"isCare":true,"recentlyTime":"2013-07-30 15:02:23","recentlyTime1":1375167743000,"consignTime1":1375080546000,"careLogs":[{"serviceStaff":"wj_huaat","date":"2013-07-29 15:35:37","manualUrpayStatus":2,"content":"批量关怀一下"},{"serviceStaff":"wj_huaat","date":"2013-07-29 15:35:17","manualUrpayStatus":3,"content":"电话关怀一下"}],
+		"followupStatus": 3,
+		"followupId": 223,
+		"memoVo":{
+			"sellerMemo":"买家留言",
+			"buyerMemo":"买家留言",
+			"flag":0
+		}},
+	{"tid":"201307171514005","outSid":"171514005","endTime":"2013-08-04 10:12:50","consignTime":"2013-07-25 10:12:50","serverTime":"2013-07-30 16:26:11","customerno":"wjsaveve7","companyName":"申通E物流","receiverName":"王健","receiverMobile":"15921635578","receiverState":"北京","receiverCity":"北京市","receiverDistrict":"中关村","receiverAddress":"宝山区南大路158弄乾和园62号楼 802室","receiverZip":"200444","shippingType":"","shippingStatus":"未同城","abnormalStatus":"无流转","abnormalReason":"疑难件：北京在途时长大于2天","blacklistMessage":"","payment":0.01,"sellerFlag":0,"buyerMessage":"","isHide":false,"isCare":true,"recentlyTime":"2013-07-19 19:09:40","recentlyTime1":1374232180000,"consignTime1":1374718370000,"careLogs":[{"serviceStaff":"caohui","date":"2013-07-26 11:16:34","manualUrpayStatus":3,"content":"电话"},{"serviceStaff":"wj_huaat","date":"2013-07-26 16:19:19","manualUrpayStatus":3,"content":"电话关怀"}],
+		"followupStatus": 4,
+		"followupId": 128,
+		"memoVo":{
+			"sellerMemo":"买家留言",
+			"buyerMemo":"买家留言",
+			"flag":0
+		}},
+	{"tid":"201307171514004","outSid":"171514004","endTime":"2013-08-04 10:12:40","consignTime":"2013-07-25 10:12:40","serverTime":"2013-07-30 16:26:12","customerno":"wjsaveve7","companyName":"申通E物流","receiverName":"王健","receiverMobile":"15921635578","receiverState":"北京","receiverCity":"北京市","receiverDistrict":"王健村","receiverAddress":"宝山区南大路158弄乾和园62号楼 802室","receiverZip":"200444","shippingType":"","shippingStatus":"派件中","abnormalStatus":"拒收","abnormalReason":"疑难件：北京在途时长大于2天","blacklistMessage":"地区包含 村 字样","payment":0.01,"sellerFlag":0,"buyerMessage":"","isHide":false,"isCare":true,"recentlyTime":"2013-07-20 19:09:30","recentlyTime1":1374318570000,"consignTime1":1374718360000,"careLogs":[{"serviceStaff":"wj_huaat","date":"2013-07-26 16:19:19","manualUrpayStatus":3,"content":"电话关怀"}],
+		"followupStatus": 1,
+		"followupId": 131,
+		"memoVo":{
+			"sellerMemo":"买家留言",
+			"buyerMemo":"买家留言",
+			"flag":0
+		}},
+	{"tid":"201307171514003","outSid":"171514003","endTime":"2013-08-04 10:12:30","consignTime":"2013-07-25 10:12:30","serverTime":"2013-07-30 16:26:12","customerno":"wjsaveve7","companyName":"申通E物流","receiverName":"王健","receiverMobile":"15921635578","receiverState":"北京","receiverCity":"北京市","receiverDistrict":"中关村","receiverAddress":"宝山区南大路158弄乾和园62号楼 802室","receiverZip":"200444","shippingType":"","shippingStatus":"派件中","abnormalStatus":"超区件","abnormalReason":"疑难件：北京在途时长大于2天","blacklistMessage":"","payment":0.01,"sellerFlag":0,"buyerMessage":"","isHide":false,"isCare":false,"recentlyTime":"2013-07-21 19:09:20","recentlyTime1":1374404960000,"consignTime1":1374718350000,"careLogs":[],
+		"followupStatus": -1,
+		"followupId": "",
+		"memoVo":{
+			"sellerMemo":"买家留言",
+			"buyerMemo":"买家留言",
+			"flag":0
+		}},
+	{"tid":"201307231514002","outSid":"231514002","endTime":"2013-08-04 10:12:20","consignTime":"2013-07-25 10:12:20","serverTime":"2013-07-30 16:26:12","customerno":"wjsaveve7","companyName":"申通E物流","receiverName":"王健","receiverMobile":"15921635578","receiverState":"北京","receiverCity":"北京市","receiverDistrict":"王健村","receiverAddress":"南大路158弄","receiverZip":"200444","shippingType":"","shippingStatus":"已同城","abnormalStatus":"疑难件","abnormalReason":"疑难件：物流信息包含疑难件","blacklistMessage":"地区包含 村 字样","payment":0.01,"sellerFlag":0,"buyerMessage":"","isHide":false,"isCare":false,"recentlyTime":"2013-07-22 19:09:10","recentlyTime1":1374491350000,"consignTime1":1374718340000,"careLogs":[],
+		"followupStatus": -1,
+		"followupId": 123,
+		"memoVo":{
+			"sellerMemo":"买家留言",
+			"buyerMemo":"买家留言",
+			"flag":0
+		}},
+	{"tid":"201307171514006","outSid":"171514006","endTime":"2013-07-24 10:12:40","consignTime":"2013-07-14 10:12:40","serverTime":"2013-07-30 16:26:12","customerno":"wjsaveve7","companyName":"申通E物流","receiverName":"王健","receiverMobile":"15921635578","receiverState":"北京","receiverCity":"北京市","receiverDistrict":"王健村","receiverAddress":"宝山区南大路158弄乾和园62号楼 802室","receiverZip":"200444","shippingType":"","shippingStatus":"已签收","abnormalStatus":"","abnormalReason":"","blacklistMessage":"地区包含 村 字样","payment":0.01,"sellerFlag":0,"buyerMessage":"","isHide":false,"isCare":false,"recentlyTime":"2013-07-13 19:09:30","recentlyTime1":1373713770000,"consignTime1":1373767960000,"careLogs":[],
+		"followupStatus": -1,
+		"followupId": 123,
+		"memoVo":{
+			"sellerMemo":"买家留言",
+			"buyerMemo":"买家留言",
+			"flag":0
+		}}
+	],
+"pageSize":20,"totalPage":1},"visit":"2013-07-30 16:26:12"}

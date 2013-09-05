@@ -1,0 +1,5 @@
+﻿{
+	"data":{
+		"shops":[{"shopId":"123","shopName":"数云旗舰店","shopType":"taobao"},{"shopId":"23246","shopName":"数云旗舰店2","shopType":"taobao"},{"shopId":"46464","shopName":"数云旗舰店3","shopType":"taobao"}]
+	}
+}

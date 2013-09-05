@@ -1,0 +1,14 @@
+{
+    "request": {
+        "method": "GET",
+        "urlPattern": "/module/personalizedPackage"
+    },
+    "response": {
+        "status": 200,
+        "bodyFileName": "/data/subNav/personalizedPackage.json",
+        "headers": {
+            "Content-Type": "application/json",
+            "Cache-Control": "max-age=86400"
+        }
+    }
+}

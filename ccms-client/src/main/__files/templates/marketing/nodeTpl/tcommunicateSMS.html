@@ -1,0 +1,391 @@
+
+<div ng-controller="MessageCtr">
+    <div id="viewMesBox" class="marketingCampNodeBg" ng-show="mainViewFlag">
+        <div class="triangleArrows smsTriangleArrows"></div>
+        <div class="marketingCampNode">
+			<div class="clearfix moduleHeader">
+	       		<h4 class="fl">短信发送节点设置{{	controlGroupCustomers}}</h4>
+	            <span class="fr"><a class="emailReport" title="短信发送报告" style="display:none;">短信发送报告</a>节点ID：{{messageId}}</span>
+	        </div>
+            <div class="marketingCampNodeMain">
+                <div class="handleBox nodeQueryAside clearfix">
+                    <a class="fl smallblueBtn" href="javascript:void(0)" title="插入变量"><b>T</b> 插入变量</a>
+                    <p class="fr">
+                        <label><input class="tdBtn" type="checkbox" ng-model="valOne" ng-checked="valOne" ng-click="addTd()">短信末尾添加“退订回复TD”</label>
+                        <label><input type="checkbox" ng-model="valTwo" ng-checked="valTwo">屏蔽黑名单</label>
+                        <!-- 暂时隐藏<label><input type="checkbox" ng-model="valThree" ng-checked="valThree">发送红名单</label>-->
+                     </p>
+                </div>
+                <div>
+                   <textarea id="textEditor" name="kindEditor"></textarea>
+                    <div class="nodeQueryAside clearfix">
+                        <span class="fl gray7c">当前输入共<em class="mseLen"></em>字</span>
+                        <span class="fr">余额<span class="orange">{{balance}}</span>元，可发送<span class="orange">{{postNum}}</span>条短信</span>
+                    </div>
+                </div>
+                <p class="nodeQueryAsidegray7c">{{notice}}</p>
+                <div class="nodeQueryAside">
+                    <label class="mr20" style="vertical-align: top;">测试号码:</label>
+                    <textarea class="phonenumberArea borderHighlight" ng-model="phoneNumList" ></textarea>
+                    <span style="vertical-align: bottom;">(多号码以逗号","分隔)<font class="wrongMark" color="red">{{phoneWrong}}</font></span>
+                </div>
+                <div>
+                    <button class="btn btnBlue submitNodeData" title="保存" ng-click="saveMethod()">保存</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--弹框star-->
+    <div id="popup_container" class="msgPopBox ui-draggable">
+        <div class="messageView"></div>
+        <div class="cc_btn">
+                <button class="btn btnBlue" ng-click="messageViewSave()">确定</button><button class="btn" ng-click="messageViewCancel()">取消</button>
+        </div>
+    </div>
+    <!--弹框end-->
+    <!--zTree star-->
+    <div id="zTreePop" style="display:none;width:300px;">
+        <ul id="zTree" class="ztree" style="max-height:400px;overflow-y:auto;"></ul>
+    </div>
+    <!--zTree end-->
+
+<!--邮件发送报告-->
+	<div id="mesReport" class="marketingCampNodeBg mesReport" ng-show="reportFlag">
+    	<div class="marketingCampNode">
+    		<div class="clearfix moduleHeader"><h4 class="fl">短信效果报告</h4><a class="closeTable fr" href="javascript:;">X</a><a class="fullTable fr" href="javascript:;">□</a></div>
+            <div>
+            	<table>
+                	<tr>
+                    	<td class="titleTd">目标组客户数</td>
+                        <td>{{targetGroupCustomers}}</td>
+                        <td>占目标组总比</td>
+                    </tr>
+                    <tr>
+                    	<td class="titleTd">手机号码有效</td>
+                        <td>{{validPhoneAmount}}</td>
+                        <td>{{vaildRate}}</td>
+                    </tr>
+                    <tr>
+                    	<td class="titleTd">手机号码无效</td>
+                        <td>{{invalidPhoneAmount}}</td>
+                        <td>{{invaildRate}}</td>
+                    </tr>
+                </table>
+            </div>
+            <iframe width="100%" height="50%" frameborder="0" src="">
+            </iframe>
+    	</div>
+    </div>
+</div>
+<iframe id="mesIframe" class="ke-edit-iframe" frameborder="0" hidefocus="true" name="mesIframe" style="width: 100%; height: 100px;">ssasassaas</iframe>
+<script type="text/javascript">
+//编辑权限判断
+$(function(){
+	isEditNodeTpl();
+})
+//textarea 长度
+
+function delMesPop(){//弹框删除
+	$("#popup_container,#zTreePop").hide();
+	$(".yunat_maskLayer").detach();
+}
+//插入变量
+var kindEditor=kindEditorObj.creatEditor("#textEditor");
+function fnClick(event,treeId,treeNode){
+	if(!treeNode.isParent){
+		var treeVal=treeNode.labelName;
+		kindEditorObj.editorAddElement(kindEditor,treeNode.id,treeVal);
+		delMesPop();
+	}
+}
+		
+attrPop.init($("#zTree"),fnClick);
+
+$(".handleBox .smallblueBtn").on("click",function(){//弹框调取
+	$("#zTreePop").addInteractivePop({position:"fixed",magTitle:"短信变量",mark:true,drag:true,position:"fixed"})
+});
+//弹框end
+	var $mesImg=$(".canvas .graphRect:eq(4)");
+	var	mesName=$mesImg.attr("alt"),
+		$mseLen=$(".nodeQueryAside .mseLen");
+//主控制器
+	function MessageCtr($scope,$http){
+		$scope.iframeLink="https://qiushi-ccms.fenxibao.com/workflow/openWF.action?parentID=1000057446&isEdit=true"
+		var saveObj={};
+		$scope.reportFlag=false;
+		$scope.mainViewFlag=true;
+
+//打开节点
+	$http.get("node/sms/"+nodeTplId+"?name="+mesName+"&_="+new Date().getTime()).success(function(data){
+
+		if(data.deliveryChannelList&&data.deliveryChannelList[0]){
+			var price=data.deliveryChannelList[0].gatewayPrice;
+			var sumbalance=(data.deliveryChannelList[0].gatewayBalance).toString();
+			$scope.balance=sumbalance.substring(0,sumbalance.indexOf(".") + 3);
+			$scope.postNum=Math.floor($scope.balance/price);
+		}else{
+			$(this).Alert({"title":"提示","str":"当前无可用通道，请刷新页面！","mark":true,"width":"220px"});
+		}
+		var deliveryChannelId=data.deliveryChannelId;
+		if((deliveryChannelId==null || deliveryChannelId=="")&&data.deliveryChannelList){
+			deliveryChannelId=data.deliveryChannelList[0].gatewayId;
+		}
+		var firstDataVal=kindEditorObj.firstSetVal(data.messageValue);
+		//alert(firstDataVal);
+			$scope.messageId=data.nodeId;
+			$scope.messageVal=firstDataVal;
+			$scope.valOne=data.unsubscribeEnabled;
+			$scope.valTwo=data.blacklistDisabled;
+			$scope.valThree=data.redlistEnabled;
+			//短信接口计算所增加的字段
+			if(data.deliveryChannelList&&data.deliveryChannelList[0]){
+				$scope.wordsLimit=data.deliveryChannelList[0].wordsLimit;
+				$scope.gatewayType=data.deliveryChannelList[0].gatewayType;
+				$scope.sign=data.deliveryChannelList[0].sign;
+				$scope.notice=data.deliveryChannelList[0].notice;
+				$scope.backOrderInfo=data.deliveryChannelList[0].unsubscribeMessage;
+				$scope.markLength=data.deliveryChannelList[0].markLength;
+			}
+			//$scope.
+
+			$scope.phoneNumList=data.testPhoneString;
+			if($scope.messageVal==null){
+				$scope.messageVal="";
+			}
+			kindEditor.html($scope.messageVal);
+			function initLen(){
+				var objIframe=$(document.getElementById('mesIframe').contentWindow.document.body);
+				var nowLen=listenLen(objIframe);
+				if($scope.valOne==true){//初始化长度
+					$mseLen.html(kindEditor.count('text')+7-nowLen);
+				}else{
+					$mseLen.html(kindEditor.count('text')-nowLen);
+				};
+			}
+			initLen();
+
+			$scope.addTd=function(){
+				initLen();
+			};
+
+//phone验证
+		function phoneValid(str){
+			var partten = /^0{0,1}(13[0-9]|14[0-9]|15[0-9]|18[0-9])[0-9]{8}$/;
+			if(!partten.test(str)){
+				return false;
+			}else{
+				return true;
+			}
+		}
+		
+//提交保存				alert(deliveryChannelId)
+			$scope.saveMethod=function($window){
+				 saveObj={
+					"nodeId":$scope.messageId,
+					"name":"",
+					"unsubscribeEnabled":$scope.valOne,
+					"blacklistDisabled":$scope.valTwo,
+					"redlistEnabled":$scope.valThree,
+					"deliveryChannelId":deliveryChannelId,//未定
+					"testPhoneString":$scope.phoneNumList,
+					"deliveryCategory":"PERSON"
+				};
+
+				var phoneList=saveObj.testPhoneString ? saveObj.testPhoneString.split(",") : "";
+				var $phonenumberArea=$(".nodeQueryAside .phonenumberArea"); 
+				if(phoneList==""){
+					$phonenumberArea.removeClass("phoneMark");
+					$scope.phoneWrong="";	
+				}
+				for(var i=0;i<phoneList.length;i++){
+					var phoneFlag=phoneValid(phoneList[i]);
+					if(!phoneFlag){
+						$scope.phoneWrong="手机号码输入格式不正确";
+						$phonenumberArea.addClass("phoneMark");
+						return;
+					}else{
+						$phonenumberArea.removeClass("phoneMark");
+						$scope.phoneWrong="";
+					}
+				};
+				
+
+				saveObj.messageValue=kindEditorObj.getKindEditorVal(kindEditor.html());
+				
+				//var mesLen=parseInt($(".mseLen").text());
+				var mesLen=kindEditor.count('text');
+				var viewClientMessage;
+				var _blacklistDisable;
+				if($scope.valOne==true){
+					viewClientMessage=kindEditor.html()+"+<font color='red'>退订回复TD</font>";//传后台
+				}else{
+					viewClientMessage=kindEditor.html();
+				}
+				if(saveObj.unsubscribeEnabled==true){
+						_unsubscribeEnabled=1;
+					}else{
+						_unsubscribeEnabled=0;
+					}
+
+				viewClientMessage=viewClientMessage.replace(/\<br \/\>/gi,"");//单个变量kindEditor多个换行符
+				console.log(saveObj);
+				var maxLen=67;
+				var mesStr=[],sumMesLen=Math.ceil(mesLen/maxLen);//计算短信条数
+					mesStr.push('<p class="smsReviewBox">'+viewClientMessage+'</p>');
+				if(mesLen==0){
+					$(this).Alert({"title":"提示","str":"请填写短信内容！","mark":true,"width":"150px"});
+				}else{
+					var getMessageCount ={
+						"content":saveObj.messageValue,
+						"markLength":$scope.markLength,
+						"wordsLimit":$scope.wordsLimit,
+						"gatewayType":$scope.gatewayType,
+						"isOrderBack":_unsubscribeEnabled,
+						"backOrderInfo":$scope.backOrderInfo,
+						"sign":$scope.sign
+					};
+					
+					$.ajax({
+						"url":"node/sms/calculate",
+						"type":"POST",
+						"dataType":"JSON",
+						"contentType": "application/json; charset=utf-8",
+						"data":JSON.stringify(getMessageCount),
+						"success":function(response){
+							var $messageView=$("#popup_container .messageView");
+							$messageView.html("");
+							var data=response;
+						    var messageTxtCount=data[0];
+						    var len=response.length;
+						    var messageCount=len-1;
+//判断是否有变量		
+			
+							var objIframe2=$(document.getElementById('mesIframe').contentWindow.document.body);
+							var flagImg=objIframe2.find("img").length,
+								flagSpan=objIframe2.find("span").length,
+								mesNumber;
+								if(jQuery.browser.mozilla){
+									if(!flagImg){
+										mesNumber=noneVar();
+									}else{
+										mesNumber=haveVar();
+									}
+								}else{
+									if(!flagSpan){
+										mesNumber=noneVar();
+									}else{
+										mesNumber=haveVar();
+									}
+								}
+								$messageView.append($(mesNumber));
+								function noneVar(){
+									for(var i=1; i<len; i++){
+										var str='<p>第<font color="red">'+[i]+'</font>条：'+data[i]+'</p>';
+										$messageView.append($(str));	
+									}
+									var s='<p style="margin-top:10px;"><i>*本短信正式发送时共<font color="red">'+data[0]+'</font>字，按<font color="red">'+messageCount+'</font>条短信计费!</i></p>';
+									return s;
+								}
+								function haveVar(){
+									var str="短信内容："+saveObj.messageValue;
+									if($scope.valOne){
+										str+="退订回复TD";
+									}
+									if(getMessageCount.sign){
+										str+=getMessageCount.sign;
+									}
+									$messageView.append(str);	
+									var s='<p style="margin-top:10px;"><i>*本短信固定文字部分共<font color="red">'+data[0]+'</font>字(包括<font color="red">“变量”</font>字数)，<font color="red">计费条数以实际发送字数为准！</font></i></p>';
+									return s;
+								}
+						},
+						"error":function(){$(this).Alert({"title":"提示","str":"短信传输错误！","mark":true,"width":"160px"});}
+					});
+										
+					//弹框调取
+					//var str=mesStr.join("")+'<i>*本短信正式发送时共<font color="red">'+mesLen+'</font>字(不包括<font color="red">“变量”</font>字数),按<font color="red">'+sumMesLen+'</font>条短信计费!</i>';
+					//$("#popup_container .messageView").html(str);
+					$("#popup_container").addInteractivePop({magTitle:"短信预览",mark:true,drag:true,position:"fixed"});
+				}
+			};
+
+			$scope.messageViewSave=function(){
+//保存节点
+				$.ajax({
+					"url":"node/sms/",
+					"type":"POST",
+					"dataType":"JSON",
+					"contentType": "application/json; charset=utf-8",
+					"data":JSON.stringify(saveObj),
+					"success":function(data){
+						setSaveFullIcon(nodeTplId);//去除mark
+						delMesPop();
+						$(this).yAlert({"text":"保存成功"});
+						removeAlert();
+					},
+					"error":function(){
+						$(this).Alert({"title":"提示","str":"网络异常，请稍后再试！","mark":true,"width":"160px"});
+					}
+				});
+			};
+
+			$scope.messageViewCancel=function(){
+				 delMesPop();
+			};
+		}).error(function(){"GET请求错误！"});
+
+//邮件发送报告
+	var $viewMesBox=$("#viewMesBox"),
+		$mesReport=$("#mesReport"),
+		$mseIframe=$("#mesReport iframe")
+		$mseReportBtn=$(".marketingCampNode .emailReport");
+	var jobId=$("select[name=cycleExecute]").val();
+	var	campaignId=window.location.hash.split(":")[1];
+
+	if(jobId){//是否显示报告链接
+		$mseReportBtn.show().on("click",function(){
+			$http.get("node/sms/report/"+$scope.messageId+"?campaignId="+campaignId+"&jobId="+jobId+"&_="+new Date().getTime()).success(function(data){
+				$scope.validPhoneAmount=data.validPhoneAmount;
+				$scope.targetGroupCustomers=data.targetGroupCustomers;
+				$scope.invalidPhoneAmount=data.invalidPhoneAmount;
+				$scope.controlGroupCustomers=data.controlGroupCustomers;
+				//var vaildRate=(($scope.validPhoneAmount/$scope.targetGroupCustomers).toFixed(2)),
+					//invaildRate=(($scope.invalidPhoneAmount/$scope.targetGroupCustomers).toFixed(2));
+				var vaildRate=(($scope.validPhoneAmount/$scope.targetGroupCustomers)*100).toString(),
+					invaildRate=(($scope.invalidPhoneAmount/$scope.targetGroupCustomers)*100).toString();
+				if($scope.targetGroupCustomers == 0){
+					vaildRate = invaildRate = '0';
+				}
+				//$scope.vaildRate=Math.floor(vaildRate*100)+"%";
+				//$scope.invaildRate=Math.floor(invaildRate*100)+"%";
+				if(!vaildRate.indexOf(".")){
+					$scope.vaildRate=vaildRate.substring(0,vaildRate.indexOf(".") + 3)+"%";
+					$scope.invaildRate=invaildRate.substring(0,invaildRate.indexOf(".") + 3)+"%";
+				}else{
+					$scope.vaildRate=vaildRate+"%";
+					$scope.invaildRate=invaildRate+"%";
+				}
+				$mseIframe.prop("src",data.reportUrl);
+				$("#viewMesBox").hide();
+				$("#mesReport").show();
+			}).error(function(){
+				$(this).Alert({"title":"提示","str":"短信报告获取错误！","mark":true,"width":"160px"});
+			});
+		});
+	}else{
+		$mseReportBtn.hide();
+	}
+
+}//controller end
+//报告窗口
+closeReport("#viewMesBox");
+maxWindow();
+</script>
+
+
+
+
+
+
+
+

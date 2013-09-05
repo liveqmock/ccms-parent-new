@@ -1,0 +1,123 @@
+{
+   "status": 0,
+   "errCode": "",
+   "message": "",
+   "data":{
+        "page": 1,
+        "total": 55,
+        "totalPage": 3,
+        "data": [
+           {
+               "affairsId": 1,
+               "title": "客户询问了这个商品，要查询库存是否充足足要查询库存是否充足足要查询库存是否充足足",
+               "founder": "admin",
+               "expirationTime": "2013-08-20 11:00:00",
+               "handleSize": 10,
+			   "status":1,
+               "important":2
+           },
+           {
+               "affairsId": 2,
+               "title": "我的事务标题  11111",
+               "founder": "Fai",
+               "expirationTime": "2013-08-24 15:02:00",
+               "handleSize": 10,
+			   "status":1,
+               "important":3
+           },
+		   {
+               "affairsId": 3,
+               "title": "我的事务标题  222222",
+               "founder": "asdasd",
+               "expirationTime": "2013-08-24 15:02:00",
+               "handleSize": 10,
+			   "status":2,
+               "important":3
+           },
+		   {
+               "affairsId": 4,
+               "title": "我的事务标题  33333333",
+               "founder": "Fai",
+               "expirationTime": "2013-08-23 15:02:20",
+               "handleSize": 9,
+			   "status":1,
+               "important":3
+           },
+		   {
+               "affairsId": 5,
+               "title": "我的事务标题  444444444",
+               "founder": "aasad ",
+               "expirationTime": "2013-08-24 20:02:00",
+               "handleSize": 10,
+			   "status":4,
+               "important":1
+           },
+		   {
+               "affairsId": 6,
+               "title": "我的事务标题  55555555",
+               "founder": "Fai",
+               "expirationTime": "2013-08-24 15:02:00",
+               "handleSize": 10,
+			   "status":1,
+               "important":1
+           },
+		   {
+               "affairsId": 7,
+               "title": "我的事务标题  66666",
+               "founder": "Fai",
+               "expirationTime": "2013-08-24 15:02:00",
+               "handleSize": 10,
+			   "status":1,
+               "important":2
+           },
+		   {
+               "affairsId": 8,
+               "title": "我的事务标题  77777",
+               "founder": "asfasf",
+               "expirationTime": "2013-08-24 15:02:00",
+               "handleSize": 10,
+			   "status":3,
+               "important":1
+           },
+		   {
+               "affairsId": 9,
+               "title": "我的事务标题  88888888",
+               "founder": "az adsd",
+               "expirationTime": "2013-08-24 15:02:00",
+               "handleSize": 10,
+			   "status":1,
+               "important":2
+           },
+		   {
+               "affairsId": 10,
+               "title": "我的事务标题  969999999",
+               "founder": "as asfas fa ",
+               "expirationTime": "2013-08-24 15:02:00",
+               "handleSize": 65,
+			   "status":2,
+               "important":2
+           }
+		   ,
+		   {
+               "affairsId": 11,
+               "title": "我的事务标题  10,000000",
+               "founder": "as asfas fa ",
+               "expirationTime": "2013-09-24 15:02:00",
+               "handleSize": 12,
+			   "status":2,
+               "important":3
+           }
+		   ,
+		   {
+               "affairsId": 12,
+               "title": "我的事务标题  11,111111",
+               "founder": "as asfas fa ",
+               "expirationTime": "2013-08-24 18:02:09",
+               "handleSize": 31,
+			   "status":1,
+               "important":2
+           }
+        ]
+    },
+    "visit": "2013-08-21 10:47:27"
+}

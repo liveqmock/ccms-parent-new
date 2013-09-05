@@ -1,0 +1,42 @@
+<div class="maincontainerB">
+	<div class="maincontainer">
+    <div class="clearfix">
+          <h2 class="heading fl">短信黑名单</h2>
+          <div class="smalldarkerblueBtn newbuildBtn" onclick="mobile.showMobilePop()"><a href="javascript:void(0)">新建黑名单</a></div>
+    </div>
+		<div class="listHeader">
+				<ul class="listTab clearfix">
+					<li class="listSelected">
+						<a href="javascript:void(0);">短信黑名单</a><span style="display: none;"></span>
+					</li>
+				</ul>
+		</div>
+        <div class="blacklistCon">
+              <div class="mt">
+                  <input type="text" value="" name="contact" class="hdSearch">
+                  <a href="javascript:void(0)" title="查询" id="marketSearch"></a>
+                  <span class="inputTips">手机号码</span>
+	          </div>
+              <div class="mc">
+                   <div class="blacklistMobile"> </div>
+              </div>
+              
+        </div>
+        <div id="mobileContent">
+             <h2 class="heading">新建黑名单</h2>
+             <div class="box">
+                  <label><span class="red">*</span>手机号：</label><input type="text" value="" name="phone" class="borderHighlight "  onblur="mobile.loadBlacklist(this)"/><a href="javascript:void(0);" class="addBtn" onclick="mobile.add()"><span>＋</span>添加更多</a><span class="tips"></span>
+                  <ul class="mobileList">
+                       <li><div class="line"><input type="text" value="" name="phone" class="borderHighlight "  /><span class="delline"></span><span class="tips"></span></div></li>
+                  </ul>
+             </div>
+             <div class="mb">
+                 <button  id="addBlacklistSure" class="btn btnBlue" onclick="mobile.createBlacklist()">确定</button><button id="addBlacklistCancel" class="btn" onclick="mobile.hideMobilePop()">取消</button>
+              </div>
+         </div>
+    </div>
+</div>
+
+<link get-root type="text/css" rel="stylesheet" _href="3rd/flexigrid/css/flexigrid.css">
+<nscript get-root type="text/javascript" _src="3rd/flexigrid/js/flexigrid.js"></nscript>
+<nscript get-root type="text/javascript" _src="scripts/customer/blacklist.js"></nscript>

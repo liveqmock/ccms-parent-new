@@ -1,0 +1,173 @@
+{
+    "status": 0,
+    "errCode": "",
+    "message": "",
+    "data": {
+        "total": 31,
+        "page": 1,
+		"pageSize":20,
+		"totalPages":4,
+		"serverTime": "2013-07-16 17:33:00",
+        "data": [{
+            "tid": "400000000000001",
+            "buyeyNick": "tu_taotao",
+            "grade": "普通会员",
+            "payTime": "2013-07-11 00:00:00",
+			
+            "receiverName":"喻君英",
+			"receiverPhone":"13567493376",
+			"receiverState":"浙江省",
+			"receiverCity":"宁波市",
+			"receiverCistrict":"xx区",
+			"receiverAddress":"详细地址",
+			"receiverZip":"315100",
+			"tradeFrom": "JHS",
+            "goodsItems": [{
+                "title": "favority测试商品3",
+                "picPath": "http://img01.taobaocdn.com/bao/uploaded/i1/T1vA6zXlBaXXbMNj3Z_033128.jpg",
+                "detailUrl": "http://detail.taobao.com/item.htm?id=323456789",
+                "price": 110.0,
+                "num": 1,
+                "skuPropertiesName": "颜色分类：黄格；尺码：41"
+            }],
+			"payment": 70.0,
+			"postFee": 0.00,
+			"orderStatus":"卖家部分发货",
+			"careLog":[],
+			"sendStatus":"轻微延迟",
+			"delayTime":"2天23个小时",
+			"isHide":true,
+			"followStatus":"-1",
+			"followId":"",
+			"memoVo":{
+				"sellerMemo":"买家留言",
+				"buyerMemo":"买家留言",
+				"flag":""
+			}
+		},
+		{
+            "tid": "400000000000002",
+            "buyeyNick": "miaomiaozhu0620",
+            "grade": "无会员等级",
+            "payTime": "2013-06-29 00:00:00",
+            "receiverName":"喻君英",
+			"receiverPhone":"13567493376",
+			"receiverState":"浙江省",
+			"receiverCity":"宁波市",
+			"receiverCistrict":"xx区",
+			"receiverAddress":"详细地址",
+			"receiverZip":"315100",
+			"tradeFrom": "JHS",
+            "goodsItems": [{
+                "title": "favority测试商品3",
+                "picPath": "http://img01.taobaocdn.com/bao/uploaded/i1/T1vA6zXlBaXXbMNj3Z_033128.jpg",
+                "detailUrl": "http://detail.taobao.com/item.htm?id=323456789",
+                "price": 110.0,
+                "num": 1,
+                "skuPropertiesName": "颜色分类：黄格；尺码：41"
+				}],
+			"payment": 70.0,
+			"postFee": 0.00,
+			"orderStatus":"等待卖家发货",
+			"careLog":[{
+			  "sendUser":"xxx",
+			  "sendTime":"2013-05-16 18:46",
+			  "sendType":"短信催付",
+			  "smsContent":"关怀内容"
+				}],
+			"sendStatus":"严重延迟",
+			"delayTime":"2天23个小时",
+			"isHide":false,
+			"followStatus":"1",
+			"followId":"233",
+			"memoVo":{
+				"sellerMemo":"买家留言",
+				"buyerMemo":"买家留言",
+				"flag":0
+			}
+		},
+		{
+            "tid": "400000000000003",
+            "buyeyNick": "tb_1491605",
+            "grade": "高级会员",
+            "payTime": "2013-06-29 00:00:00",
+            "receiverName":"喻君英",
+			"receiverPhone":"13567493376",
+			"receiverState":"浙江省",
+			"receiverCity":"宁波市",
+			"receiverCistrict":"xx区",
+			"receiverAddress":"详细地址",
+			"receiverZip":"315100",
+			"tradeFrom": "JHS",
+            "goodsItems": [{
+                "title": "favority测试商品3",
+                "picPath": "http://img01.taobaocdn.com/bao/uploaded/i1/T1vA6zXlBaXXbMNj3Z_033128.jpg",
+                "detailUrl": "http://detail.taobao.com/item.htm?id=323456789",
+                "price": 110.0,
+                "num": 1,
+                "skuPropertiesName": ""
+				}],
+			"payment": 70.0,
+			"postFee": 0.00,
+			"orderStatus":"正常发货",
+			"careLog":[],
+			"sendStatus":"",
+			"delayTime":"",
+			"isHide":false,
+			"followStatus":"2",
+			"followId":"234",
+			"memoVo":{
+				"sellerMemo":"买家留言",
+				"buyerMemo":"买家留言",
+				"flag":1
+			}
+		},
+		{
+            "tid": "400000000000003",
+            "buyeyNick": "tb_1491605",
+            "grade": "高级会员",
+            "payTime": "2013-06-29 00:00:00",
+            "receiverName":"喻君英",
+			"receiverPhone":"13567493376",
+			"receiverState":"浙江省",
+			"receiverCity":"宁波市",
+			"receiverCistrict":"xx区",
+			"receiverAddress":"详细地址",
+			"receiverZip":"315100",
+			"tradeFrom": "JHS",
+            "goodsItems": [{
+                "title": "favority测试商品3",
+                "picPath": "http://img01.taobaocdn.com/bao/uploaded/i1/T1vA6zXlBaXXbMNj3Z_033128.jpg",
+                "detailUrl": "http://detail.taobao.com/item.htm?id=323456789",
+                "price": 110.0,
+                "num": 1,
+                "skuPropertiesName": ""
+				}],
+			"payment": 70.0,
+			"postFee": 0.00,
+			"orderStatus":"等待卖家发货",
+			"careLog":[{
+			  "sendUser":"xxx",
+			  "sendTime":"2013-05-16 18:46",
+			  "sendType":"短信催付",
+			  "smsContent":"关怀内容"
+				},{
+			  "sendUser":"xxx",
+			  "sendTime":"2013-05-16 18:46",
+			  "sendType":"旺旺催付",
+			  "smsContent":"关怀内容"
+				}],
+			"sendStatus":"",
+			"delayTime":"",
+			"isHide":false,
+			"followStatus":"3",
+			"followId":"236",
+			"memoVo":{
+				"sellerMemo":"买家留言",
+				"buyerMemo":"买家留言",
+				"flag":0
+			}
+		}
+	]},
+    "visit": "2013-06-14 11:45:59"
+}

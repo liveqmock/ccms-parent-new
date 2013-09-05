@@ -1,0 +1,247 @@
+
+<nscript get-root type="text/javascript" _src="scripts/service/serviceComm.js"></nscript>
+<nscript get-root type="text/javascript" _src="scripts/service/logistics.js"></nscript>
+<div class="maincontainerB kf_wrap" ng-controller="serviceCtrl">
+    <div class="maincontainer kf_wrap_cont logistics" ng-controller="logisticsCtrl">
+		<div class="clearfix">
+			<h2 class="heading fl kf_head">物流跟进</h2>
+			<div class="shopinfo fl mt5 ml10" id="shopinfo">
+				<b>店铺选择 :</b><span id="{{shop.shopId}}">{{shop.shopName}}<i></i></span>
+				<dl style="display: none;">
+					<dd ng-repeat="s in shops" ng-click="changeShop(s);"><a href="javascript:void(0)">{{s.shopName}}</a></dd>
+				</dl>
+			</div>
+
+		</div>
+		<div class="pr kfzx_searchbox clearfix">
+			<form>
+				<table class="searchbox_condition">
+					<tr>
+						<th>在途时长&ge;</th>
+						<td>
+							<input ng-model="minInTransitDuration" type="text" style="width:25px;" class="borderHighlight" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')" /> 天
+						</td>
+						<th>是否关怀:</th>
+						<td>
+							<select class="borderHighlight" ng-model="isCare">
+								<option value="">不限</option>
+								<option value="true">已关怀</option>
+								<option value="false">未关怀</option>
+							</select>
+						</td>
+						<th>物流单号:</th>
+						<td><input ng-model="outSid" class="w50 borderHighlight" type="text" value="" /></td>
+						<th>快递公司:</th>
+						<td>
+							<select class="w109 borderHighlight" ng-model="companyName">
+								 <option value="">不限</option>
+								 <option ng-repeat="c in companyNames">{{c}}</option>
+							</select>
+						</td>
+						<th>订单编号:</th>
+						<td>
+							<input ng-model="tid" type="text" value="" class="w100 borderHighlight" />
+						</td>
+						<th>客户昵称:</th>
+						<td>
+							<input ng-model="customerno" type="text" value="" class="w100 borderHighlight" />
+						</td>
+					</tr>
+					<tr>
+						<th>发货时间:</th>
+						<td colspan="5">
+							<div style="width:344px;">
+								<input id="consignStartTime" ng-model="consignStartTime" type="text" readonly="readOnly" class="datetimepicker borderHighlight" />-&nbsp;&nbsp;
+								<input style="margin-right:0;" type="text" id="consignEndTime" ng-model="consignEndTime" readonly="readOnly" class="datetimepicker borderHighlight" />
+							</div>
+						</td>
+						<th>订单显示:</th>
+						<td>
+							<select class="w109 borderHighlight" ng-model="isHide">
+								<option value="">不限</option>
+								<option value="false">不显示隐藏订单</option>
+								<option value="true">只显示隐藏订单</option>
+							</select>
+						</td>
+						<th>收货省份:</th>
+						<td>
+							<select class="w109 borderHighlight" ng-model="receiverState">
+								 <option value="">不限</option>
+								 <option ng-repeat="p in receiverStates" value="{{p.name}}">{{p.name}}</option>
+							</select>
+						</td>
+						<th>物流状态:</th>
+						<td>
+							<select class="w109 borderHighlight" ng-model="shippingStatus">
+								 <option value="">不限</option>
+								 <option value="4">未同城</option>
+								 <option value="1">已同城</option>
+								 <option value="2">派件中</option>
+								 <option value="3">已签收</option>
+							</select>
+						</td>
+					</tr>
+					<tr>
+						<th></th>
+						<td colspan="9">
+							<button type="submit" class="btn btnBlue ng-binding" ng-click="init(shop,abnormalStatus);">筛选</button>
+							<a href="javascript:void(0);" ng-click="reset();">重置</a>
+							<a href="javascript:void(0);" ng-click="abnormal.show();" class="ml30">疑难件智能判断设置</a>
+						</td>
+					</tr>
+				</table>
+				<a class="unfold" href="javaScript:;"></a>
+			</form>
+		</div>
+		<div class="clearfix result_list">
+			<div class="result_operate mt10 clearfix">
+				<div class="fl">
+					<label><input ng-model="checkAll" class="vm mr5 ml10" type="checkbox"/> 全选</label>  ｜ 
+					<a href="javascript:void(0);" ng-click="massCare();">批量关怀</a>    
+					<a href="javascript:void(0);" style="display:none;" ng-click="hideAllItem()" ng-show="hideStatus!= ''">批量<span ng-show="hideStatus">取消</span>隐藏</a>
+					<a href="javascript:void(0);" ng-click="delayTime();">批量延长收货</a>
+				</div>
+				<div class="fr filter_op" id="abnormalStatus">
+					<label>筛选:</label>
+					<a href="javascript:void(0);" ng-repeat="a in ['全部','疑难件','超区件','拒收','无流转','2天物流未更新','5天物流未更新']" ng-click="init(shop,a);">{{a}}</a>
+				</div>
+			</div>
+			<div ng-show="!showLogistics" class="loading" style="margin-top:96px;"><i></i>努力加载中...</div>
+			<div class="order_reportList comm_list" id="comm_list">
+				<table>
+					<thead>
+						<tr>
+							<th width="20"></th>
+							<th width="200">距离自动确认时间</th>
+							<th>客户昵称</th>
+							<th>订单信息</th>
+							<th>物流信息</th>
+							<th>发货信息</th>
+							<th>物流状态</th>
+							<th>操作</th>
+							<th>备注</th>
+						</tr>
+					</thead>
+					<tbody ng-show="showLogistics">
+						<tr ng-repeat="l in logisticsList" ng-class-even="'even'">
+							<td><input type="checkbox" ng-checked="checkAll" /></td>
+							<td><span class="time" ng-differ-time="{sTime: l.serverTime, eTime: l.endTime}"></span></td>
+							<td><a class="uid" target="_blank" title="点击这里给我发消息" ng-href="http://amos.alicdn.com/msg.aw?v=2&uid={{l.customerno}}&site=cntaobao&s=2&charset=utf-8" ><img class="vm" ng-src="http://amos.alicdn.com/online.aw?v=2&uid={{l.customerno}}&site=cntaobao&s=2&charset=utf-8" />{{l.customerno}}</a></td>
+							<td>
+								<p class="tid">{{l.tid}}</p>
+								<p class="color_high">￥{{l.payment}}</p>
+							</td>
+							<td>
+								<div ng-hide="l.outSid && l.outSid != 'null'">无物流单号</div>
+								<div ng-show="l.outSid && l.outSid != 'null'">
+									<span ng-tip-box="l.tid" status="{{l.abnormalStatus}}"><i class="ico_logistics"></i>{{l.companyName}}</span>
+									<p class="color_gray"><span class="filter_out_sid" title="点击复制物流单号" ng-show="l.outSid" data-clipboard-text="{{l.outSid}}" ng-bind-clipboard>{{l.outSid}}</span></p>
+								</div>
+							</td>
+							<td>
+								<span class="area_info">
+									<span class="fl pr" onmouseover="$('.kf_tip_box',this).show();" onmouseout="$('.kf_tip_box',this).hide();">{{l.receiverState + l.receiverCity + l.receiverDistrict}}
+										<div class="kf_tip_box area_tip_box">
+											<div class="pos_rel1 pos_up"><span class="tip_icon2"><span class="tip_icon3"></span></span></div>
+											<div class="main_box">
+												<dl>
+													<dt>姓名：</dt><dd>{{l.receiverName}}</dd>
+													<dt>手机：</dt><dd class="tel">{{l.receiverMobile}}</dd>
+													<dt>城市：</dt><dd>{{l.receiverState + l.receiverCity}}</dd>
+													<dt>区（县）：</dt><dd>{{l.receiverDistrict}}</dd>
+													<dt>地址：</dt><dd>{{l.receiverAddress}}</dd>
+													<dt>邮编：</dt><dd>{{l.receiverZip}}</dd>
+												</dl>
+											</div>
+										</div>
+									</span>
+									<i class="ico_areaWarn fl" ng-show="l.blacklistMessage" ng-title="{{l.blacklistMessage}}"></i>
+								</span>
+								<p class="color_high">已发货{{shippedTime(l.consignTime,l.serverTime);}}</p>
+							</td>
+							<td>
+								<div class="operate_btns">
+									<p><i class="ico_difficult" ng-show="l.abnormalReason" ng-title="{{l.abnormalReason}}"></i>{{l.shippingStatus}}</p>
+									<div class="pr mb5">
+										<a href="javascript:void(0);" ng-class="careClass(l.isCare);" ng-click="careSetting(scope, [{uid: l.customerno , tel: l.receiverMobile, tid: l.tid}]);"><span ng-show="l.isCare">再次</span>关怀</a>
+										<div ng-show="l.isCare" class="logistics_careBtn" onmouseover="$('.kf_tip_box',this).show();" onmouseout="$('.kf_tip_box',this).hide();">
+											<i class="dunning_tip Suggested"></i>
+											<div class="kf_tip_box">
+												<div class="pos_rel1"><span class="tip_icon2"><span class="tip_icon3"></span></span></div>
+												<div class="address_list">
+													<dl ng-repeat="log in l.careLogs" ng-class="$index > 0 && 'mt10'">
+														<dt>关怀记录如下：</dt>
+														<dd>关怀客服：{{log.serviceStaff}}</dd>
+														<dd>关怀时间：{{log.date}}</dd>
+														<dd>关怀方式：{{careType(log.manualUrpayStatus);}}</dd>
+														<dd>关怀记录：{{log.content}}</dd>
+													</dl>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</td>
+							<td>
+								<p class="mb5"><a href="javascript:void(0);" class="comm_btn" ng-click="delayTime(l.tid)">延长</a></p>
+								<p><a href="javascript:void(0);" class="comm_btn" ng-click="hideItem(l.tid, l.isHide);"><span ng-show="l.isHide">取消</span>隐藏</a></p>
+							</td>
+							<td valign="top">
+								<p class="fl percentage100 h25"><input class="remark vm bordernone" ng-title="订单备注信息：<br/>给该用户送个小礼品！<br/>点击图标修改备注" ng-click="addRemark.show(l.tid);" value="0" ng-class="flag(l.memoVo.flag)"/> <a ng-class="message(l.memoVo.buyerMemo)" class="vm" href="javaScript:;" ng-title="{{l.memoVo.buyerMemo}}"></a></p>								
+								<p ng-show="l.followupStatus < 1">
+									<input ng-click="addAffair.show({tid: l.tid, sourceId: 4, buyerNick: l.customerno, callback: init, callbackParam: [shop,abnormalStatus]})" class="baobei_dunning" type="button" value="跟进" />
+								</p>
+								<p ng-show="l.followupStatus >= 1"><a ng-href="#/affairs/myaffair?id={{l.followupId}}">{{statusAry[l.followupStatus-1]}}</a></p>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<div class="pager_postion"></div>
+			<div class="urpay_pager logistics_pager" ng-pager="pagerSetting"></div>
+		</div>
+		
+		<div id="delay_pop" style="display:none;">
+			<table class="SMS_Table">
+				<tr class="SMS_cuifu"><td colspan="2"><p class="SMS_desc" style="width:506px;">卖家延长收货时间可以让买家有更多的时间“确认收货”，而避免买家由于快到自动确认收货而急于申请退款。</p></td></tr>
+				<tr class="SMS_cuifu">
+					<th valign="top"><span>*</span> 延长订单：</th>
+					<td>
+						<p><textarea readonly="readonly" ng-model="delayTids"></textarea></p>
+						<p class="mt10">延长本交易的“确认收货”期限为：<select class="w109 borderHighlight" id="extensionDays"><option value="3" selected="selected">3天</option><option value="5">5天</option><option value="7">7天</option><option value="10">10天</option></select></p>
+					</td>
+				</tr>				
+				<tr>
+					<th></th>
+					<td>
+						<div class="cc_btn">
+							<button class="btn btnBlue" ng-click="saveDelay();">确定</button>
+							<button class="btn" ng-click="closeDelay();">取消</button>
+						</div>
+					</td>
+				</tr>
+			</table>
+		</div>
+		
+		<div id="difficult_pop" style="display:none;">
+			<form>
+				<div ng-visible="!showAbnormal" class="loading"><i></i>配置加载中...</div>
+				<ul ng-visible="showAbnormal">
+					<li class="clearfix"><em>1.</em><div class="fl">订单物流详情中包含“<span class="highlight">疑难件</span>”字样</div></li>
+					<li class="clearfix"><em>2.</em><div class="fl">未签收的快递，物流信息<input ng-model="abnormalUpdateTime" type="text" size="4" class="borderHighlight digits" min="1" max="1000000000" name="update_time" /> &nbsp;天没有更新</div></li>
+					<li class="clearfix">
+						<em>3.</em>
+						<div class="fl">
+							<div id="abnormal_wrap"></div>
+							<div class="mt30">
+								<div style="visibility:hidden;color:red;height:22px;" id="hasEchoTip">error tips</div>
+								<button class="btn btnBlue" type="submit">确定</button><button class="btn" onclick="$('#difficult_pop .title .close').click();return false;">取消</button>
+							</div>
+						</div>
+					</li>
+				</ul>
+			</form>
+		</div>
+		<div ng-include src="'/templates/affairs/serviceComm.html'"></div>
+	</div>
+</div>

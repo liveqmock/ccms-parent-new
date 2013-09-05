@@ -1,0 +1,107 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>ccms弹出框</title>
+<link type="text/css" rel="stylesheet" href="css/style.css" />
+<script type="text/javascript" src="js/jquery-1.7.1.min.js"></script>
+<script type="text/javascript" src="js/yunat_pop.js"></script>
+<style type="text/css">
+.red{color:red;}
+.demo8{width:100%;}
+</style>
+</head>
+
+<body>
+<br/>
+
+<input type="button" value="alert弹出框1" class="demo1" />
+<input type="button" value="alert弹出框2,显示遮罩" class="demo2" />
+<p class="red">Alert()为jquery面向对象的方法，调用方法$(obj).Alert(),接受参数1.title弹出框标题,2.str弹出框提示内容，3.mark是否显示遮罩4.回调函数</p>
+<p>例：$(obj).Alert({"title":"删除提示","str":"确认删除该活动？","mark":true},function(){alert(1);})</p>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<input type="button" value="confirm提示框1" class="demo3" />
+<input type="button" value="confirm提示框2" class="demo4" />
+<p class="red">Confirm()为jquery面向对象的方法，调用方法$(obj).Confirm(),接受参数1.title弹出框标题,2.str弹出框提示内容，3.mark是否显示遮罩4.回调函数</p>
+<p>例：$(obj).Confirm({"title":"删除提示","str":"确认删除该活动？","mark":true},function(){alert(1);})</p>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+
+<div class="demo5" style="position:relative;">自动消失提示框</div>
+<p class="red">autoVanishTips()为jquery面向对象的方法，调用方法$(obj).huaatTips(),接受参数1.str,2.timer时间，多少毫秒后弹出框自动隐藏，3.绝对位置left,top，相对位置为css中自定义</p>
+<p>例：$(obj).autoVanishTips({str:"hollow word",timer:3000,left:0,top:200})</p>
+<br/>
+<br/>
+<div class="demo8">tips<span class="ccms_tips"><span class="ccms_tipsContent"><b></b>提示语提示语提示语提示语提示语<a href="www.baidu.com">百度</a>lalala 啦啦</span></span></div>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<input type="button" value="交互框" class="demo6" />
+<input type="button" value="框加载完内容在显示弹出框" class="demo7" />
+<p class="red">addInteractivePop()，jq面向对象方法，参数1.自定义宽高，2.mask是否显示遮罩，3.title是否显示头部，默认显示，其对应属性magTitle:头部名称，drag是否可以拖拽，mask是否显示遮罩</p>
+
+
+
+<div id="pop1" style="width:200px;display:none;"></div>
+<div id="pop2" style="background:#fff;display:none; padding:50px;">
+     <p>框加载完内容在显示弹出框</p>
+     <p>框加载完内容在显示弹出框</p>
+     <p>框加载完内容在显示弹出框</p>
+     <p>框加载完内容在显示弹出框</p>
+     <p>框加载完内容在显示弹出框</p>
+     <p>框加载完内容在显示弹出框</p>
+     <p>框加载完内容在显示弹出框</p>
+     <p>框加载完内容在显示弹出框</p>
+     <p>框加载完内容在显示弹出框</p>
+</div>
+
+<script type="text/javascript">
+$(".demo1").click(function(){
+   $(this).Alert({"title":"删除提示","str":"确认删除该活动？","mark":true},function(){alert(1);});
+});
+$(".demo2").click(function(){
+   $(this).Alert({"title":"删除提示","str":"确认删除该活动？","mark":true});
+});
+$(".demo3").click(function(){
+   $(this).Confirm({"title":"删除提示","str":"确认删除该活动？","mark":true},function(){alert(2)});
+   //yunatPop.Confirm("hollowWord",null,true);
+});
+$(".demo4").click(function(){
+   $(this).Confirm({"title":"用户中心","str":"确认删除该活动？"});
+});
+$(".demo5").click(function(){
+     $(this).autoVanishTips({str:"2秒后自动消失"});
+});
+$(".demo6").click(function(){
+     $("#pop1").addInteractivePop({width:200,magTitle:"系统管理",mark:true});
+});
+$(".demo7").click(function(){
+     var w=$("#pop2").innerWidth();
+	 var h=$("#pop2").innerHeight();
+     $("#pop2").addInteractivePop({position:"fixed",width:w,height:h,title:false,mask:true});
+});
+$(".ccms_tips").Tips();
+</script>
+</body>
+</html>

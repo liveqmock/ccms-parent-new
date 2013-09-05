@@ -1,0 +1,14 @@
+{
+    "request": {
+        "method": "GET",
+        "urlPattern": "/coupon/shop/.*"
+    },
+    "response": {
+        "status": 200,
+        "bodyFileName": "/data/coupon/shopList.json",
+        "headers": {
+            "Content-Type": "application/json",
+            "Cache-Control": "max-age=86400"
+        }
+    }
+}
