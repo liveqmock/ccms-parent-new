@@ -1,0 +1,291 @@
+<html xmlns:c="http://www.concordion.org/2007/concordion">
+<meta http-equiv="Content-Type" content="text/html" charset="UTF-8" />
+
+<p>下单事务</p>
+<p>系统可以根据买家的3天内订单情况进行催付的建议</p>
+<p>
+	例如：买家miaomiaozhu0620在2天前下了1笔订单1000001，订单状态为‘已下单未付款’，已催付；在当天又下了一笔订单1000002，状态为‘已下单未付款’,；
+在当天下了一笔[聚划算]订单1000003，状态为‘已下单未付款’
+-- 用户大狗子19890202在当天下了1笔订单2000001，状态为‘已下单未付款’，没有进行过催付；
+-- 用户tb_1491605在4天前下了1笔订单3000001，状态为‘已下单未付款’，已催付；在当天又下了一笔订单3000002，状态为‘已下单未付款’；
+-- 用户tu_taotao在当天下了1笔订单4000001，状态为‘已付款等待卖家发货’；又下了一笔订单4000002，状态为‘已下单未付款’; 在当天下了一笔[聚划算]订单4000003，状态为‘已下单未付款’
+-- 用户失忆后拾忆在当天下了一笔订单5000001，状态为‘已下单未付款’，未催付；在当天下了一笔订单5000002，状态为‘已关闭’，已催付,
+-- 在2天前还下了一张单5000003，并且已付款退货后关闭(trade_closed)。
+-- 用户wj_huaat在当天下了1笔订单7000001，状态为‘已付款退货后关闭’，未催付；又下了一笔订单7000002，状态为‘已下单未付款’
+-- 用户stevenge719的订单在当天下了一笔订单6000001，状态为“已下单未付款”</p>
+<table>
+	<tr>
+		<td>订单编号</td>
+		<td>买家昵称</td>
+		<td>订单状态</td>
+		<td>下单时间</td>
+		<td>催付状态</td>
+	</tr>
+	<tr>
+		<td>1000001</td>
+		<td>miaomiaozhu0620</td>
+		<td>已下单未付款</td>
+		<td>2013/6/5</td>
+		<td>已催付</td>
+	</tr>
+	<tr>
+		<td>1000002</td>
+		<td>miaomiaozhu0620</td>
+		<td>已下单未付款</td>
+		<td>2013/6/7</td>
+		<td>未催付</td>
+	</tr>
+	<tr>
+		<td>1000003</td>
+		<td>miaomiaozhu0620</td>
+		<td>已下单未付款</td>
+		<td>2013/6/7</td>
+		<td>未催付</td>
+		<td>TRADE_FROM:JHS</td>
+	</tr>
+	<tr>
+		<td>2000001</td>
+		<td>大狗子19890202</td>
+		<td>已下单未付款</td>
+		<td>2013/6/7</td>
+		<td>未催付</td>
+	</tr>
+	<tr>
+		<td>3000001</td>
+		<td>tb_1491605</td>
+		<td>已下单未付款</td>
+		<td>2013/6/3</td>
+		<td>已催付</td>
+	</tr>
+	<tr>
+		<td>3000002</td>
+		<td>tb_1491605</td>
+		<td>已下单未付款</td>
+		<td>2013/6/7</td>
+		<td>未催付</td>
+	</tr>
+	<tr>
+		<td>4000001</td>
+		<td>tu_taotao</td>
+		<td>等待卖家发货</td>
+		<td>2013/6/7</td>
+		<td>未催付</td>
+	</tr>
+	<tr>
+		<td>4000002</td>
+		<td>tu_taotao</td>
+		<td>已下单未付款</td>
+		<td>2013/6/7</td>
+		<td>未催付</td>
+		<td>TRADE_FROM:JHS</td>
+	</tr>
+		<tr>
+		<td>4000003</td>
+		<td>tu_taotao</td>
+		<td>已下单未付款</td>
+		<td>2013/6/7</td>
+		<td>未催付</td>
+	</tr>
+	<tr>
+		<td>5000001</td>
+		<td>失忆后拾忆</td>
+		<td>已下单未付款</td>
+		<td>2013/6/7</td>
+		<td>未催付</td>
+	</tr>
+	<tr>
+		<td>5000002</td>
+		<td>失忆后拾忆</td>
+		<td>已关闭</td>
+		<td>2013/6/7</td>
+		<td>已催付</td>
+	</tr>
+	<tr>
+		<td>5000003</td>
+		<td>失忆后拾忆</td>
+		<td>付款后退货关闭</td>
+		<td>2013/6/5</td>
+		<td>已催付</td>
+	</tr>
+	<tr>
+		<td>6000001</td>
+		<td>stevenge719</td>
+		<td>已下单未付款</td>
+		<td>2013/6/7</td>
+		<td>已催付（订单中心）</td>
+	</tr>
+	<tr>
+		<td>7000001</td>
+		<td>wj_huaat</td>
+		<td>付款后退货关闭</td>
+		<td>2013/6/5</td>
+		<td>未催付</td>
+	</tr>
+	<tr>
+		<td>7000002</td>
+		<td>wj_huaat</td>
+		<td>已下单未付款</td>
+		<td>2013/6/7</td>
+		<td>未催付</td>
+	</tr>
+</table>
+<p>用户根据条件把这些订单都查询出来后，显示的催付建议如下</p>
+<table>
+
+	<tr>
+		<th>订单号</th>
+		<th>催付建议</th>
+		<th>三日内订单总数</th>
+		<th>未支付笔数</th>
+		<th>已支付笔数</th>
+		<th>已关闭笔数</th>
+		<th>三日内是否进行过催付</th>
+	</tr>
+	<tr c:execute="#tidList = getTid()">
+		<td c:assertTrue="#tidList.contains(#tid)"><span c:set="#tid">1000001</span></td>
+		<td c:assertEquals="getUrpayAdvice(#tid)">已催付</td>
+		<td c:assertEquals="getOrdersCount(#tid)">3</td>
+		<td c:assertEquals="getOrdersUnpay(#tid)">3</td>
+		<td c:assertEquals="getOrdersPaid(#tid)">0</td>
+		<td c:assertEquals="getOrdersClosed(#tid)">0</td>
+		<td c:assertEquals="getOrdersStatus(#tid)">三日内已进行过催付</td>
+	</tr>
+
+	<tr c:execute="#tidList = getTid()">
+		<td c:assertTrue="#tidList.contains(#tid)"><span c:set="#tid">1000002</span></td>
+		<td c:assertEquals="getUrpayAdvice(#tid)">不建议催付</td>
+		<td c:assertEquals="getOrdersCount(#tid)">3</td>
+		<td c:assertEquals="getOrdersUnpay(#tid)">3</td>
+		<td c:assertEquals="getOrdersPaid(#tid)">0</td>
+		<td c:assertEquals="getOrdersClosed(#tid)">0</td>
+		<td c:assertEquals="getOrdersStatus(#tid)">三日内已进行过催付</td>
+	</tr>
+<tr c:execute="#tidList = getTid()">
+		<td c:assertTrue="#tidList.contains(#tid)"><span c:set="#tid">1000003</span></td>
+		<td c:assertEquals="getUrpayAdvice(#tid)">不建议催付</td>
+		<td c:assertEquals="getOrdersCount(#tid)">3</td>
+		<td c:assertEquals="getOrdersUnpay(#tid)">3</td>
+		<td c:assertEquals="getOrdersPaid(#tid)">0</td>
+		<td c:assertEquals="getOrdersClosed(#tid)">0</td>
+		<td c:assertEquals="getOrdersStatus(#tid)">三日内已进行过催付</td>
+	</tr>
+	<tr c:execute="#tidList = getTid()">
+		<td c:assertTrue="#tidList.contains(#tid)"><span c:set="#tid">2000001</span></td>
+		<td c:assertEquals="getUrpayAdvice(#tid)">建议催付</td>
+		<td c:assertEquals="getOrdersCount(#tid)">1</td>
+		<td c:assertEquals="getOrdersUnpay(#tid)">1</td>
+		<td c:assertEquals="getOrdersPaid(#tid)">0</td>
+		<td c:assertEquals="getOrdersClosed(#tid)">0</td>
+		<td c:assertEquals="getOrdersStatus(#tid)">三日内未进行过催付</td>
+	</tr>
+
+	<tr c:execute="#tidList = getTid()">
+		<td c:assertFalse="#tidList.contains(#tid)"><span c:set="#tid">3000001</span></td>
+		<td>3天前的订单查不到</td>
+		<td>-</td>
+		<td>-</td>
+		<td>-</td>
+		<td>-</td>
+		<td>-</td>
+	</tr>
+
+	<tr c:execute="#tidList = getTid()">
+		<td c:assertTrue="#tidList.contains(#tid)"><span c:set="#tid">3000002</span></td>
+		<td c:assertEquals="getUrpayAdvice(#tid)">建议催付</td>
+		<td c:assertEquals="getOrdersCount(#tid)">1</td>
+		<td c:assertEquals="getOrdersUnpay(#tid)">1</td>
+		<td c:assertEquals="getOrdersPaid(#tid)">0</td>
+		<td c:assertEquals="getOrdersClosed(#tid)">0</td>
+		<td c:assertEquals="getOrdersStatus(#tid)">三日内未进行过催付</td>
+	</tr>
+
+
+
+	<tr c:execute="#tidList = getTid()">
+		<td c:assertTrue="#tidList.contains(#tid)"><span c:set="#tid">4000001</span></td>
+		<td c:assertEquals="getUrpayAdvice(#tid)">已付款的订单查不到</td>
+		<td>-</td>
+		<td>-</td>
+		<td>-</td>
+		<td>-</td>
+		<td>-</td>
+	</tr>
+
+	<tr c:execute="#tidList = getTid()">
+		<td c:assertTrue="#tidList.contains(#tid)"><span c:set="#tid">4000002</span></td>
+		<td c:assertEquals="getUrpayAdvice(#tid)">不建议付款</td>
+		<td c:assertEquals="getOrdersCount(#tid)">3</td>
+		<td c:assertEquals="getOrdersUnpay(#tid)">1</td>
+		<td c:assertEquals="getOrdersPaid(#tid)">2</td>
+		<td c:assertEquals="getOrdersClosed(#tid)">0</td>
+		<td c:assertEquals="getOrdersStatus(#tid)">三日内未进行过催付</td>
+	</tr>
+	<tr c:execute="#tidList = getTid()">
+		<td c:assertTrue="#tidList.contains(#tid)"><span c:set="#tid">4000003</span></td>
+		<td c:assertEquals="getUrpayAdvice(#tid)">不建议付款</td>
+		<td c:assertEquals="getOrdersCount(#tid)">3</td>
+		<td c:assertEquals="getOrdersUnpay(#tid)">1</td>
+		<td c:assertEquals="getOrdersPaid(#tid)">2</td>
+		<td c:assertEquals="getOrdersClosed(#tid)">0</td>
+		<td c:assertEquals="getOrdersStatus(#tid)">三日内未进行过催付</td>
+	</tr>
+	<tr c:execute="#tidList = getTid()">
+		<td c:assertTrue="#tidList.contains(#tid)"><span c:set="#tid">5000001</span></td>
+		<td c:assertEquals="getUrpayAdvice(#tid)">不建议催付</td>
+		<td c:assertEquals="getOrdersCount(#tid)">3</td>
+		<td c:assertEquals="getOrdersUnpay(#tid)">1</td>
+		<td c:assertEquals="getOrdersPaid(#tid)">0</td>
+		<td c:assertEquals="getOrdersClosed(#tid)">2</td>
+		<td c:assertEquals="getOrdersStatus(#tid)">三日内已进行过催付</td>
+	</tr>
+
+
+	<tr c:execute="#tidList = getTid()">
+		<td c:assertTrue="#tidList.contains(#tid)"><span c:set="#tid">5000002</span></td>
+		<td c:assertEquals="getUrpayAdvice(#tid)">已关闭的订单查不到</td>
+		<td>-</td>
+		<td>-</td>
+		<td>-</td>
+		<td>-</td>
+		<td>-</td>
+	</tr>
+	<tr c:execute="#tidList = getTid()">
+		<td c:assertTrue="#tidList.contains(#tid)"><span c:set="#tid">5000003</span></td>
+		<td c:assertEquals="getUrpayAdvice(#tid)">已关闭的订单查不到</td>
+		<td>-</td>
+		<td>-</td>
+		<td>-</td>
+		<td>-</td>
+		<td>-</td>
+	</tr>
+	<tr c:execute="#tidList = getTid()">
+		<td c:assertTrue="#tidList.contains(#tid)"><span c:set="#tid">6000001</span></td>
+		<td c:assertEquals="getUrpayAdvice(#tid)">不建议催付</td>
+		<td c:assertEquals="getOrdersCount(#tid)">1</td>
+		<td c:assertEquals="getOrdersUnpay(#tid)">1</td>
+		<td c:assertEquals="getOrdersPaid(#tid)">1</td>
+		<td c:assertEquals="getOrdersClosed(#tid)">1</td>
+		<td c:assertEquals="getOrdersStatus(#tid)">三日内已进行过催付</td>
+	</tr>
+	<tr c:execute="#tidList = getTid()">
+		<td c:assertTrue="#tidList.contains(#tid)"><span c:set="#tid">7000001</span></td>
+		<td c:assertEquals="getUrpayAdvice(#tid)">已关闭的订单查不到</td>
+		<td>-</td>
+		<td>-</td>
+		<td>-</td>
+		<td>-</td>
+		<td>-</td>
+	</tr>
+	<tr c:execute="#tidList = getTid()">
+		<td c:assertTrue="#tidList.contains(#tid)"><span c:set="#tid">7000002</span></td>
+		<td c:assertEquals="getUrpayAdvice(#tid)">建议催付</td>
+		<td c:assertEquals="getOrdersCount(#tid)">2</td>
+		<td c:assertEquals="getOrdersUnpay(#tid)">1</td>
+		<td c:assertEquals="getOrdersPaid(#tid)">0</td>
+		<td c:assertEquals="getOrdersClosed(#tid)">1</td>
+		<td c:assertEquals="getOrdersStatus(#tid)">三日内未进行过催付</td>
+	</tr>
+</table>
+
+
+</html>

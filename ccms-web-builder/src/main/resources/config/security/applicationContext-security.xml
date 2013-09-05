@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+	xmlns:beans="http://www.springframework.org/schema/beans"
+	xmlns:security="http://www.springframework.org/schema/security"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+    http://www.springframework.org/schema/security
+    http://www.springframework.org/schema/security/spring-security-3.0.xsd
+	http://www.springframework.org/schema/util
+	http://www.springframework.org/schema/util/spring-util-2.0.xsd">
+
+<!-- web安全 -->
+	<http auto-config="true" entry-point-ref="needLogin" use-expressions="true">
+		<intercept-url pattern="/**/*.html" access="permitAll"  />
+		<intercept-url pattern="/**/*.jpg"  access="permitAll" />
+		<intercept-url pattern="/**/*.png"  access="permitAll" />
+		<intercept-url pattern="/**/*.css"  access="permitAll" />
+		<intercept-url pattern="/**/*.gif"  access="permitAll" />
+		<intercept-url pattern="/**/*.js"  access="permitAll" />
+ 		<intercept-url pattern="/**/*.jsp" access="denyAll" />
+		<intercept-url pattern="/**/*.csv" access="denyAll" />
+		
+		<intercept-url pattern="/**/test" access="permitAll" />
+		
+		<intercept-url pattern="/**" access="isAuthenticated()" />
+		
+		<security:custom-filter ref="holdProductEditionFilter" position="FIRST" />
+		<security:custom-filter ref="logoutFilter" before="LOGOUT_FILTER"/>
+		<security:custom-filter ref="ccmsUserAuthenticationFilter" before="FILTER_SECURITY_INTERCEPTOR" />
+		
+		<security:access-denied-handler ref="needLogin" />
+	</http>
+	<!-- 自定义的filter(javax.servlet.Filter,但是不是给web.xml用的,是给http标签用的) -->
+	<beans:bean id="logoutFilter" class="org.springframework.security.web.authentication.logout.LogoutFilter">
+		<beans:constructor-arg>
+			<beans:value>http://fuwu.taobao.com</beans:value>
+		</beans:constructor-arg>
+		<beans:constructor-arg>
+			<beans:list>
+				<beans:bean class="org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler"/>
+				<beans:bean class="com.yunat.ccms.auth.login.CcmsLogoutHandler"/>
+			</beans:list>
+		</beans:constructor-arg>
+		<beans:property name="filterProcessesUrl" value="/logout"></beans:property>
+	</beans:bean>
+	<beans:bean id="holdProductEditionFilter" class="com.yunat.ccms.auth.login.filter.SetThreadLocalFilter"/>
+	<beans:bean id="ccmsUserAuthenticationFilter" class="com.yunat.ccms.auth.login.filter.CcmsAuthenticationFilter">
+		<beans:property name="authenticationManager" ref="authenticationManager"/>
+		<beans:property name="postOnly" value="false"/>
+		<beans:property name="authenticationFailureHandler" ref="needLogin"/>
+		<beans:property name="authenticationSuccessHandler">
+			<beans:bean class="com.yunat.ccms.auth.login.CcmsAuthenticationSuccessHandler"/>
+		</beans:property>
+	</beans:bean>
+	
+	<authentication-manager alias="authenticationManager">
+	     <authentication-provider user-service-ref="userDetailsService"/>
+	</authentication-manager>
+	
+	<beans:bean id="userDetailsService" class="com.yunat.ccms.auth.springsecurity.UserDetailsServiceImpl"/>
+	
+	<beans:bean id="needLogin" class="com.yunat.ccms.auth.login.CcmsNeedLoginReturn">
+		<beans:constructor-arg ref="taobaoLoginSource">
+		</beans:constructor-arg>
+	</beans:bean>
+	
+	<beans:bean id="adminRole" class="org.springframework.security.core.authority.GrantedAuthorityImpl">
+		<beans:constructor-arg value="ROLE_ADMIN"/>
+	</beans:bean>
+
+<!-- 方法安全 -->
+	<global-method-security secured-annotations="enabled" pre-post-annotations="enabled"
+		access-decision-manager-ref="aclAccessDecisionManager">
+		<expression-handler ref="expressionHandler" />
+		<after-invocation-provider ref="afterInvocationAddAcl" />
+		<after-invocation-provider ref="afterInvocationDelAcl" />
+	</global-method-security>
+	
+	<beans:bean id="expressionHandler" class="org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler">
+		<beans:property name="permissionEvaluator">
+			<beans:bean id="aclPermissionEvaluator" class="org.springframework.security.acls.AclPermissionEvaluator">
+				<beans:constructor-arg ref="aclService" />
+			</beans:bean>
+		</beans:property>
+	</beans:bean>
+	
+ 	<beans:bean id="aclAccessDecisionManager" class="org.springframework.security.access.vote.UnanimousBased">
+		<beans:property name="decisionVoters">
+			<!-- 方法安全选民 -->
+			<beans:list>
+				<!-- 只关心"要删除某物"事件的选民,根据acl进行投票 -->
+				<beans:bean id="delSth" class="com.yunat.ccms.auth.springsecurity.acl.AclVoter">
+					<beans:constructor-arg ref="aclService"/>
+					<beans:constructor-arg>
+						<util:constant static-field="com.yunat.ccms.core.support.auth.AuthCons.SEC_ACL_DELETE_OR_ADMIN" />
+					</beans:constructor-arg>
+					<beans:constructor-arg>
+						<beans:list>
+							<util:constant static-field="org.springframework.security.acls.domain.BasePermission.ADMINISTRATION" />
+							<util:constant static-field="org.springframework.security.acls.domain.BasePermission.DELETE" />
+						</beans:list>
+					</beans:constructor-arg>
+				</beans:bean>
+				<!-- 只关心"要修改某物"事件的选民,根据acl进行投票 -->
+				<beans:bean id="writeSth" class="com.yunat.ccms.auth.springsecurity.acl.AclVoter">
+					<beans:constructor-arg ref="aclService"/>
+					<beans:constructor-arg>
+						<util:constant static-field="com.yunat.ccms.core.support.auth.AuthCons.SEC_ACL_WRITE_OR_ADMIN" />
+					</beans:constructor-arg>
+					<beans:constructor-arg>
+						<beans:list>
+							<util:constant static-field="org.springframework.security.acls.domain.BasePermission.ADMINISTRATION" />
+							<util:constant static-field="org.springframework.security.acls.domain.BasePermission.WRITE" />
+						</beans:list>
+					</beans:constructor-arg>
+				</beans:bean>
+				<!-- 只关心"要创建某物"事件的选民,根据acl进行投票 -->
+				<beans:bean id="createSth" class="com.yunat.ccms.auth.springsecurity.acl.AclVoter">
+					<beans:constructor-arg ref="aclService"/>
+					<beans:constructor-arg>
+						<util:constant static-field="com.yunat.ccms.core.support.auth.AuthCons.SEC_ACL_CREATE_OR_ADMIN" />
+					</beans:constructor-arg>
+					<beans:constructor-arg>
+						<beans:list>
+							<util:constant static-field="org.springframework.security.acls.domain.BasePermission.ADMINISTRATION" />
+							<util:constant static-field="org.springframework.security.acls.domain.BasePermission.CREATE" />
+						</beans:list>
+					</beans:constructor-arg>
+				</beans:bean>
+				<!-- 在前面的选民没有投反对票的情况下,允许执行"方法执行后操作"的选民.这个选民不是来投票的,是来直接允许"方法执行后操作"的 -->
+				<beans:bean class="com.yunat.ccms.auth.springsecurity.acl.PermitOperatingAclVoter"/>
+			</beans:list>
+		</beans:property>
+	</beans:bean>
+
+	<!-- 这个原理没看过...有没有坑不知道,但只能用这个 -->
+	<beans:bean id="aclCache" class="org.springframework.security.acls.domain.EhCacheBasedAclCache">
+		<beans:constructor-arg>
+			<beans:bean id="aclEhCache" class="org.springframework.cache.ehcache.EhCacheFactoryBean">
+				<beans:property name="cacheManager">
+					<beans:bean class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean" />
+				</beans:property>
+				<beans:property name="cacheName" value="aclCache" />
+			</beans:bean>
+		</beans:constructor-arg>
+	</beans:bean>
+	
+	<beans:bean id="aclService" class="org.springframework.security.acls.jdbc.JdbcMutableAclService">
+		<beans:constructor-arg ref="dataSource" />
+		<beans:constructor-arg>
+			<!-- acl寻找算法 -->
+			<beans:bean id="lookupStrategy" class="org.springframework.security.acls.jdbc.BasicLookupStrategy">
+				<beans:constructor-arg ref="dataSource" />
+				<beans:constructor-arg ref="aclCache"/>
+				<beans:constructor-arg>
+					<beans:bean class="org.springframework.security.acls.domain.AclAuthorizationStrategyImpl">
+						<beans:constructor-arg>
+							<beans:list>
+								<beans:ref local="adminRole" />
+								<beans:ref local="adminRole" />
+								<beans:ref local="adminRole" />
+							</beans:list>
+						</beans:constructor-arg>
+					</beans:bean>
+				</beans:constructor-arg>
+				<!-- acl成功失败审计器 -->
+				<beans:constructor-arg>
+					<beans:bean class="org.springframework.security.acls.domain.ConsoleAuditLogger" />
+				</beans:constructor-arg>
+				<beans:property name="permissionFactory">
+					<beans:bean class="com.yunat.ccms.auth.springsecurity.acl.CcmsPermissionFactory"/>
+				</beans:property>
+			</beans:bean>
+		</beans:constructor-arg>
+		<beans:constructor-arg ref="aclCache" />
+		<beans:property name="classIdentityQuery" value="SELECT @@IDENTITY" />
+		<beans:property name="sidIdentityQuery" value="SELECT @@IDENTITY" />
+	</beans:bean>
+	
+<!-- 方法执行后操作 -->
+	<!-- 方法(save之类的方法)执行后自动创建相应的acl -->
+	<beans:bean id="afterInvocationAddAcl" class="com.yunat.ccms.auth.springsecurity.acl.AfterInvocationAddAcl">
+		<beans:constructor-arg ref="aclService" />
+		<beans:property name="objectIdentityRetrievalStrategy" ref="oidRetriever"/>
+	</beans:bean>
+	<!-- 方法(del之类的方法)执行后自动删除相应的acl -->
+	<beans:bean id="afterInvocationDelAcl" class="com.yunat.ccms.auth.springsecurity.acl.AfterInvocationDelAcl">
+		<beans:constructor-arg ref="aclService" />
+		<beans:property name="objectIdentityRetrievalStrategy" ref="oidRetriever"/>
+	</beans:bean>
+	
+	<beans:bean id="oidRetriever" class="com.yunat.ccms.auth.springsecurity.acl.CcmsObjectIdentityRetrievalStrategy"/>
+	
+</beans:beans>

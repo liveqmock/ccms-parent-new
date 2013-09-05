@@ -1,0 +1,172 @@
+<html xmlns:concordion="http://www.concordion.org/2007/concordion">
+<body>
+	<h1>ModuleService获取模块的接口</h1>
+
+	<div class="example">
+		<dl>
+			<dt>资源标识</dt>
+			<dd>
+				<a href="#">http://host/module/{id}/modules</a>
+			</dd>
+		</dl>
+
+		<p>
+			系统模块管理后台有特定的模块配置，用户订购了基础版<span style="color: red;"
+				concordion:set="#version">L2</span>。用户进入一个模块。后台可以返回该模块应该有的子模块。
+		</p>
+
+		<table concordion:execute="#result = getModuleFor(#module, #version)">
+			<tr>
+				<th concordion:set="#module">当前模块ID</th>
+				<th>模块名称</th>
+				<th concordion:assertEquals="#result">子模块</th>
+			</tr>
+			<tr>
+				<td>DL01</td>
+				<td>登录页——base</td>
+				<td></td>
+			</tr>
+			<tr>
+				<td>DL03</td>
+				<td>登录页——淘宝</td>
+				<td></td>
+			</tr>
+			<tr>
+				<td>TB01</td>
+				<td>工具栏——免费版</td>
+				<td></td>
+			</tr>
+			<tr>
+				<td>ZD01</td>
+				<td>店铺诊断</td>
+				<td>CR01</td>
+			</tr>
+			<tr>
+				<td>JK02</td>
+				<td>店铺监控</td>
+				<td>DD01,WL01</td>
+			</tr>
+			<tr>
+				<td>DD01</td>
+				<td>订单中心</td>
+				<td>CF01,WL02</td>
+			</tr>
+			<tr>
+				<td>CF01</td>
+				<td>智能催付</td>
+				<td>SS01,DS01</td>
+			</tr>
+			<tr>
+				<td>WL02</td>
+				<td>物流通知</td>
+				<td>FH01,TC01,QS02</td>
+			</tr>
+		</table>
+
+
+		<p>
+			系统模块管理后台有特定的模块配置，用户订购了基础版<span style="color: red;"
+				concordion:set="#version">L3</span>。用户进入一个模块。后台可以返回该模块应该有的子模块。
+		</p>
+		<table concordion:execute="#result = getModuleFor(#module, #version)">
+			<tr>
+				<th concordion:set="#module">当前模块ID</th>
+				<th>模块名称</th>
+				<th concordion:assertEquals="#result">子模块</th>
+			</tr>
+			<tr>
+				<td>DL01</td>
+				<td>登录页——base</td>
+				<td></td>
+			</tr>
+			<tr>
+				<td>DL02</td>
+				<td>登陆页——系统登陆</td>
+				<td></td>
+			</tr>
+			<tr>
+				<td>DL03</td>
+				<td>登录页——淘宝</td>
+				<td></td>
+			</tr>
+			<tr>
+				<td>DL04</td>
+				<td>登录页——系统+淘宝</td>
+				<td></td>
+			</tr>
+			<tr>
+				<td>TB02</td>
+				<td>工具栏——标准版</td>
+				<td></td>
+			</tr>
+			<tr>
+				<td>SY01</td>
+				<td>首页</td>
+				<td>XX01,FZ01,TJ01,JK01,QD01,TD01,QS01</td>
+			</tr>
+			<tr>
+				<td>ZD01</td>
+				<td>店铺诊断</td>
+				<td>CR01</td>
+			</tr>
+			<tr>
+				<td>JK02</td>
+				<td>店铺监控</td>
+				<td>DD01,WL01</td>
+			</tr>
+			<tr>
+				<td>DD01</td>
+				<td>订单中心</td>
+				<td>CF01,WL02</td>
+			</tr>
+			<tr>
+				<td>CF01</td>
+				<td>智能催付</td>
+				<td>SS01,DS01</td>
+			</tr>
+			<tr>
+				<td>WL02</td>
+				<td>物流通知</td>
+				<td>FH01,TC01,QS02</td>
+			</tr>
+			<tr>
+				<td>YX01</td>
+				<td>营销活动</td>
+				<td>YX02,XJ01,SJ01,MB01</td>
+			</tr>
+			<tr>
+				<td>CX01</td>
+				<td>促销管理</td>
+				<td>YH01</td>
+			</tr>
+			<tr>
+				<td>KH01</td>
+				<td>客户管理</td>
+				<td>XX02,BL01,RL01,HY02</td>
+			</tr>
+			<tr>
+				<td>XX02</td>
+				<td>客户信息管理</td>
+				<td>KH02,XX03</td>
+			</tr>
+			<tr>
+				<td>BL01</td>
+				<td>黑名单管理</td>
+				<td>SJ03,YJ01</td>
+			</tr>
+			<tr>
+				<td>RL01</td>
+				<td>红名单管理</td>
+				<td>SJ04,YJ02</td>
+			</tr>
+			<tr>
+				<td>XT01</td>
+				<td>系统管理</td>
+				<td>YH02</td>
+			</tr>
+		</table>
+
+	</div>
+
+</body>
+</html>

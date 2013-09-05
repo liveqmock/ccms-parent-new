@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 以下为DTD定义，一般不做修改，数据在DTD定义后面 -->
+<!DOCTYPE exclusion.configure[
+	<!ELEMENT exclusion.configure (exclusion+)>
+	<!ELEMENT exclusion ((key,value))>
+	<!ATTLIST exclusion
+		exclusionType ID #REQUIRED
+		isAllFilter (true | false) #REQUIRED
+	>
+	<!ELEMENT key (#PCDATA)>
+	<!ELEMENT value (#PCDATA)>
+]>
+
+<!--
+	说明信息：isAllFilter
+		true标示全部过滤,一般只有登录才用到(不会记录任何正常、异常信息)
+		false标示只拦截异常情况并记录
+-->
+<exclusion.configure>
+
+	<exclusion exclusionType="com.huaat.ccms.user.action.LoginAction.execute" isAllFilter="true">
+		<key>com.huaat.ccms.user.action.LoginAction.execute</key>
+		<value>用户登录action</value>
+	</exclusion>
+	<exclusion exclusionType="com.huaat.ccms.program.action.AddProgramAction.execute" isAllFilter="true">
+		<key>com.huaat.ccms.program.action.AddProgramAction.execute</key>
+		<value>添加项目action</value>
+	</exclusion>
+
+	<exclusion exclusionType="com.huaat.ccms.index.action.IndexMyInvCampAction"  isAllFilter="false">
+		<key>com.huaat.ccms.index.action.IndexMyInvCampAction.*</key>
+		<value>我的活动首页action</value>
+	</exclusion>
+	<exclusion exclusionType="com.huaat.ccms.privilege.action.PrivilegeAction"  isAllFilter="false">
+		<key>com.huaat.ccms.privilege.action.PrivilegeAction.*</key>
+		<value>用户权限action</value>
+	</exclusion>
+	<exclusion exclusionType="com.huaat.ccms.workflow.action.ajax.GetNodeStateAction"  isAllFilter="false">
+		<key>com.huaat.ccms.workflow.action.ajax.GetNodeStateAction.*</key>
+		<value>节点状态action</value>
+	</exclusion>
+	<exclusion exclusionType="com.huaat.ccms.user.action.ShowGatewaysInfoAction" isAllFilter="false">
+		<key>com.huaat.ccms.user.action.ShowGatewaysInfoAction.*</key>
+		<value>取通道信息action</value>
+	</exclusion>
+	<exclusion exclusionType="com.huaat.ccms.user.action.OrderLastUpdateAction" isAllFilter="false">
+		<key>com.huaat.ccms.user.action.OrderLastUpdateAction.*</key>
+		<value>订单最后更新时间action</value>
+	</exclusion>
+	<exclusion exclusionType="com.huaat.ccms.user.action.ShowNoticeAction" isAllFilter="false">
+		<key>com.huaat.ccms.user.action.ShowNoticeAction.*</key>
+		<value>新消息action</value>
+	</exclusion>
+</exclusion.configure>

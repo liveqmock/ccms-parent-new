@@ -1,0 +1,441 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	1.outCount="-1" 表示任意 inCount="-1"
+	特殊规则：
+	1.目标组的前面流程中没有目标组或响应组
+	2.响应组的前面流程中有目标组或响应组  (并有渠道)
+	3.拆分节点的前面流程中不能有目标组或者响应组
+	4.聚类节点的前面的流程中不能有目标组或者响应组
+	5.排重节点的前面流程中不能有目标组或者响应组
+	6.可以连入多个节点(合并节点,交集节点,排除节点)的集合运算节点之前只允许有一个目标组或响应组流出的数据，
+		即从此集合运算节点回塑，只能找到同一个目标组或响应组
+ -->
+ <!--
+	node属性简介
+	nodeType	节点名称
+	inCount		接入节点数量限制
+	outCount	节点接出数量限制，-1为不限制
+	inType		接入节点
+	outType		接出节点
+	isGroup		连接节点类型，false连接单个节点，true连接整组节点
+ -->
+
+<node.configure>
+	<!-- 开始节点后面只能连接时间节点 -->
+	<node nodeType="tflowstart" inCount="0" outCount="-1" >
+		<outType >
+			<include>
+			    <NodeIDType isGroup="false">tflowtime</NodeIDType><!-- 时间节点 -->
+			</include>
+		</outType>
+	</node>
+	<!-- 时间节点后面只能连接 导入节点，查询节点 -->
+	<node nodeType="tflowtime" inCount="1" outCount="-1">
+		<inType>
+			<include>
+				<NodeIDType isGroup="false">tflowstart</NodeIDType>
+			</include>
+		</inType>
+		<outType>
+			<include>
+				<NodeIDType isGroup="false">teximimport</NodeIDType><!-- 导入节点 -->
+				<NodeIDType isGroup="false">tfilterfind</NodeIDType><!-- 查询节点 -->
+				<NodeIDType isGroup="false">tfilterfindattribute</NodeIDType><!-- 属性查询节点 -->
+				<NodeIDType isGroup="false">tfilteracookie</NodeIDType><!-- 流量来源查询节点  -->
+				<NodeIDType isGroup="false">tdataetl</NodeIDType><!-- RFM节点 -->
+				<NodeIDType isGroup="false">tfilterordernopay</NodeIDType><!-- 已下单未付款查询节点 -->
+				<NodeIDType isGroup="false">tflowwait</NodeIDType><!-- 等待节点 -->
+			</include>
+		</outType>
+	</node>
+
+	<!-- 等待节点后面只能连接查询节点 ,渠道节点-->
+	<node nodeType="tflowwait" inCount="1" outCount="-1">
+		<outType>
+			<include>
+				<NodeIDType isGroup="false">teximimport</NodeIDType><!-- 导入节点 -->
+				<NodeIDType isGroup="false">tfilterfind</NodeIDType><!-- 查询节点 -->
+				<NodeIDType isGroup="false">tfilterfindattribute</NodeIDType><!-- 属性查询节点 -->
+				<NodeIDType isGroup="false">tfilteracookie</NodeIDType><!-- 流量来源查询节点  -->
+				<NodeIDType isGroup="false">tfilterordernopay</NodeIDType><!-- 已下单未付款查询节点 -->
+				<NodeIDType isGroup="true">tcommunicate</NodeIDType><!-- 渠道-->
+				<NodeIDType isGroup="true">tchannelresponse</NodeIDType><!-- 渠道响应-->
+			</include>
+		</outType>
+	</node>
+
+	<!-- 导入节点 后面只能连接查询 、屏蔽、目标组-->
+	<node nodeType="teximimport" inCount="1" outCount="-1">
+		<outType>
+			<include>
+				<NodeIDType isGroup="false">tfilterfind</NodeIDType><!-- 查询节点 -->
+				<NodeIDType isGroup="false">tfilterfindattribute</NodeIDType><!-- 属性查询节点 -->
+				<NodeIDType isGroup="false">tfilteracookie</NodeIDType><!-- 流量来源查询节点  -->
+				<NodeIDType isGroup="false">tfilterordernopay</NodeIDType><!-- 已下单未付款查询节点 -->
+				<NodeIDType isGroup="false">tfilterscreen</NodeIDType><!-- 屏蔽节点 -->
+				<NodeIDType isGroup="false">tcustomertargetgroup</NodeIDType><!-- 目标组节点 -->
+				<NodeIDType isGroup="false">tfiltergrouppriority</NodeIDType><!-- 排重节点-->
+				<NodeIDType isGroup="false">tfilterexclude</NodeIDType><!-- 排除节点 -->
+				<NodeIDType isGroup="false">tfiltersplit</NodeIDType><!-- 拆分节点 -->
+				<NodeIDType isGroup="false">tfiltersample</NodeIDType><!-- 抽样节点 -->
+				<NodeIDType isGroup="false">tfiltermerge</NodeIDType><!-- 合并节点 -->
+				<NodeIDType isGroup="false">tfilterand</NodeIDType><!-- 交集节点 -->
+
+			</include>
+		</outType>
+	</node>
+	<!-- 导出节点 后面不能连接任何节点-->
+	<node nodeType="teximexport" inCount="1" outCount="0">
+	</node>
+
+	<!-- 查询节点 聚类节点  目标客户筛 ,拆分 ,目标组，响应组-->
+	<node nodeType="tfilterfind" inCount="1" outCount="-1">
+		<outType>
+			<include>
+				<NodeIDType isGroup="false">tanalysiscluster</NodeIDType><!-- 聚类节点 -->
+				<NodeIDType isGroup="true">tfilter</NodeIDType><!--目标客户筛 节点 -->
+				<NodeIDType isGroup="false">tcustomertargetgroup</NodeIDType><!-- 目标组节点 -->
+				<NodeIDType isGroup="false">tcustomerrespondgroup</NodeIDType><!-- 响应组节点 -->
+				<NodeIDType isGroup="false">tfilterordermaping</NodeIDType><!-- 匹配订单节点  -->
+				<NodeIDType isGroup="false">tfilteracookie</NodeIDType><!-- 流量来源查询节点  -->
+			</include>
+		</outType>
+	</node>
+
+	<!-- 属性查询节点 聚类节点  目标客户筛 ,拆分 ,目标组，响应组  add by yidong 2012.9.27-->
+	<node nodeType="tfilterfindattribute" inCount="1" outCount="-1">
+		<outType>
+			<include>
+				<NodeIDType isGroup="false">tanalysiscluster</NodeIDType><!-- 聚类节点 -->
+				<NodeIDType isGroup="true">tfilter</NodeIDType><!--目标客户筛 节点 -->
+				<NodeIDType isGroup="false">tcustomertargetgroup</NodeIDType><!-- 目标组节点 -->
+				<NodeIDType isGroup="false">tcustomerrespondgroup</NodeIDType><!-- 响应组节点 -->
+				<NodeIDType isGroup="false">tfilterordermaping</NodeIDType><!-- 匹配订单节点  -->
+				<NodeIDType isGroup="false">tfilteracookie</NodeIDType><!-- 流量来源查询节点  -->
+			</include>
+		</outType>
+	</node>
+
+	<!-- 来源查询节点  -->
+	<node nodeType="tfilteracookie" inCount="1" outCount="-1">
+		<outType>
+			<include>
+				<NodeIDType isGroup="false">tanalysiscluster</NodeIDType><!-- 聚类节点 -->
+				<NodeIDType isGroup="true">tfilter</NodeIDType><!--目标客户筛 节点 -->
+				<NodeIDType isGroup="false">tcustomertargetgroup</NodeIDType><!-- 目标组节点 -->
+				<NodeIDType isGroup="false">tcustomerrespondgroup</NodeIDType><!-- 响应组节点 -->
+				<NodeIDType isGroup="false">tfilterordermaping</NodeIDType><!-- 匹配订单节点  -->
+				<NodeIDType isGroup="false">tfilterfind</NodeIDType><!-- 查询节点 -->
+
+			</include>
+		</outType>
+	</node>
+
+	<!--屏蔽节点  聚类节点  目标客户筛 ,目标组，响应组  -->
+	<node nodeType="tfilterscreen" inCount="1" outCount="-1">
+		<outType>
+			<include>
+				<NodeIDType isGroup="false">tanalysiscluster</NodeIDType><!-- 聚类节点 -->
+				<NodeIDType isGroup="true">tfilter</NodeIDType><!--目标客户筛 节点 -->
+				<NodeIDType isGroup="false">tfilteracookie</NodeIDType><!-- 流量来源查询节点  -->
+				<NodeIDType isGroup="false">tcustomertargetgroup</NodeIDType><!-- 目标组节点 -->
+				<NodeIDType isGroup="false">tcustomerrespondgroup</NodeIDType><!-- 响应组节点 -->
+				<NodeIDType isGroup="false">tfilterordermaping</NodeIDType><!-- 匹配订单节点  -->
+			</include>
+		</outType>
+	</node>
+
+	<!-- 抽样节点  聚类节点  目标客户筛 ,目标组，响应组  add by tao.yang 2011-08-16 -->
+	<node nodeType="tfiltersample" inCount="1" outCount="-1">
+		<outType>
+			<include>
+				<NodeIDType isGroup="false">tanalysiscluster</NodeIDType><!-- 聚类节点 -->
+				<NodeIDType isGroup="true">tfilter</NodeIDType><!--目标客户筛 节点 -->
+				<NodeIDType isGroup="false">tfilteracookie</NodeIDType><!-- 流量来源查询节点  -->
+				<NodeIDType isGroup="false">tcustomertargetgroup</NodeIDType><!-- 目标组节点 -->
+				<NodeIDType isGroup="false">tcustomerrespondgroup</NodeIDType><!-- 响应组节点 -->
+				<NodeIDType isGroup="false">tfilterordermaping</NodeIDType><!-- 匹配订单节点  -->
+			</include>
+		</outType>
+	</node>
+
+	<!-- 此处需要注意生成的目标组是否与流程前面的目标组冲突 -->
+	<!-- 拆分节点  不允许连其他节点 只有设置好参数之后自动连接至目标组-->
+	<node nodeType="tfiltersplit" inCount="1" outCount="0" >
+	</node>
+
+	<!-- 合并节点 屏蔽，合并，交集，排除，查询，拆分 ,目标组，响应组  -->
+	<node nodeType="tfiltermerge" inCount="-1" outCount="-1" >
+		<outType>
+			<include>
+				<NodeIDType isGroup="false">tanalysiscluster</NodeIDType><!-- 聚类节点 -->
+				<NodeIDType isGroup="true">tfilter</NodeIDType><!--目标客户筛 节点 -->
+				<NodeIDType isGroup="false">tfilteracookie</NodeIDType><!-- 流量来源查询节点  -->
+				<NodeIDType isGroup="false">tcustomertargetgroup</NodeIDType><!-- 目标组节点 -->
+				<NodeIDType isGroup="false">tcustomerrespondgroup</NodeIDType><!-- 响应组节点 -->
+				<NodeIDType isGroup="false">tfilterordermaping</NodeIDType><!-- 匹配订单节点  -->
+			</include>
+		</outType>
+	</node>
+
+	<!-- 交集节点 屏蔽，合并，交集，排除，查询，拆分 ,目标组，响应组  -->
+	<node nodeType="tfilterand" inCount="-1" outCount="-1" >
+		<outType>
+			<include>
+				<NodeIDType isGroup="false">tanalysiscluster</NodeIDType><!-- 聚类节点 -->
+				<NodeIDType isGroup="true">tfilter</NodeIDType><!--目标客户筛 节点 -->
+				<NodeIDType isGroup="false">tfilteracookie</NodeIDType><!-- 流量来源查询节点  -->
+				<NodeIDType isGroup="false">tcustomertargetgroup</NodeIDType><!-- 目标组节点 -->
+				<NodeIDType isGroup="false">tcustomerrespondgroup</NodeIDType><!-- 响应组节点 -->
+				<NodeIDType isGroup="false">tfilterordermaping</NodeIDType><!-- 匹配订单节点  -->
+			</include>
+		</outType>
+	</node>
+
+	<!-- 排除节点 -->
+	<node nodeType="tfilterexclude" inCount="2" outCount="-1">
+		<outType>
+			<include>
+				<NodeIDType isGroup="true">tfilter</NodeIDType><!--目标客户筛 节点 -->
+				<NodeIDType isGroup="false">tfilteracookie</NodeIDType><!-- 流量来源查询节点  -->
+				<NodeIDType isGroup="false">tanalysiscluster</NodeIDType><!-- 聚类节点 -->
+				<NodeIDType isGroup="false">tcustomertargetgroup</NodeIDType><!-- 目标组节点 -->
+				<NodeIDType isGroup="false">tcustomerrespondgroup</NodeIDType><!-- 响应组节点 -->
+				<NodeIDType isGroup="false">tfilterordermaping</NodeIDType><!-- 匹配订单节点  -->
+			</include>
+		</outType>
+	</node>
+
+	<!-- 排重节点 不允许连出其他节点，只能设置好参数之后自动连接至目标组-->
+	<node nodeType="tfiltergrouppriority" inCount="-1" outCount="0">
+	</node>
+
+	<!-- 目标组节点 -->
+	<node nodeType="tcustomertargetgroup" inCount="1" outCount="-1">
+		<outType>
+			<include>
+				<NodeIDType isGroup="true">tcommunicate</NodeIDType><!-- 渠道（沟通方式） 组 -->
+				<NodeIDType isGroup="false">tfiltergrouppriority</NodeIDType><!-- 排重节点 -->
+				<NodeIDType isGroup="true">tanalysis</NodeIDType><!-- 客户分析组  -->
+				<NodeIDType isGroup="false">tflowwait</NodeIDType><!-- 等待节点 -->
+				<NodeIDType isGroup="false">teximexport</NodeIDType><!-- 导出节点 -->
+				<NodeIDType isGroup="false">tmmvip</NodeIDType><!-- 设置VIP会员等级节点 -->
+				<NodeIDType isGroup="false">tdatacustomizeidx</NodeIDType><!-- 设置自定义标签节点 -->
+				<NodeIDType isGroup="false">tspecialordermatch</NodeIDType><!-- 订单匹配节点   ADD BY TAO.YANG NEW  -->
+			</include>
+		</outType>
+	</node>
+
+	<!-- 响应组节点  -->
+	<node nodeType="tcustomerrespondgroup" inCount="1" outCount="-1">
+		<outType>
+			<include>
+				<NodeIDType isGroup="true">tcommunicate</NodeIDType><!-- 渠道（沟通方式） 组 -->
+				<!--<NodeIDType isGroup="false">tfiltergrouppriority</NodeIDType> 排重节点 -->
+				<NodeIDType isGroup="true">tanalysis</NodeIDType><!--  客户分析组 -->
+				<NodeIDType isGroup="false">tflowwait</NodeIDType><!-- 等待节点 -->
+				<NodeIDType isGroup="false">teximexport</NodeIDType><!-- 导出节点 -->
+				<NodeIDType isGroup="false">tspecialordermatch</NodeIDType><!-- 订单匹配节点  ADD BY TAO.YANG NEW -->
+			</include>
+		</outType>
+	</node>
+
+<!--沟通方式_Start-->
+	<!-- 短信节点 -->
+	<node nodeType="tcommunicateSMS" inCount="1" outCount="-1">
+		<outType>
+			<include>
+				<NodeIDType isGroup="false">tflowwait</NodeIDType><!-- 等待节点 -->
+				<NodeIDType isGroup="true">tcommunicateEC</NodeIDType><!-- 优惠券节点-->
+				<NodeIDType isGroup="true">tcommunicateUMP</NodeIDType><!-- 定向优惠节点-->
+				<NodeIDType isGroup="true">tchannelresponseEC</NodeIDType><!-- 优惠券响应  -->
+			</include>
+		</outType>
+	</node>
+
+	<!-- WAP推送节点 -->
+	<node nodeType="tcommunicateWAP" inCount="1" outCount="-1">
+		<outType>
+			<include>
+				<NodeIDType isGroup="false">tflowwait</NodeIDType><!-- 等待节点 -->
+				<NodeIDType isGroup="true">tcommunicateEC</NodeIDType><!-- 优惠券节点-->
+				<NodeIDType isGroup="true">tcommunicateUMP</NodeIDType><!-- 定向优惠节点-->
+				<NodeIDType isGroup="true">tchannelresponseEC</NodeIDType><!-- 优惠券响应  -->
+			</include>
+		</outType>
+	</node>
+
+	<!-- 彩信节点  -->
+	<node nodeType="tcommunicateMMS" inCount="1" outCount="-1">
+		<outType>
+			<include>
+				<NodeIDType isGroup="false">tflowwait</NodeIDType><!-- 等待节点 -->
+				<NodeIDType isGroup="true">tcommunicateEC</NodeIDType><!-- 优惠券节点-->
+				<NodeIDType isGroup="true">tcommunicateUMP</NodeIDType><!-- 定向优惠节点-->
+				<NodeIDType isGroup="true">tchannelresponseEC</NodeIDType><!-- 优惠券响应  -->
+			</include>
+		</outType>
+	</node>
+
+	<!-- EDM 节点-->
+	<node nodeType="tcommunicateEDM" inCount="1" outCount="-1">
+		<outType>
+			<include>
+				<NodeIDType isGroup="false">tflowwait</NodeIDType><!-- 等待节点 -->
+				<NodeIDType isGroup="true">tcommunicateEC</NodeIDType><!-- 优惠券节点-->
+				<NodeIDType isGroup="true">tcommunicateUMP</NodeIDType><!-- 定向优惠节点-->
+				<NodeIDType isGroup="true">tchannelresponseEC</NodeIDType><!-- 优惠券响应  -->
+			</include>
+		</outType>
+	</node>
+
+	<!-- 线下活动 -->
+	<node nodeType="tcommunicateOther" inCount="1" outCount="-1">
+		<outType>
+			<include>
+				<NodeIDType isGroup="false">tflowwait</NodeIDType><!-- 等待节点 -->
+				<NodeIDType isGroup="true">tcommunicateEC</NodeIDType><!-- 优惠券节点-->
+				<NodeIDType isGroup="true">tcommunicateUMP</NodeIDType><!-- 定向优惠节点-->
+				<NodeIDType isGroup="true">tchannelresponseEC</NodeIDType><!-- 优惠券响应  -->
+			</include>
+		</outType>
+	</node>
+<!--沟通方式_End-->
+
+<!--定向优惠_Start-->
+	<!-- 优惠券节点-->
+	<node nodeType="tcommunicateEC" inCount="1" outCount="-1">
+		<outType>
+			<include>
+				<NodeIDType isGroup="false">tflowwait</NodeIDType><!-- 等待节点 -->
+				<NodeIDType isGroup="false">tchannelresponseEC</NodeIDType><!-- 直接链接优惠券响应 节点 ADD BY TAO.YANG 2012-01-09 -->
+				<NodeIDType isGroup="false">tcommunicateSMS</NodeIDType><!-- 短信节点 -->
+				<NodeIDType isGroup="false">tcommunicateWAP</NodeIDType><!-- WAP推送节点 -->
+				<NodeIDType isGroup="false">tcommunicateMMS</NodeIDType><!-- 彩信节点  -->
+				<NodeIDType isGroup="false">tcommunicateEDM</NodeIDType><!-- EDM 节点-->
+				<NodeIDType isGroup="false">tcommunicateOther</NodeIDType><!-- 线下活动 -->
+			</include>
+		</outType>
+	</node>
+
+	<!-- 定向优惠节点-->
+	<node nodeType="tcommunicateUMP" inCount="1" outCount="-1">
+		<outType>
+			<include>
+				<NodeIDType isGroup="false">tflowwait</NodeIDType><!-- 等待节点 -->
+				<NodeIDType isGroup="false">tcommunicateSMS</NodeIDType><!-- 短信节点 -->
+				<NodeIDType isGroup="false">tcommunicateWAP</NodeIDType><!-- WAP推送节点 -->
+				<NodeIDType isGroup="false">tcommunicateMMS</NodeIDType><!-- 彩信节点  -->
+				<NodeIDType isGroup="false">tcommunicateEDM</NodeIDType><!-- EDM 节点-->
+				<NodeIDType isGroup="false">tcommunicateOther</NodeIDType><!-- 线下活动 -->
+			</include>
+		</outType>
+	</node>
+<!--定向优惠_End-->
+
+<!--渠道反馈_Start-->
+	<!-- 优惠券响应  -->
+	<node nodeType="tchannelresponseEC" inCount="1" outCount="-1">
+		<outType>
+			<include>
+				<NodeIDType isGroup="false">tcustomerrespondgroup</NodeIDType><!-- 响应组节点 -->
+				<NodeIDType isGroup="true">tfilter</NodeIDType><!-- 目标客户筛选组 -->
+			</include>
+		</outType>
+	</node>
+<!--渠道反馈_End-->
+
+	<!-- 分析节点 -->
+	<node nodeType="tanalysisidx" inCount="-1" outCount="0">
+		<inType>
+			<include>
+				<NodeIDType isGroup="true">tcustomer</NodeIDType>
+			</include>
+		</inType>
+	</node>
+
+	<!-- 订单分析节点 edit by yinwei 2012-05-06  控制输入节点只能有一个  -->
+	<node nodeType="tanalysisorder" inCount="1" outCount="0">
+		<inType>
+			<include>
+				<NodeIDType isGroup="true">tcustomer</NodeIDType>
+			</include>
+		</inType>
+	</node>
+
+	<!-- 聚类 和拆分一样-->
+	<node nodeType="tanalysiscluster" inCount="1" outCount="0" >
+	</node>
+
+	<!-- RFM节点 -->
+	<node nodeType="tdataetl" inCount="1" outCount="0">
+		<inType>
+			<include>
+				<NodeIDType isGroup="false">tflowtime</NodeIDType>
+			</include>
+		</inType>
+	</node>
+
+
+	<!-- 设置VIP会员等级 -->
+	<node nodeType="tmmvip" inCount="1" outCount="0">
+		<inType>
+			<include>
+				<NodeIDType isGroup="false">tcustomertargetgroup</NodeIDType> <!-- 目标组 -->
+			</include>
+		</inType>
+	</node>
+
+	<!-- 自定义标签设置 -->
+	<node nodeType="tdatacustomizeidx" inCount="1" outCount="0">
+		<inType>
+			<include>
+				<NodeIDType isGroup="false">tcustomertargetgroup</NodeIDType> <!-- 目标组 -->
+			</include>
+		</inType>
+	</node>
+
+	<!-- 匹配订单节点 add by tao.yang 2011-11-21 -->
+	<!-- 只能接在查询类节点后面，后面只能接订单目标组(暂时支持) -->
+	<node nodeType="tfilterordermaping" inCount="1" outCount="-1">
+		<outType>
+			<include>
+				<NodeIDType isGroup="false">tordertargetgroup</NodeIDType><!-- 订单目标组 -->
+			</include>
+		</outType>
+	</node>
+
+	<!-- 订单目标组节点 -->
+	<node nodeType="tordertargetgroup" inCount="1" outCount="-1">
+		<outType>
+			<include>
+				<NodeIDType isGroup="false">tcommunicateSMS</NodeIDType><!-- 短信节点 -->
+				<NodeIDType isGroup="false">tcommunicateWAP</NodeIDType><!-- WAP推送节点 -->
+			</include>
+		</outType>
+	</node>
+
+	<!-- 订单匹配节点 ADD BY TAO.YANG 2012-01-08 只允许接在目标组后的订单匹配节点  -->
+	<node nodeType="tspecialordermatch" inCount="1" outCount="-1">
+		<outType>
+			<include>
+				<NodeIDType isGroup="false">tcommunicateSMS</NodeIDType><!-- 短信节点 -->
+				<NodeIDType isGroup="false">tcommunicateWAP</NodeIDType><!-- WAP推送节点 -->
+			</include>
+		</outType>
+	</node>
+
+	<!-- 已下单未付款查询节点 add by hao.yan 2011-12-14 -->
+	<!-- 只能接在时间节点后，后面只能接渠道节点 -->
+	<node nodeType="tfilterordernopay" inCount="1" outCount="-1">
+		<outType>
+			<include>
+				<NodeIDType isGroup="false">tanalysiscluster</NodeIDType><!-- 聚类节点 -->
+				<NodeIDType isGroup="true">tfilter</NodeIDType><!--目标客户筛 节点 -->
+				<NodeIDType isGroup="false">tcustomertargetgroup</NodeIDType><!-- 目标组节点 -->
+				<NodeIDType isGroup="false">tfilterordermaping</NodeIDType><!-- 匹配订单节点  -->
+			</include>
+		</outType>
+	</node>
+
+</node.configure>

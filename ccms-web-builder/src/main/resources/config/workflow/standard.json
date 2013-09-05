@@ -1,0 +1,7 @@
+{
+"nodes":[
+	{"id":1, "type":"tflowstart", "value":"开始", "style":"tflowstart;image=../images/graph/icon/lc_begin.png", "x":100, "y":200, "vertex":"1", "width":52, "height":52, "asT":"geometry"},
+	{"id":2, "type":"tflowtime", "value":"时间", "style":"tflowtime;;image=../images/graph/icon/lc_time.png", "x":200, "y":200, "vertex":"1", "width":52, "height":52, "asT":"geometry"}],
+"connects":[
+	{"id":3, "source":1, "target":2, "edge":"1", "relative":"1", "asT":"geometry"}]
+}

@@ -1,0 +1,380 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<artifactId>ccms-web-builder</artifactId>
+    <packaging>war</packaging>
+
+	<parent>
+  		<groupId>com.yunat.ccms</groupId>
+  		<artifactId>ccms-parent</artifactId>
+    	<version>4.4.0-SNAPSHOT</version>
+  	</parent>
+
+	<dependencies>
+		<!-- dependency other ccms project  -->
+		<dependency>
+           	<groupId>com.yunat.ccms</groupId>
+			<artifactId>ccms-client</artifactId>
+           	<version>${project.version}</version>
+           	<type>war</type>
+           	<scope>runtime</scope>
+	    </dependency>
+
+		<dependency>
+	   		<groupId>com.yunat.ccms</groupId>
+		  	<artifactId>ccms-dashboard</artifactId>
+		  	<version>${project.version}</version>
+   		</dependency>
+
+		<dependency>
+	   		<groupId>com.yunat.ccms</groupId>
+		  	<artifactId>ccms-schedule</artifactId>
+		  	<version>${project.version}</version>
+   		</dependency>
+
+   		<dependency>
+	   		<groupId>com.yunat.ccms</groupId>
+		  	<artifactId>ccms-audit</artifactId>
+		  	<version>${project.version}</version>
+   		</dependency>
+
+   		<dependency>
+	   		<groupId>com.yunat.ccms</groupId>
+		  	<artifactId>ccms-report</artifactId>
+		  	<version>${project.version}</version>
+   		</dependency>
+
+		<dependency>
+	   		<groupId>com.yunat.ccms</groupId>
+		  	<artifactId>ccms-metadata</artifactId>
+		  	<version>${project.version}</version>
+   		</dependency>
+
+   		<dependency>
+	   		<groupId>com.yunat.ccms</groupId>
+		  	<artifactId>ccms-rule-center</artifactId>
+		  	<version>${project.version}</version>
+   		</dependency>
+
+   		<dependency>
+	   		<groupId>com.yunat.ccms</groupId>
+		  	<artifactId>ccms-trade-center</artifactId>
+		  	<version>${project.version}</version>
+   		</dependency>
+
+		<dependency>
+	    	<groupId>javax.servlet</groupId>
+	    	<artifactId>servlet-api</artifactId>
+	    	<version>2.5</version>
+	    	<scope>provided</scope>
+	    </dependency>
+
+	    <dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-test</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-test-mvc</artifactId>
+			<version>1.0.0.M1</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.concordion</groupId>
+			<artifactId>concordion</artifactId>
+			<version>1.4.3</version>
+		</dependency>
+
+        <dependency>
+   			<groupId>org.jboss.spec</groupId>
+   			<artifactId>jboss-javaee-6.0</artifactId>
+   			<version>1.0.0.Final</version>
+   			<type>pom</type>
+   			<scope>provided</scope>
+		</dependency>
+
+    </dependencies>
+
+	<build>
+		<finalName>ccms-web-builder</finalName>
+		<plugins>
+			<!-- Multi-war 	merge plugin -->
+			<plugin>
+				<artifactId>maven-war-plugin</artifactId>
+				<version>2.3</version>
+				<configuration>
+					<warSourceDirectory>src/main/webapp</warSourceDirectory>
+					<overlays>
+						<overlay>
+							<id>client</id>
+							<groupId>com.yunat.ccms</groupId>
+							<artifactId>ccms-client</artifactId>
+							<excludes>
+								<exclude>WEB-INF/lib/*</exclude>
+								<exclude>WEB-INF/web.xml</exclude>
+							</excludes>
+						</overlay>
+					</overlays>
+				</configuration>
+			</plugin>
+
+			<!-- SQL Script migration  -->
+			<plugin>
+				<groupId>com.huaat.maven</groupId>
+				<artifactId>maven-migration-plugin</artifactId>
+				<version>1.1.2</version>
+				<configuration>
+          			<skip>${migration.skip}</skip>
+        		</configuration>
+				<executions>
+					<execution>
+						<id>migration-chack</id>
+						<phase>test</phase>
+						<goals>
+							<goal>up</goal>
+							<goal>pending</goal>
+						</goals>
+					</execution>
+				</executions>
+				<dependencies>
+					<dependency>
+						<groupId>mysql</groupId>
+						<artifactId>mysql-connector-java</artifactId>
+						<version>5.1.20</version>
+						<scope>runtime</scope>
+					</dependency>
+					<dependency>
+						<groupId>org.mybatis</groupId>
+						<artifactId>mybatis</artifactId>
+						<version>3.0.2</version>
+					</dependency>
+				</dependencies>
+			</plugin>
+
+			<!-- SQL , CDBI(Continuous Database Integration) -->
+			<plugin>
+				<groupId>com.huaat.maven</groupId>
+                <artifactId>sql-maven-plugin</artifactId>
+                <version>1.5.4</version>
+                <dependencies>
+                    <dependency>
+                        <groupId>mysql</groupId>
+                        <artifactId>mysql-connector-java</artifactId>
+                        <version>5.1.20</version>
+                        <scope>runtime</scope>
+                    </dependency>
+                </dependencies>
+                <configuration>
+                    <skip>${cdbi.execute.skip}</skip>
+                    <driver>com.mysql.jdbc.Driver</driver>
+                    <url>${cdbi.target.url}</url>
+                    <username>${cdbi.target.username}</username>
+                    <password>${cdbi.target.password}</password>
+                </configuration>
+                <executions>
+                	<!-- order 0: drop database -->
+					<execution>
+                        <id>drop_old_db</id>
+                        <phase>test</phase>
+                        <goals>
+                            <goal>execute</goal>
+                        </goals>
+                        <configuration>
+                            <url>${cdbi.root.url}</url>
+                            <username>${cdbi.root.username}</username>
+                    		<password>${cdbi.root.password}</password>
+                            <sqlCommand>DROP DATABASE IF EXISTS ccms;</sqlCommand>
+                        </configuration>
+                    </execution>
+
+					<!-- order 1: create new database -->
+                    <execution>
+                        <id>create_new_db</id>
+                        <phase>test</phase>
+                        <goals>
+                            <goal>execute</goal>
+                        </goals>
+                        <configuration>
+                            <url>${cdbi.root.url}</url>
+                            <username>${cdbi.root.username}</username>
+                    		<password>${cdbi.root.password}</password>
+							<sqlCommand>
+							CREATE DATABASE IF NOT EXISTS ccms
+CHARACTER SET utf8
+COLLATE utf8_bin;
+							</sqlCommand>
+                        </configuration>
+                    </execution>
+
+                    <!-- order 2: create table and view -->
+                    <execution>
+                        <id>execute_tables_views</id>
+                        <phase>test</phase>
+                        <goals>
+                            <goal>execute</goal>
+                        </goals>
+                        <configuration>
+                            <srcFiles>
+                                <srcFile>${basedir}/src/main/resources/sql/production/scripts/2_create_tables.sql</srcFile>
+                                <srcFile>${basedir}/src/main/resources/sql/production/scripts/3_create_views.sql</srcFile>
+                            </srcFiles>
+                        </configuration>
+                    </execution>
+
+                     <!-- order 3: create funcs procs triggers -->
+                	<execution>
+                		<id>create_funcs_procs_triggers</id>
+                		<phase>test</phase>
+                        <goals>
+                            <goal>execute</goal>
+                        </goals>
+                        <configuration>
+                        	<delimiter>//</delimiter>
+							<delimiterType>row</delimiterType>
+							<escapeProcessing>true</escapeProcessing>
+							<keepFormat>true</keepFormat>
+							<replaceEmptyDelimiter>true</replaceEmptyDelimiter>
+							<srcFiles>
+								<srcFile>${basedir}/src/main/resources/sql/production/scripts/4_create_functions.sql</srcFile>
+								<srcFile>${basedir}/src/main/resources/sql/production/scripts/5_create_procedures.sql</srcFile>
+								<srcFile>${basedir}/src/main/resources/sql/production/scripts/6_create_triggers.sql</srcFile>
+							</srcFiles>
+                        </configuration>
+                	</execution>
+
+                	<!-- order 4: init database -->
+                    <execution>
+                        <id>init_database</id>
+                        <phase>test</phase>
+                        <goals>
+                            <goal>execute</goal>
+                        </goals>
+                        <configuration>
+                            <srcFiles>
+                            	<srcFile>${basedir}/src/main/resources/sql/production/scripts/7_init_db_data.sql</srcFile>
+                            </srcFiles>
+                        </configuration>
+                    </execution>
+                </executions>
+			</plugin>
+
+			<!-- Nightly Build Step 1: scp ccms_web to target server -->
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+                <artifactId>wagon-maven-plugin</artifactId>
+				<version>1.0-beta-4</version>
+				<dependencies>
+				   	<dependency>
+			      		<groupId>org.apache.maven.wagon</groupId>
+			      		<artifactId>wagon-ssh</artifactId>
+			      		<version>1.0-beta-6</version>
+			        </dependency>
+			        <dependency>
+						<groupId>org.apache.maven.wagon</groupId>
+						<artifactId>wagon-ssh-external</artifactId>
+						<version>1.0-beta-6</version>
+					</dependency>
+				</dependencies>
+               	<configuration>
+                  	<fromDir>${project.build.directory}</fromDir>
+       				<includes>${project.build.finalName}.war</includes>
+                  	<url>${wagon.url}</url>
+                  	<serverId>${wagon.serverId}</serverId>
+					<skip>${wagon.skip}</skip>
+                  	<toDir>${wagon.dir}/</toDir>
+              	 </configuration>
+			</plugin>
+
+			<!-- Nightly Build Step 2: rename dir and resatrt resin server -->
+			<plugin>
+			  	<groupId>org.codehaus.mojo</groupId>
+			  	<artifactId>exec-maven-plugin</artifactId>
+			  	<version>1.2.1</version>
+			  	<configuration>
+			    	<executable>/home/ci/nightlyScript/renameWarFile4-0.sh</executable>
+			  	</configuration>
+			</plugin>
+		</plugins>
+	</build>
+
+	<profiles>
+		<!-- env-dev profile start -->
+		<profile>
+			<id>DEV</id>
+			<properties>
+				<migration.skip>false</migration.skip>
+
+				<cdbi.execute.skip>true</cdbi.execute.skip>
+				<cdbi.target.url>
+	    		<![CDATA[
+	    			jdbc:mysql://10.200.190.11/ccms?useUnicode=true&characterEncoding=utf8&autoReconnect=true&allowMultiQueries=true
+	    		]]>
+		    	</cdbi.target.url>
+		        <cdbi.target.username>ccms</cdbi.target.username>
+		        <cdbi.target.password>ccms</cdbi.target.password>
+
+				<cdbi.root.url>
+	    		<![CDATA[
+	    			jdbc:mysql://10.200.190.11/mysql?useUnicode=true&characterEncoding=utf8&autoReconnect=true&allowMultiQueries=true
+	    		]]>
+		    	</cdbi.root.url>
+		        <cdbi.root.username>admin</cdbi.root.username>
+		        <cdbi.root.password>datayun900</cdbi.root.password>
+			</properties>
+		</profile>
+		<!-- env-dev profile end -->
+
+		<!-- env-cdbi profile start -->
+		<profile>
+			<id>CI</id>
+			<properties>
+				<migration.skip>true</migration.skip>
+
+				<cdbi.execute.skip>false</cdbi.execute.skip>
+				<cdbi.target.url>
+	    		<![CDATA[
+	    			jdbc:mysql://10.200.190.11/ccms?useUnicode=true&characterEncoding=utf8&autoReconnect=true&allowMultiQueries=true
+	    		]]>
+		    	</cdbi.target.url>
+		        <cdbi.target.username>ccms</cdbi.target.username>
+		        <cdbi.target.password>ccms</cdbi.target.password>
+
+				<cdbi.root.url>
+	    		<![CDATA[
+	    			jdbc:mysql://10.200.190.11/mysql?useUnicode=true&characterEncoding=utf8&autoReconnect=true&allowMultiQueries=true
+	    		]]>
+		    	</cdbi.root.url>
+		        <cdbi.root.username>admin</cdbi.root.username>
+		        <cdbi.root.password>datayun900</cdbi.root.password>
+			</properties>
+		</profile>
+		<!-- env-cdbi profile end -->
+
+		<!-- env-test profile start -->
+		<profile>
+			<id>TEST</id>
+			<properties>
+				<migration.skip>false</migration.skip>
+
+				<cdbi.execute.skip>true</cdbi.execute.skip>
+				<cdbi.target.url>
+	    		<![CDATA[
+	    			jdbc:mysql://10.200.190.11/ccms?useUnicode=true&characterEncoding=utf8&autoReconnect=true&allowMultiQueries=true
+	    		]]>
+		    	</cdbi.target.url>
+		        <cdbi.target.username>ccms</cdbi.target.username>
+		        <cdbi.target.password>ccms</cdbi.target.password>
+
+				<cdbi.root.url>
+	    		<![CDATA[
+	    			jdbc:mysql://10.200.190.11/mysql?useUnicode=true&characterEncoding=utf8&autoReconnect=true&allowMultiQueries=true
+	    		]]>
+		    	</cdbi.root.url>
+		        <cdbi.root.username>admin</cdbi.root.username>
+		        <cdbi.root.password>datayun900</cdbi.root.password>
+			</properties>
+		</profile>
+		<!-- env-test profile end -->
+	</profiles>
+</project>
